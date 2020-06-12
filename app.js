@@ -1,5 +1,8 @@
 const { spawn } = require('child_process');
 
+process.env.PORT_AUTH = 8082;
+process.env.URL_AUTH = 'http://localhost:8082';
+
 const runService = async (cmd, args, env) => {
   return new Promise((res, rej)=>{
     const service = spawn('node', args, env);
@@ -16,9 +19,6 @@ const runService = async (cmd, args, env) => {
     res(service);
   });
 }
-
-process.env.PORT_AUTH = 8082;
-process.env.URL_AUTH = `http://localhost:${process.env.PORT_AUTH}`;
 
 (async()=>{
   const gatewayService = await runService('node', ['src/services/gateway/server.js'], {
