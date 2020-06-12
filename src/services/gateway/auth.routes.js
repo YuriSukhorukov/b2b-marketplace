@@ -9,7 +9,6 @@ const {
 } = require(`${process.env.PWD}/src/const/auth.route.const.js`);
 
 const URL_AUTH = process.env.URL_AUTH;
-const PORT_AUTH = process.env.PORT_AUTH;
 
 router.use(`/${EMPTY}`,  (req, res, next) => {
   console.log('auth middleware');
@@ -22,7 +21,7 @@ router.use(`/${EMPTY}`,  (err, req, res, next) => {
 });
 
 router.get(`/${EMPTY}`, async (req, res) => {
-  const uri = `${URL_AUTH}:${PORT_AUTH}/${EMPTY}`;
+  const uri = `${URL_AUTH}/${EMPTY}`;
   const body = {message: 'hello'};
   const json = true;
   const method = 'GET';
@@ -31,13 +30,13 @@ router.get(`/${EMPTY}`, async (req, res) => {
 })
 
 router.get(`/${SIGN_UP}`, async (req, res) => {
-  const uri = `${URL_AUTH}:${PORT_AUTH}/${SIGN_UP}`;
+  const uri = `${URL_AUTH}/${SIGN_UP}`;
   const response = await rp({uri});
   res.send(response);
 })
 
 router.get(`/${SIGN_IN}`, async (req, res) => {
-  const uri = `${URL_AUTH}:${PORT_AUTH}/${SIGN_IN}`;
+  const uri = `${URL_AUTH}/${SIGN_IN}`;
   const response = await rp({uri});
   res.send(response);
 })

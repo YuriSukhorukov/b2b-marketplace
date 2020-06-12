@@ -18,14 +18,13 @@ const runService = async (cmd, args, env) => {
 }
 
 process.env.PORT_AUTH = 8082;
-process.env.URL_AUTH = `http://localhost`;
+process.env.URL_AUTH = `http://localhost:${process.env.PORT_AUTH}`;
 
 (async()=>{
   const gatewayService = await runService('node', ['src/services/gateway/server.js'], {
     env: {
       PWD: process.env.PWD,
       PORT: 8081,
-      PORT_AUTH: process.env.PORT_AUTH,
       URL_AUTH: process.env.URL_AUTH
     },
     shell: true
