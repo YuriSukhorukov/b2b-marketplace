@@ -11,7 +11,7 @@ const {
 const URL_AUTH = process.env.URL_AUTH;
 
 router.use(`/${EMPTY}`,  (req, res, next) => {
-  console.log('auth middleware');
+  console.log('gateway middleware');
   return next();
 });
 
