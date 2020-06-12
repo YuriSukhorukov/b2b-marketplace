@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var rp = require('request-promise');
+const express = require('express');
+const router = express.Router();
+const rp = require('request-promise');
 
 const {
   EMPTY,

@@ -8,7 +8,7 @@ const {
   EMPTY
 } = require(`${process.env.PWD}/src/const/auth.route.const.js`);
 
-app.use(`${EMPTY}`, require(`./auth.routes`));
+app.use(`${EMPTY}`, require(`./components/routes`));
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

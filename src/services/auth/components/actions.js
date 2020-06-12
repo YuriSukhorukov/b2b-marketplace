@@ -1,0 +1,2 @@
+const getToken = () => {}
+const generateToken = () => {}
