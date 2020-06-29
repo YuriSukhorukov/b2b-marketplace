@@ -9,3 +9,5 @@ module.exports = {
   SIGN_UP,
   SIGN_IN,
 }
+
+// TODO удалить EMPTY - лишнее

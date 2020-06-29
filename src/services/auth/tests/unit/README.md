@@ -1,0 +1,1 @@
+Unit tests – ensure that individual units of the app, such as functions and classes, work as expected. Assertions test that said units return the expected output for any given inputs. Contract tests. (White Box).

@@ -1,0 +1,1 @@
+End-to-end tests – ensure that software works as expected from the user’s perspective and that every unit behaves correctly in the overall scope of the system. Assertions primarily test the user interface. Platform tests. (Black Box).

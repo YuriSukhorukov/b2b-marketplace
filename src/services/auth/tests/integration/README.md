@@ -1,0 +1,1 @@
+Integration tests – ensure that unit collaborations work as expected. Assertions may test an API, UI, or interactions that may result in side-effects (such as database I/O, logging, etc…). Contract tests. (Gray Box).

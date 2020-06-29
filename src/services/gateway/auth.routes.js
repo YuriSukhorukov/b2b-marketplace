@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const rp = require('request-promise');
+const {convertObjToQuery} = require(`${process.env.PWD}/src/utils/params.js`);
 
 const {
   EMPTY,
@@ -30,7 +31,8 @@ router.get(`/${EMPTY}`, async (req, res) => {
 })
 
 router.get(`/${SIGN_UP}`, async (req, res) => {
-  const uri = `${URL_AUTH}/${SIGN_UP}`;
+  let query = convertObjToQuery(req.query);
+  const uri = `${URL_AUTH}/${SIGN_UP}?${query}`;
   const response = await rp({uri});
   res.send(response);
 })

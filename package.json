@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "jest --notify --detectOpenHandles --unhandled-rejections=strict",
     "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "child_process": "^1.0.2",
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "jest": "^26.0.1",

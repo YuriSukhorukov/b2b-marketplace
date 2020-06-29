@@ -1,5 +1,4 @@
 const port 					= process.env.PORT || 8080;
-
 const express 			= require("express");
 const app 					= express();
 const router        = require('express').Router();
@@ -12,7 +11,7 @@ const {
 app.use(`/${AUTH}`, require(`./auth.routes`));
 
 app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.log(`API Gateway server listening on port ${port}`);
 });
 
 app.get(`/${EMPTY}`, (req, res) => {

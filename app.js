@@ -31,7 +31,7 @@ const runService = async (cmd, args, env) => {
   });
   const authService = await runService('node', ['src/services/auth/server.js'], {
     env: {
-      PWD: process.env.PWD,
+      PWD: `${process.env.PWD}/src/services/auth`,
       PORT: process.env.PORT_AUTH
     },
     shell: true
