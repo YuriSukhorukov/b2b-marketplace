@@ -17,16 +17,7 @@ const runService = async (cmd, args, env) => {
   });
 }
 
-const runServices = async (servicePaths) => {
-  let services = [];
-  servicePaths.forEach(async servicePath => {
-    let service = await runService('node', [servicePath], { shell: true });
-    services.push(service);
-  });
-  return services;
-}
-
-module.exports = runServices;
+module.exports = runService;
 
 
 

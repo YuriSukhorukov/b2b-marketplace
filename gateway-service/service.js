@@ -1,17 +1,4 @@
-// const port 				= process.env.PORT || 8080;
-// const express 			= require("express");
-// const app 				= express();
-// const router            = require('express').Router();
-
-
-// app.listen(port, () => {
-//   console.log(`API Gateway server listening on port ${port}`);
-// });
-
-// app.get(`/${EMPTY}`, (req, res) => {
-//   res.status(200).send("I'm gateway");
-// });
-
+// routes && handlers
 const validate = (req, res, next) => {
     console.log('auth middleware');
     return next();
@@ -22,7 +9,6 @@ const signup = (req, res) => {
 const signin = (req, res) => {
     res.send('signin page');
 };
-
 
 
 // app.js
