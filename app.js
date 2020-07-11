@@ -1,8 +1,5 @@
 const { spawn } = require('child_process');
 
-process.env.PORT_AUTH = 8082;
-process.env.URL_AUTH = 'http://localhost:8082';
-
 const runService = async (cmd, args, env) => {
   return new Promise((res, rej)=>{
     const service = spawn('node', args, env);
@@ -20,23 +17,23 @@ const runService = async (cmd, args, env) => {
   });
 }
 
-(async()=>{
-  const gatewayService = await runService('node', ['src/services/gateway/server.js'], {
-    env: {
-      PWD: process.env.PWD,
-      PORT: 8081,
-      URL_AUTH: process.env.URL_AUTH
-    },
-    shell: true
+const runServices = async (servicePaths) => {
+  let services = [];
+  servicePaths.forEach(async servicePath => {
+    let service = await runService('node', [servicePath], { shell: true });
+    services.push(service);
   });
-  const authService = await runService('node', ['src/services/auth/server.js'], {
-    env: {
-      PWD: `${process.env.PWD}/src/services/auth`,
-      PORT: process.env.PORT_AUTH
-    },
-    shell: true
-  });
-})()
+  return services;
+}
+
+module.exports = runServices;
+
+
+
+
+
+
+
 
 
 // // This is the startup file of our application. It initializes the database connection and starts the express server.

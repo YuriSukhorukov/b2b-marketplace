@@ -1,0 +1,12 @@
+{
+    "appConfig": {
+        "port": 8081
+    },
+    "dbConfig": {
+        "host": "localhost",
+        "port": 5984,
+        "dbName": "user",
+        "login": "",
+        "password": ""
+    }
+}
