@@ -1,5 +1,5 @@
 const {appConfig}       = require('./config.json');
-const app               = require('./service');
+const app               = require('./app');
 
 const port 				      = process.env.PORT || appConfig.port;
 
