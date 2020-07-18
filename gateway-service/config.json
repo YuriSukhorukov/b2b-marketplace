@@ -1,4 +1,8 @@
 {
+    "authServiceConfig": {
+        "uri": "http://localhost",
+        "port": 8081
+    },
     "appConfig": {
         "port": 8080
     }
