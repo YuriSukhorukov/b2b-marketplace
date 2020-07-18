@@ -1,5 +1,3 @@
-const { appConfig }     = require('./config.json');
-
 const express 			= require("express");
 const app 				= express();
 const http              = require('http');
