@@ -1,4 +1,4 @@
-const checkLoginExist = require(`${global.appRoot}/controllers/check.login.exist.action`);
+const checkLoginExist = require(`${global.appRoot}/controllers/check.login.exist`);
 
 module.exports = async (req, res) => {
     const login = req.params['login'];

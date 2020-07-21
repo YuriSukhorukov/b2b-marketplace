@@ -1,4 +1,4 @@
-const checkEmailExist = require(`${global.appRoot}/controllers/check.email.exist.action`);
+const checkEmailExist = require(`${global.appRoot}/controllers/check.email.exist`);
 
 module.exports = async (req, res) => {
     const email = req.params['email'];
