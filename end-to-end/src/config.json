@@ -1,16 +1,6 @@
 {
-    "appConfig": {
-        "port": 8082
-    },
     "gatewayServiceConfig": {
         "uri": "http://localhost",
-        "port": 8081
-    },
-    "dbConfig": {
-        "host": "localhost",
-        "port": 5984,
-        "dbName": "user",
-        "login": "",
-        "password": ""
+        "port": 8080
     }
 }
