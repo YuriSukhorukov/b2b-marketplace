@@ -1,4 +1,4 @@
-const config            = require('../../../config.json').authServiceConfig;
+const config            = require(`${global.appRoot}/config.json`).authServiceConfig;
 const rp                = require('request-promise');
 
 module.exports = async (req, res) => {
