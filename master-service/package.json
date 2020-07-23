@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --notify --detectOpenHandles --unhandled-rejections=strict",
-    "start": "nodemon app.js"
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
