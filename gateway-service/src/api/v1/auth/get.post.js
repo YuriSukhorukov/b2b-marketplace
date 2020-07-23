@@ -12,5 +12,6 @@ module.exports = async (req, res) => {
         query,
         params
     });
+    console.log(response);
     res.send(response);
 };

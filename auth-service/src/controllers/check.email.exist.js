@@ -1,6 +1,5 @@
 const db = require(`${global.appRoot}/library/db/index`);
 
 module.exports = async (params) => {
-    const result = await db.checkEmailExist(params);
-    console.log(result);
+    return await db.checkEmailExist(params);
 }

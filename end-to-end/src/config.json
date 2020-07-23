@@ -2,5 +2,9 @@
     "gatewayServiceConfig": {
         "uri": "http://localhost",
         "port": 8080
+    },
+    "authServiceConfig": {
+        "uri": "http://localhost",
+        "port": 8081
     }
 }
