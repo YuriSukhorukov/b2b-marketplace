@@ -1,0 +1,19 @@
+{
+  "name": "test-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --notify --detectOpenHandles --unhandled-rejections=strict"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^26.1.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  }
+}
