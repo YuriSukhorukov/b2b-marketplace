@@ -1,0 +1,24 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Stefan Back-end Swagger",
+    "description": "Test",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "components": {
+    "schema": {
+      "Cat": {
+        "type": "object",
+        "properties": {
+          "genus": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
