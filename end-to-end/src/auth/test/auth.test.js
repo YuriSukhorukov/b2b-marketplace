@@ -19,7 +19,7 @@ afterAll(async () => {
 //    - Запись в БД нового польщователя
 // 2. Попытка зарегистрировать пользователя повторно
 
-describe('Auth e2e', () => {
+describe('Auth API integration', () => {
   test('Email свободен: /api/v1/auth/signup/email', async () => {
     const email = 'yyy@xxx.com';
     const uri = `${config.uri}:${config.port}/api/v1/auth/signup/email/${email}`;
