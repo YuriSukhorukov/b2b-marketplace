@@ -1,4 +1,4 @@
-# Подготовка тестовой базы
+# Подготовка auth-service
 bash ./auth-service/init.sh
 
 # Запуск тестов API 
