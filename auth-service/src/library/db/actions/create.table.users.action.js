@@ -5,13 +5,15 @@ module.exports = async (pool, params) => {
             rej(err);
         });
         await client.query(
-            `CREATE TABLE users (
-                user_id SERIAL NOT NULL PRIMARY KEY,
-                username VARCHAR(255) NOT NULL UNIQUE,
-                email VARCHAR(255) NOT NULL UNIQUE,
-                password VARCHAR(255) NOT NULL,
-                created_on TIMESTAMP NOT NULL
-            );`, 
+            `
+                CREATE TABLE users (
+                    user_id SERIAL NOT NULL PRIMARY KEY,
+                    username VARCHAR(255) NOT NULL UNIQUE,
+                    email VARCHAR(255) NOT NULL UNIQUE,
+                    password VARCHAR(255) NOT NULL,
+                    created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                );
+            `, 
             (error, result) => {
                 console.log("client ready:", client.readyForQuery)
                 if (result) {

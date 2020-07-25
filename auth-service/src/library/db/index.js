@@ -26,13 +26,15 @@ class Repository {
       this.client = await connect(this.pool);
   }
   async checkEmailExist(params) {
-      return await checkEmailExist(this.client, params);
+      return await checkEmailExist(this.pool, params);
   }
   async checkAccountExist(params) {
-      return await checkAccountExist(this.client, params);
+      return await checkAccountExist(this.pool, params);
   }
   async createAccount(params) {
-      return await createAccount(this.client, params);
+    console.log(params);
+    
+      return await createAccount(this.pool, params);
   }
   async createTableUsers() {
     return await createTableUsers(this.pool);
