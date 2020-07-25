@@ -17,7 +17,7 @@ module.exports = async (pool, params) => {
             `
                 INSERT INTO users(username, email, password) 
                 VALUES ('${login}', '${email}', '${password}')
-                RETURNING user_id;
+                RETURNING user_id, created_on;
             `, 
             (error, result) => {
                 console.log("client ready:", client.readyForQuery);

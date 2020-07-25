@@ -66,5 +66,27 @@ describe('Auth API integration', () => {
     const result = response.code;
     const expected = 201;
 		expect(result).toBe(expected);
+  }),
+  test('Signup неудачная вставка учетной записи с зарегистрированным username: /api/v1/auth/signup/', async () => {
+    const username = 'yuri';
+    const email = 'yuri_new@gmail.com';
+    const password = 'sdWE343sx!';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signup/user?login=${username}&password=${password}&email=${email}`;
+    const method = 'POST';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 403;
+		expect(result).toBe(expected);
+  }),
+  test('Signup неудачная вставка учетной записи с зарегистрированным email: /api/v1/auth/signup/', async () => {
+    const username = 'yuri_new';
+    const email = 'yuri@gmail.com';
+    const password = 'sdWE343sx!';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signup/user?login=${username}&password=${password}&email=${email}`;
+    const method = 'POST';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 403;
+		expect(result).toBe(expected);
   })
 });
