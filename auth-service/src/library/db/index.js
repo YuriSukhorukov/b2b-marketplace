@@ -4,7 +4,7 @@ const {
   } = require('pg');
 
 const connect             = require('./actions/connect.action');
-const createTable         = require('./actions/create.table.action');
+const createTableUsers    = require('./actions/create.table.users.action');
 const dropTable           = require('./actions/drop.table.action');
 const checkEmailExist     = require('./actions/check.email.exist.action');
 const checkAccountExist   = require('./actions/check.account.exist.action');
@@ -34,8 +34,8 @@ class Repository {
   async createAccount(params) {
       return await createAccount(this.client, params);
   }
-  async createTable(params) {
-    return await createTable(this.pool, params);
+  async createTableUsers() {
+    return await createTableUsers(this.pool);
   }
   async dropTable(params) {
     return await dropTable(this.pool, params);

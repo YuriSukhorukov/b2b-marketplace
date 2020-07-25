@@ -1,13 +1,11 @@
 module.exports = async (pool, params) => {
     return new Promise(async (res, rej) => {
-        if (!params || !params.table)
-            rej(`params.table undefined`);
         let client = await pool.connect().catch(err => {
             console.log('pool .connect ->', err);
             rej(err);
         });
         await client.query(
-            `CREATE TABLE ${params.table} (
+            `CREATE TABLE users (
                 id SERIAL NOT NULL,
                 name VARCHAR(255) NOT NULL,
                 address TEXT NOT NULL,
@@ -17,12 +15,12 @@ module.exports = async (pool, params) => {
             (error, result) => {
                 console.log("client ready:", client.readyForQuery)
                 if (result) {
-                    console.log(`CREATE TABLE '${params.table}' result:`, result.rows);
+                    console.log(`CREATE TABLE 'users' result:`, result.rows);
                     client.release();
                     res(result);
                 }
                 if (error) {
-                    console.log(`CREATE TABLE '${params.table}' result:`, error.stack);
+                    console.log(`CREATE TABLE 'users' result:`, error.stack);
                     client.release();
                     rej(error);
                 }
