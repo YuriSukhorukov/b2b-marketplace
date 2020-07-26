@@ -7,8 +7,6 @@ router.use(`/`, require(`${global.appRoot}/middlewares/all.middle`));
 router.use(`/`, require(`${global.appRoot}/middlewares/all.middle.err`));
 
 router.post(`/:username`, require('./post.username'));
-// router.post(`/:username`, (req, res)=>{console.log(req.params);
-//     res.send('OK')});
 router.post(`/:username/:password`, require('./post.username.password'));
 
 module.exports = router;

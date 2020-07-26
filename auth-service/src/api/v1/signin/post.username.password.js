@@ -1,6 +1,13 @@
-const checkEmailExist = require(`${global.appRoot}/controllers/check.email.exist`);
+const checkUsernameAndPassword = require(`${global.appRoot}/controllers/check.username.password`);
 
 module.exports = async (req, res) => {
-    console.log(req.params);
-    res.send('OK');
+    const username = req.params['username'];
+    const password = req.params['password'];
+    const result = await checkUsernameAndPassword({username, password});
+    console.log(`checkUsernameExist: ${result}`);
+    console.log(result);
+    if (result == true)
+        res.send({code: 200, message: `Авторизация прошла успешно`});
+    else 
+        res.send({code: 401, message: `Неправильное имя пользователя или пароль`});
 }
