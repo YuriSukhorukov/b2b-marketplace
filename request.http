@@ -31,4 +31,12 @@
 
 
 # GET http://b2b.local:8080/api/v1/auth/signup/email/xxx@xxx.com
-GET http://127.0.0.1:8080/api/v1/auth/signup/email/xxx@xxx.com
+# GET http://127.0.0.1:8080/api/v1/auth/signup/email/xxx@xxx.com
+
+# signin
+# GET http://localhost:8080/api/v1/auth/signin
+# POST http://localhost:8080/api/v1/auth/signin/yuri
+# POST http://localhost:8080/api/v1/auth/signin/yuri@gmail.com
+# POST http://localhost:8080/api/v1/auth/signin/yuri/password
+
+POST http://localhost:8080/api/v1/auth/signin/yuri@gmail.com/sdWE343sx!

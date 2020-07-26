@@ -19,7 +19,7 @@ afterAll(async () => {
 //    - Запись в БД нового польщователя
 // 2. Попытка зарегистрировать пользователя повторно
 
-describe('Auth API integration', () => {
+describe('Auth API integration /api/v1/auth/signup/', () => {
   test('Signup успешная вставка учетной записи: /api/v1/auth/signup/', async () => {
     const username = 'yuri';
     const email = 'yuri@gmail.com';
@@ -90,3 +90,92 @@ describe('Auth API integration', () => {
 		expect(result).toBe(expected);
   })
 });
+
+describe('Auth API integration /api/v1/auth/signin/', () => {
+  test('Signin пользователь с указанным email существует: /api/v1/auth/signin/:username', async () => {
+    const email = 'yuri@gmail.com';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signin/${email}`;
+    const method = 'POST';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 302;
+		expect(result).toBe(expected);
+  })
+  test('Signin пользователь с указанным username существует: /api/v1/auth/signin/:username', async () => {
+    const username = 'yuri';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signin/${username}`;
+    const method = 'POST';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 302;
+		expect(result).toBe(expected);
+  })
+  test('Signin пользователь с указанным не email существует: /api/v1/auth/signin/:username', async () => {
+    const email = 'ivan@gmail.com';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signin/${email}`;
+    const method = 'POST';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 204;
+		expect(result).toBe(expected);
+  })
+  test('Signin пользователь с указанным username не существует: /api/v1/auth/signin/:username', async () => {
+    const username = 'ivan';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signin/${username}`;
+    const method = 'POST';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 204;
+		expect(result).toBe(expected);
+  })
+  test('Signin авторизыция успешна: /api/v1/auth/signin/:username/:password', async () => {
+    const username = 'yuri';
+    const password = 'sdWE343sx!';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signin/${username}/${password}`;
+    const method = 'POST';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 200;
+		expect(result).toBe(expected);
+  })
+  test('Signin неудачная авторизация - неправильный логин, правильный пароль: /api/v1/auth/signin/:username/:password', async () => {
+    const username = 'ivan';
+    const password = 'sdWE343sx!';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signin/${username}/${password}`;
+    const method = 'POST';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 401;
+		expect(result).toBe(expected);
+  })
+  test('Signin неудачная авторизация - правильный логин, неправильный пароль: /api/v1/auth/signin/:username/:password', async () => {
+    const username = 'yuri';
+    const password = 'sdWE343sx!_bla-bla-bla';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signin/${username}/${password}`;
+    const method = 'POST';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 401;
+		expect(result).toBe(expected);
+  })
+  test('Signin неудачная авторизация - неправильный email, правильный пароль: /api/v1/auth/signin/:username/:password', async () => {
+    const username = 'ivan@gmail.com';
+    const password = 'sdWE343sx!';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signin/${username}/${password}`;
+    const method = 'POST';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 401;
+		expect(result).toBe(expected);
+  })
+  test('Signin неудачная авторизация - правильный email, неправильный пароль: /api/v1/auth/signin/:username/:password', async () => {
+    const username = 'yuri@gmail.com';
+    const password = 'sdWE343sx!_bla-bla-bla';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signin/${username}/${password}`;
+    const method = 'POST';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 401;
+		expect(result).toBe(expected);
+  })
+})

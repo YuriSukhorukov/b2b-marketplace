@@ -3,12 +3,15 @@ const {
     Pool
   } = require('pg');
 
-const connect             = require('./actions/connect.action');
-const createTableUsers    = require('./actions/create.table.users.action');
-const dropTable           = require('./actions/drop.table.action');
-const checkEmailExist     = require('./actions/check.email.exist.action');
-const checkAccountExist   = require('./actions/check.account.exist.action');
-const createAccount       = require('./actions/create.account.action');
+const connect                   = require('./actions/connect.action');
+const createTableUsers          = require('./actions/create.table.users.action');
+const dropTable                 = require('./actions/drop.table.action');
+const checkEmailExist           = require('./actions/check.email.exist.action');
+const checkAccountExist         = require('./actions/check.account.exist.action');
+const checkUsernameExist        = require('./actions/check.username.exist.action');
+const checkUsernameAndPassword  = require('./actions/check.username.password.action');
+const checkPassword             = require('./actions/check.password.action');
+const createAccount             = require('./actions/create.account.action');
   
 class Repository {
   constructor() {
@@ -30,6 +33,15 @@ class Repository {
   }
   async checkAccountExist(params) {
       return await checkAccountExist(this.pool, params);
+  }
+  async checkUsernameExist(params) {
+    return await checkUsernameExist(this.pool, params);
+  }
+  async checkUsernameAndPassword(params) {
+    return await checkUsernameAndPassword(this.pool, params);
+  }
+  async checkPassword(params) {
+    return await checkPassword(this.pool, params);
   }
   async createAccount(params) {
     console.log(params);
