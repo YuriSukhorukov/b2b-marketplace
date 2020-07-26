@@ -15,15 +15,17 @@ module.exports = async (req, res) => {
         console.log(`token: ${token}`);
         const decoded = await decodeJwt(token);
         console.log(decoded);
-        res.send({
+        res.json({
+            success: true,
             code: 200, 
-            token,
-            message: `Авторизация прошла успешно`
+            token: token,
+            message: `Authentication successful!`
         });
     } else {
-        res.send({
+        res.json({
+            success: false,
             code: 401, 
-            message: `Неправильное имя пользователя или пароль`
+            message: `Authentication failed!`
         });
     }
 }

@@ -23,7 +23,7 @@
 # }
 
 # POST  http://b2b.local:8080/api/v1/auth/signup/user?login=YURI&password=hello&email=xxx@xxx.com
-# POST  http://localhost:8080/api/v1/auth/signup/user?login=YURI&password=hello&email=xxx@xxx.com
+# POST  http://localhost:8080/api/v1/auth/signup/user?login=YURI1&password=hello&email=xx1x@xxx.com
 # GET http://localhost:8080/api/v1/auth/signup/user?login=qwdwq&email=xxx@xxx.com
 
 # GET http://localhost:8080/api/v1/auth/signup/email/xxx@xxx.com
