@@ -20,42 +20,6 @@ afterAll(async () => {
 // 2. Попытка зарегистрировать пользователя повторно
 
 describe('Auth API integration', () => {
-  test('Email свободен: /api/v1/auth/signup/email', async () => {
-    const email = 'yyy@xxx.com';
-    const uri = `${config.uri}:${config.port}/api/v1/auth/signup/email/${email}`;
-    const method = 'GET';
-    const response = JSON.parse(await rp({uri,method}));
-    const result = response.code;
-    const expected = 204;
-		expect(result).toBe(expected);
-  }),
-  test('Email занят: /api/v1/auth/signup/email', async () => {
-    const email = 'xxx@xxx.com';
-    const uri = `${config.uri}:${config.port}/api/v1/auth/signup/email/${email}`;
-    const method = 'GET';
-    const response = JSON.parse(await rp({uri,method}));
-    const result = response.code;
-    const expected = 302;
-		expect(result).toBe(expected);
-  }),
-  test('Login свободен: /api/v1/auth/signup/login/', async () => {
-    const login = 'ivan';
-    const uri = `${config.uri}:${config.port}/api/v1/auth/signup/login/${login}`;
-    const method = 'GET';
-    const response = JSON.parse(await rp({uri,method}));
-    const result = response.code;
-    const expected = 204;
-		expect(result).toBe(expected);
-  }),
-  test('Login занят: /api/v1/auth/signup/login/', async () => {
-    const login = 'yuri';
-    const uri = `${config.uri}:${config.port}/api/v1/auth/signup/login/${login}`;
-    const method = 'GET';
-    const response = JSON.parse(await rp({uri,method}));
-    const result = response.code;
-    const expected = 302;
-		expect(result).toBe(expected);
-  }),
   test('Signup успешная вставка учетной записи: /api/v1/auth/signup/', async () => {
     const username = 'yuri';
     const email = 'yuri@gmail.com';
@@ -66,10 +30,10 @@ describe('Auth API integration', () => {
     const result = response.code;
     const expected = 201;
 		expect(result).toBe(expected);
-  }),
+  })
   test('Signup неудачная вставка учетной записи с зарегистрированным username: /api/v1/auth/signup/', async () => {
     const username = 'yuri';
-    const email = 'yuri_new@gmail.com';
+    const email = 'ivan@gmail.com';
     const password = 'sdWE343sx!';
     const uri = `${config.uri}:${config.port}/api/v1/auth/signup/user?login=${username}&password=${password}&email=${email}`;
     const method = 'POST';
@@ -77,9 +41,9 @@ describe('Auth API integration', () => {
     const result = response.code;
     const expected = 403;
 		expect(result).toBe(expected);
-  }),
+  })
   test('Signup неудачная вставка учетной записи с зарегистрированным email: /api/v1/auth/signup/', async () => {
-    const username = 'yuri_new';
+    const username = 'ivan';
     const email = 'yuri@gmail.com';
     const password = 'sdWE343sx!';
     const uri = `${config.uri}:${config.port}/api/v1/auth/signup/user?login=${username}&password=${password}&email=${email}`;
@@ -87,6 +51,42 @@ describe('Auth API integration', () => {
     const response = JSON.parse(await rp({uri,method}));
     const result = response.code;
     const expected = 403;
+		expect(result).toBe(expected);
+  })
+  test('Email свободен: /api/v1/auth/signup/email', async () => {
+    const email = 'ivan@gmail.com';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signup/email/${email}`;
+    const method = 'GET';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 204;
+		expect(result).toBe(expected);
+  })
+  test('Email занят: /api/v1/auth/signup/email', async () => {
+    const email = 'yuri@gmail.com';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signup/email/${email}`;
+    const method = 'GET';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 302;
+		expect(result).toBe(expected);
+  })
+  test('Login свободен: /api/v1/auth/signup/login/', async () => {
+    const login = 'ivan';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signup/login/${login}`;
+    const method = 'GET';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 204;
+		expect(result).toBe(expected);
+  })
+  test('Login занят: /api/v1/auth/signup/login/', async () => {
+    const login = 'yuri';
+    const uri = `${config.uri}:${config.port}/api/v1/auth/signup/login/${login}`;
+    const method = 'GET';
+    const response = JSON.parse(await rp({uri,method}));
+    const result = response.code;
+    const expected = 302;
 		expect(result).toBe(expected);
   })
 });

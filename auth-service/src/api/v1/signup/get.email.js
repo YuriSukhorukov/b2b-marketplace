@@ -4,6 +4,7 @@ module.exports = async (req, res) => {
     const email = req.params['email'];
     const result = await checkEmailExist({email});
     console.log(`checkEmailExist: ${result}`);
+    console.log(result);
     if (result == true)
         res.send({code: 302, message: `Email '${email}' занят`});
     else 
