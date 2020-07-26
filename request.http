@@ -39,4 +39,10 @@
 # POST http://localhost:8080/api/v1/auth/signin/yuri@gmail.com
 # POST http://localhost:8080/api/v1/auth/signin/yuri/password
 
-POST http://localhost:8080/api/v1/auth/signin/yuri@gmail.com/sdWE343sx!
+# POST http://localhost:8080/api/v1/auth/signin/yuri@gmail.com/sdWE343sx!
+
+
+
+# регистрация нового пользователя и авторизация
+# POST http://localhost:8080/api/v1/auth/signup/user?login=xxx&password=hello&email=xxx@xxx.com
+# POST http://localhost:8080/api/v1/auth/signin/xxx@xxx.com/hello
