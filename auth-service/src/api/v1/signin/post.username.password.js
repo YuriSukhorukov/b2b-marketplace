@@ -3,8 +3,18 @@ const createJwt = require(`${global.appRoot}/controllers/create.jwt`);
 const decodeJwt = require(`${global.appRoot}/controllers/decode.jwt`);
 
 module.exports = async (req, res) => {
-    const username = req.params['username'];
-    const password = req.params['password'];
+    const username = req.headers["username"];
+    const password = req.headers["password"];
+
+    if (!username || !password)
+        res.json({
+            success: false,
+            code: 401, 
+            message: `Authentication failed!`
+        });
+
+    console.log(req.headers);
+    
     const result = await checkUsernameAndPassword({username, password});
     console.log(`checkUsernameAndPassword: ${result}`);
     console.log(result);

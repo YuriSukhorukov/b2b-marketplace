@@ -9,5 +9,7 @@ router.get(`/signup/login/:login`, require('./get.post'));
 router.post(`/signup/user`, require('./get.post'));
 router.post(`/signin/:username`, require('./get.post'));
 router.post(`/signin/:username/:password`, require('./get.post'));
+router.post(`/signup`, require('./get.post'));
+router.post(`/signin`, require('./get.post'));
 
 module.exports = router;
