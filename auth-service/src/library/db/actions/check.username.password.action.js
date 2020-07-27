@@ -1,20 +1,21 @@
 module.exports = async (pool, params) => {
     return new Promise(async (res, rej) => {
-        if (!params || !params.login)
+        if (!params || !params.username || !params.password)
             rej(`params undefined`);
         let client = await pool.connect().catch(err => {
             console.log('pool .connect ->', err);
             rej(err);
         });
         const {
-            login
+            username,
+            password
         } = params;
-        console.log(`${login}`);
-        
+        console.log(`${username}, ${password}`);
         await client.query(
             `
-                SELECT username FROM users 
-                WHERE username='${login}'
+                SELECT user_id, username, email FROM users 
+                WHERE (username='${username}' OR email='${username}')
+                AND password='${password}'
                 ORDER BY user_id ASC;
             `, 
             (error, result) => {

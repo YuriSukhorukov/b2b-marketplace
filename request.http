@@ -23,7 +23,7 @@
 # }
 
 # POST  http://b2b.local:8080/api/v1/auth/signup/user?login=YURI&password=hello&email=xxx@xxx.com
-# POST  http://localhost:8080/api/v1/auth/signup/user?login=YURI&password=hello&email=xxx@xxx.com
+# POST  http://localhost:8080/api/v1/auth/signup/user?login=YURI1&password=hello&email=xx1x@xxx.com
 # GET http://localhost:8080/api/v1/auth/signup/user?login=qwdwq&email=xxx@xxx.com
 
 # GET http://localhost:8080/api/v1/auth/signup/email/xxx@xxx.com
@@ -31,4 +31,57 @@
 
 
 # GET http://b2b.local:8080/api/v1/auth/signup/email/xxx@xxx.com
-GET http://127.0.0.1:8080/api/v1/auth/signup/email/xxx@xxx.com
+# GET http://127.0.0.1:8080/api/v1/auth/signup/email/xxx@xxx.com
+
+# signin
+# GET http://localhost:8080/api/v1/auth/signin
+# POST http://localhost:8080/api/v1/auth/signin/yuri
+# POST http://localhost:8080/api/v1/auth/signin/yuri@gmail.com
+# POST http://localhost:8080/api/v1/auth/signin/yuri/password
+
+POST http://localhost:8080/api/v1/auth/signin/yuri@gmail.com/sdWE343sx!
+
+###
+
+# регистрация нового пользователя и авторизация
+POST http://localhost:8080/api/v1/auth/signup/user?login=xxx&password=hello&email=xxx@xxx.com
+# POST http://localhost:8080/api/v1/auth/signin/xxx@xxx.com/hello
+
+###
+
+POST http://localhost:8080/api/v1/auth/signin/yuri@gmail.com/sdWE343sx! HTTP/1.1
+Content-Type: application/json
+Authorization: sdfR@RF@
+Username: yuri
+Password: sdWE343sx!
+
+###
+
+POST http://localhost:8080/api/v1/auth/signup
+Username: yuri
+Email: yuri@gmail.com
+Password: sdWE343sx!
+
+###
+
+POST http://localhost:8080/api/v1/auth/signin
+Content-Type: application/json
+Username: yuri
+Password: sdWE343sx!
+
+###
+
+GET http://localhost:8080/api/v1/auth/signin
+Content-Type: application/json
+Authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE1OTU4NjE4NjcsImV4cCI6MTU5NTg2NTQ2N30.sROnVPH5-bEijoc3Hwuch0fY_PX7H3Z_IYuWVHU7ZpgHsgLx1MfDO3Vm6HzVNRC-GmRgThgeQLdHpaqdHh_shSL0psTAsQQLlTHkjLLuFwvOgIuGLsSeiOWhd_dzdXKaGehfmo6aqqbI6HKBvWlqJAazVATjwS3Gj47DmFL3RYE
+
+###
+
+GET http://localhost:8080
+Content-Type: application/json
+Authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE1OTU4NjE4NjcsImV4cCI6MTU5NTg2NTQ2N30.sROnVPH5-bEijoc3Hwuch0fY_PX7H3Z_IYuWVHU7ZpgHsgLx1MfDO3Vm6HzVNRC-GmRgThgeQLdHpaqdHh_shSL0psTAsQQLlTHkjLLuFwvOgIuGLsSeiOWhd_dzdXKaGehfmo6aqqbI6HKBvWlqJAazVATjwS3Gj47DmFL3RYE
+
+###
+
+GET http://localhost:8080
+Content-Type: application/json
