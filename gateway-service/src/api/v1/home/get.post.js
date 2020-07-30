@@ -2,5 +2,5 @@ const config            = require(`${global.appRoot}/config.json`).authServiceCo
 const rp                = require('request-promise');
 
 module.exports = async (req, res) => {
-    res.send('home GET');
+    res.send({code: 200, message: `Home GET`});
 };

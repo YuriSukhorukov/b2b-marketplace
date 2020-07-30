@@ -194,4 +194,24 @@ describe('Auth API integration /api/v1/auth/signin/', () => {
     const expected = 401;
 		expect(result).toBe(expected);
   })
+  test('Signin авторизация успешна, получение токена, переход на домашнюю страницу: /api/v1/home', async () => {
+    const { token } = JSON.parse(await rp({
+      uri: `${config.uri}:${config.port}/api/v1/auth/signin`,
+      method: 'POST',
+      headers: {
+        'username': 'yuri@gmail.com',
+        'password': 'sdWE343sx!'
+      }
+    }));
+    const response = JSON.parse(await rp({
+      uri: `${config.uri}:${config.port}/api/v1/home`,
+      method: 'GET',
+      headers: {
+        'authorization': token
+      }
+    }));
+    const result = response.code;
+    const expected = 200;
+		expect(result).toBe(expected);
+  })
 })
