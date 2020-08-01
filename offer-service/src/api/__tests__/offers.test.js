@@ -93,7 +93,7 @@ describe('Offers API /{id}/proposals', () => {
     })
     test('DELETE .../offers/{id}/proposals', async () => {
         const response = JSON.parse(await rp({
-            uri: `${config.uri}:${config.port}/0129e1Ws/proposals`, 
+            uri: `${config.uri}:${config.port}/0129e1Ws/proposals/asWq12e`, 
             method: 'DELETE'
         }));
         const result = response.code;
