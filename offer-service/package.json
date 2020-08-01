@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watch --notify --detectOpenHandles --unhandled-rejections=strict"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "request-promise": "^4.2.6"
+  },
+  "devDependencies": {
+    "jest": "^26.2.2"
   }
 }

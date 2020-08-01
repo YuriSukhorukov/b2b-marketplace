@@ -1,5 +1,6 @@
 {
     "appConfig": {
+        "uri": "http://localhost",
         "port": 8082
     },
     "gatewayServiceConfig": {
