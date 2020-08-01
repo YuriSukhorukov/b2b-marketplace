@@ -37,8 +37,8 @@ describe('Offers API /{id}', () => {
         const expected = 200;
         console.log(response);
         expect(result).toBe(expected);
-      })
-      test('PUT .../offers/{id}', async () => {
+    })
+    test('PUT .../offers/{id}', async () => {
         const response = JSON.parse(await rp({
             uri: `${config.uri}:${config.port}/0129e1Ws`, 
             method: 'PUT'
@@ -47,8 +47,8 @@ describe('Offers API /{id}', () => {
         const expected = 200;
         console.log(response);
         expect(result).toBe(expected);
-      })
-      test('GET .../offers/{id}', async () => {
+    })
+    test('GET .../offers/{id}', async () => {
         const response = JSON.parse(await rp({
             uri: `${config.uri}:${config.port}/0129e1Ws`, 
             method: 'GET'
@@ -57,8 +57,8 @@ describe('Offers API /{id}', () => {
         const expected = 200;
         console.log(response);
         expect(result).toBe(expected);
-      })
-      test('DELETE .../offers/{id}', async () => {
+    })
+    test('DELETE .../offers/{id}', async () => {
         const response = JSON.parse(await rp({
             uri: `${config.uri}:${config.port}/0129e1Ws`, 
             method: 'DELETE'
@@ -67,5 +67,38 @@ describe('Offers API /{id}', () => {
         const expected = 200;
         console.log(response);
         expect(result).toBe(expected);
-      })
+    })
+})
+
+describe('Offers API /{id}/proposals', () => {
+    test('GET .../offers/{id}/proposals', async () => {
+        const response = JSON.parse(await rp({
+            uri: `${config.uri}:${config.port}/0129e1Ws/proposals`, 
+            method: 'GET'
+        }));
+        const result = response.code;
+        const expected = 200;
+        console.log(response);
+        expect(result).toBe(expected);
+    })
+    test('POST .../offers/{id}/proposals', async () => {
+        const response = JSON.parse(await rp({
+            uri: `${config.uri}:${config.port}/0129e1Ws/proposals`, 
+            method: 'POST'
+        }));
+        const result = response.code;
+        const expected = 200;
+        console.log(response);
+        expect(result).toBe(expected);
+    })
+    test('DELETE .../offers/{id}/proposals', async () => {
+        const response = JSON.parse(await rp({
+            uri: `${config.uri}:${config.port}/0129e1Ws/proposals`, 
+            method: 'DELETE'
+        }));
+        const result = response.code;
+        const expected = 200;
+        console.log(response);
+        expect(result).toBe(expected);
+    })
 })
