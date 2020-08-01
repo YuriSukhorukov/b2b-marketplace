@@ -12,9 +12,9 @@ afterAll(async () => {
 });
 
 describe('Offers API /search', () => {
-  test('GET .../offers/search/?category={category}', async () => {
+  test('GET .../offers/?category={category}', async () => {
     const response = JSON.parse(await rp({
-        uri: `${config.uri}:${config.port}/search/?category=food`, 
+        uri: `${config.uri}:${config.port}/offers/?category=food`, 
         method: 'GET',
         query: {
             category: 'food'
@@ -30,7 +30,7 @@ describe('Offers API /search', () => {
 describe('Offers API /{id}', () => {
     test('POST .../offers/{id}', async () => {
         const response = JSON.parse(await rp({
-            uri: `${config.uri}:${config.port}/0129e1Ws`, 
+            uri: `${config.uri}:${config.port}/offers/0129e1Ws`, 
             method: 'POST'
         }));
         const result = response.code;
@@ -40,7 +40,7 @@ describe('Offers API /{id}', () => {
     })
     test('PUT .../offers/{id}', async () => {
         const response = JSON.parse(await rp({
-            uri: `${config.uri}:${config.port}/0129e1Ws`, 
+            uri: `${config.uri}:${config.port}/offers/0129e1Ws`, 
             method: 'PUT'
         }));
         const result = response.code;
@@ -50,7 +50,7 @@ describe('Offers API /{id}', () => {
     })
     test('GET .../offers/{id}', async () => {
         const response = JSON.parse(await rp({
-            uri: `${config.uri}:${config.port}/0129e1Ws`, 
+            uri: `${config.uri}:${config.port}/offers/0129e1Ws`, 
             method: 'GET'
         }));
         const result = response.code;
@@ -60,7 +60,7 @@ describe('Offers API /{id}', () => {
     })
     test('DELETE .../offers/{id}', async () => {
         const response = JSON.parse(await rp({
-            uri: `${config.uri}:${config.port}/0129e1Ws`, 
+            uri: `${config.uri}:${config.port}/offers/0129e1Ws`, 
             method: 'DELETE'
         }));
         const result = response.code;
@@ -71,9 +71,9 @@ describe('Offers API /{id}', () => {
 })
 
 describe('Offers API /{id}/proposals', () => {
-    test('GET .../offers/{id}/proposals', async () => {
+    test('GET .../proposals/?offer_id={id}', async () => {
         const response = JSON.parse(await rp({
-            uri: `${config.uri}:${config.port}/0129e1Ws/proposals`, 
+            uri: `${config.uri}:${config.port}/proposals/?offer_id=0129e1Ws`, 
             method: 'GET'
         }));
         const result = response.code;
@@ -81,9 +81,9 @@ describe('Offers API /{id}/proposals', () => {
         console.log(response);
         expect(result).toBe(expected);
     })
-    test('POST .../offers/{id}/proposals', async () => {
+    test('POST .../proposals/{id}', async () => {
         const response = JSON.parse(await rp({
-            uri: `${config.uri}:${config.port}/0129e1Ws/proposals`, 
+            uri: `${config.uri}:${config.port}/proposals/asWq12e`, 
             method: 'POST'
         }));
         const result = response.code;
@@ -91,9 +91,9 @@ describe('Offers API /{id}/proposals', () => {
         console.log(response);
         expect(result).toBe(expected);
     })
-    test('DELETE .../offers/{id}/proposals', async () => {
+    test('DELETE .../proposals/{id}', async () => {
         const response = JSON.parse(await rp({
-            uri: `${config.uri}:${config.port}/0129e1Ws/proposals/asWq12e`, 
+            uri: `${config.uri}:${config.port}/proposals/asWq12e`, 
             method: 'DELETE'
         }));
         const result = response.code;
