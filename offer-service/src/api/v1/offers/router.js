@@ -7,8 +7,8 @@ router.put(`/offers/:id`, require('./update.offer'));
 router.post(`/offers/:id`, require('./create.offer'));
 router.delete(`/offers/:id`, require('./delete.offer'));
 
-router.get(`/proposals`, require('./get.proposals'));
-router.post(`/proposals/:id`, require('./create.proposal'));
-router.delete(`/proposals/:id`, require('./delete.proposal'));
+router.get(`/proposals`, require('../proposals/get.proposals'));
+router.post(`/proposals/:id`, require('../proposals/create.proposal'));
+router.delete(`/proposals/:id`, require('../proposals/delete.proposal'));
 
 module.exports = router;
