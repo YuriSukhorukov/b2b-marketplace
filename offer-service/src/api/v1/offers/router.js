@@ -1,7 +1,7 @@
 const express       = require('express');
 const router        = express.Router();
 
-router.get(`/offers`, require('./search.offers'));
+router.get(`/offers`, require('./get.offers'));
 router.get(`/offers/:id`, require('./get.offer'));
 router.put(`/offers/:id`, require('./update.offer'));
 router.post(`/offers/:id`, require('./create.offer'));
