@@ -3,7 +3,9 @@ const {
     Pool
   } = require('pg');
 
-const dropTable                 = require('./actions/drop.table.action');
+const dropTable                 = require('./actions/drop.table');
+const createTableOffers         = require('./actions/create.table.offers');
+const createTableProposals      = require('./actions/create.table.proposals');
   
 class Repository {
   constructor() {
@@ -16,7 +18,13 @@ class Repository {
       port: "5432"
     });
   }
-  
+
+  async createTableOffers() {
+    return await createTableOffers(this.pool);
+  }
+  async createTableProposals(params) {
+    return await createTableProposals(this.pool, params);
+  }
   async dropTable(params) {
     return await dropTable(this.pool, params);
   }
