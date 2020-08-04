@@ -7,11 +7,8 @@ module.exports = async (pool, params) => {
         await client.query(
             `
                 CREATE TABLE offers (
-                    user_id SERIAL NOT NULL PRIMARY KEY,
-                    username VARCHAR(255) NOT NULL UNIQUE,
-                    email VARCHAR(255) NOT NULL UNIQUE,
-                    password VARCHAR(255) NOT NULL,
-                    token VARCHAR(255),
+                    id SERIAL NOT NULL PRIMARY KEY,
+                    user_id SERIAL NOT NULL,
                     created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
                 );
             `, 
