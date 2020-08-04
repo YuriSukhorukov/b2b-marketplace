@@ -48,7 +48,7 @@ afterAll(async () => {
 // });
 
 describe('Offers API /{id}', () => {
-    test('Создать offer: POST {uri}/offers', async () => {
+    test('Создать offer: POST {URI}/offers', async () => {
         const response = JSON.parse(await rp({
             uri: `${config.uri}:${config.port}/offers`, 
             method: 'POST',
@@ -74,7 +74,7 @@ describe('Offers API /{id}', () => {
     //     console.log(response);
     //     expect(result).toBe(expected);
     // })
-    test('Получить список offers: GET {uri}/offers', async () => {
+    test('Получить список offers: GET {URI}/offers', async () => {
         const response = JSON.parse(await rp({
             uri: `${config.uri}:${config.port}/offers`, 
             method: 'GET'
@@ -96,7 +96,7 @@ describe('Offers API /{id}', () => {
 })
 
 describe('Offers API /proposals', () => {
-    test('POST .../proposals', async () => {
+    test('Создать новый proposal: POST {URI}/proposals', async () => {
         const response = JSON.parse(await rp({
             uri: `${config.uri}:${config.port}/proposals`, 
             method: 'POST',
@@ -113,7 +113,7 @@ describe('Offers API /proposals', () => {
         console.log(response);
         expect(result).toBe(expected);
     })
-    test('POST попытка создать дубликат .../proposals', async () => {
+    test('Неудачная попытка создать дубликат: POST ${URI}/proposals', async () => {
         const response = JSON.parse(await rp({
             uri: `${config.uri}:${config.port}/proposals`, 
             method: 'POST',
@@ -130,7 +130,7 @@ describe('Offers API /proposals', () => {
         console.log(response);
         expect(result).toBe(expected);
     })
-    test('GET .../proposals/?offer_id={id}', async () => {
+    test('Получить список proposals: GET ${URI}/proposals/?offer_id={id}', async () => {
         const response = JSON.parse(await rp({
             uri: `${config.uri}:${config.port}/proposals/?offer_id=1`, 
             method: 'GET'
