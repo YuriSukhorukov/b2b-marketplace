@@ -91,6 +91,8 @@ Content-Type: application/json
 // OFFERS
 GET http://localhost:8082/offers
 ###
+GET http://localhost:8082/proposals/?offer_id=1
+###
 GET http://localhost:8080/api/v1/offers
 ###
 POST http://localhost:8082/offers
@@ -101,3 +103,24 @@ content-type: application/json
 }
 ###
 GET http://localhost:8082/offers
+###
+GET http://localhost:8082/proposals/?offer_id=1
+###
+GET http://localhost:8080/api/v1/market/offers
+###
+POST http://localhost:8080/api/v1/market/offers
+content-type: application/js
+
+{
+    "userId": 1
+}
+###
+POST http://localhost:8080/api/v1/market/proposals
+content-type: application/js
+
+{
+    "userId": 2,
+    "offerId": 7,
+}
+###
+GET http://localhost:8080/api/v1/market/proposals/?offer_id=1
