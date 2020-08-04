@@ -8,6 +8,7 @@ module.exports = async (pool, params) => {
             `
                 CREATE TABLE offers (
                     id SERIAL NOT NULL PRIMARY KEY,
+                    user_id SERIAL NOT NULL,
                     created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
                 );
             `, 
