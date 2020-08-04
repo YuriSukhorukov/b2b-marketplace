@@ -11,8 +11,9 @@ module.exports = async (pool, params) => {
                     user_id SERIAL NOT NULL,
                     offer_id SERIAL NOT NULL,
                     created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    UNIQUE (user_id, offer_id),
                     FOREIGN KEY (offer_id) 
-                        REFERENCES offers (id) 
+                        REFERENCES offers (id)
                         ON DELETE CASCADE
                 );
             `, 

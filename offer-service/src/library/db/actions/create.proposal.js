@@ -14,9 +14,9 @@ module.exports = async (pool, params) => {
         
         await client.query(
             `
-                INSERT INTO proposals(user_id, offer_id) 
+                INSERT INTO proposals(user_id, offer_id)
                 VALUES ('${userId}', '${offerId}')
-                RETURNING user_id, offer_id, created_on;
+                RETURNING id, user_id, offer_id, created_on;
             `, 
             (error, result) => {
                 console.log("client ready:", client.readyForQuery);
@@ -34,3 +34,5 @@ module.exports = async (pool, params) => {
         );
     })
 }
+
+// CHECK (offers.offer_id = offer_id AND offers.user_id != user_id)

@@ -1,7 +1,5 @@
 module.exports = async (pool, params) => {
     return new Promise(async (res, rej) => {
-        if (!params)
-            rej(`params undefined`);
         let client = await pool.connect().catch(err => {
             console.log('pool .connect ->', err);
             rej(err);

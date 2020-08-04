@@ -54,4 +54,43 @@ describe('DB действия с таблицей proposals', () => {
     const expected = 3;
     expect(result).toHaveLength(expected)
   })
+  test('Успешное создания proposal для разных пар значений userId и offerId', async done => {
+    const fn = async () => {
+      let offer_1 = await db.createOffer({userId: 10});
+      let offer_2 = await db.createOffer({userId: 10});
+      let offer_id_1 = offer_1[0].id;
+      let offer_id_2 = offer_2[0].id;
+      let user_id_1 = 10;
+      let user_id_2 = 11;
+      await db.createProposal({userId: user_id_1, offerId: offer_id_1});
+      await db.createProposal({userId: user_id_1, offerId: offer_id_2});
+      await db.createProposal({userId: user_id_2, offerId: offer_id_1});
+      await db.createProposal({userId: user_id_2, offerId: offer_id_2});
+    }
+    try {
+      await fn();
+      done();
+    } catch(e) {
+      done(`Не удалось создать proposal для user_id:offer_id`);
+    }
+  })
+  test('Ошибка создания proposal для существующей пары значений userId и offerId', async done => {
+    const fn = async () => {
+      let offer_1 = await db.createOffer({userId: 10});
+      let offer_2 = await db.createOffer({userId: 10});
+      let offer_id_1 = offer_1[0].id;
+      let offer_id_2 = offer_2[0].id;
+      let user_id_1 = 10;
+      let user_id_2 = 11;
+      await db.createProposal({userId: user_id_1, offerId: offer_id_1});
+      await db.createProposal({userId: user_id_1, offerId: offer_id_1});
+    }
+    try {
+      await fn();
+      done(`Удалось создать дубликат proposal для user_id:offer_id`);
+    } catch(e) {
+      expect(e).not.toBeNull();
+      done();
+    }
+  })
 });
