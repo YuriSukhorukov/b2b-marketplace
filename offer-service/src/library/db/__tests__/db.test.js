@@ -30,12 +30,28 @@ describe('DB создание таблиц', () => {
 
 describe('DB действия с таблицей offers', () => {
   test('Создание новой записи в таблице offers', async () => {
-    expect(true).toBe(true);
+    const result = await db.createOffer({userId: 1});
+    expect(result['rows']).not.toBeNull();
+  })
+  test('Получение всех записей из таблицы offers', async () => {
+    const result = await db.getOffers({});
+    console.log(result);
+    expect(result['rows']).not.toBeNull();
   })
 });
 
 describe('DB действия с таблицей proposals', () => {
   test('Создание новой записи в таблице proposals', async () => {
-    expect(true).toBe(true);
+    const result = await db.createProposal({userId: 1, offerId: 1});
+    expect(result['rows']).not.toBeNull();
+  })
+  test('Получение всех записей из таблицы proposals для offerId', async () => {
+    await db.createOffer({userId: 1});
+    await db.createProposal({userId: 100, offerId: 2});
+    await db.createProposal({userId: 101, offerId: 2});
+    await db.createProposal({userId: 102, offerId: 2});
+    const result = await db.getProposals({offerId: 2});
+    const expected = 3;
+    expect(result).toHaveLength(expected)
   })
 });
