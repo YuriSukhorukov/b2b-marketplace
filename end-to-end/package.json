@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest --notify --detectOpenHandles --unhandled-rejections=strict"
+    "test": "jest --detectOpenHandles --unhandled-rejections=strict"
   },
   "author": "",
   "license": "ISC",
