@@ -10,18 +10,23 @@ module.exports = async (pool, params) => {
             userId,
             offerId
         } = params;
-        console.log(`${userId} ${offerId}`);
         
         await client.query(
             `
-                INSERT INTO proposals(user_id, offer_id)
-                VALUES ('${userId}', '${offerId}')
+                INSERT  INTO proposals(user_id, offer_id)
+                SELECT  ${userId}, ${offerId}
+                WHERE   
+                    NOT EXISTS (
+                        SELECT FROM offers AS o
+                        WHERE  o.id = ${offerId}
+                        AND    o.user_id = ${userId}
+                    )
                 RETURNING id, user_id, offer_id, created_on;
             `, 
             (error, result) => {
-                console.log("client ready:", client.readyForQuery);
+                // console.log("client ready:", client.readyForQuery);
                 if (result) {
-                    console.log(`INSERT INTO proposals '${params}' result:`, result.rows);
+                    // console.log(`INSERT INTO proposals '${params}' result:`, result.rows);
                     client.release();
                     res(result.rows);
                 }
@@ -36,3 +41,15 @@ module.exports = async (pool, params) => {
 }
 
 // CHECK (offers.offer_id = offer_id AND offers.user_id != user_id)
+
+
+
+
+// INSERT INTO proposals(user_id, offer_id)
+// SELECT 12, 7
+// WHERE  NOT EXISTS (
+// 	SELECT FROM offers AS o
+// 	WHERE  o.id = 7
+// 	AND    o.user_id = 12
+// )
+// RETURNING id, user_id, offer_id, created_on;
