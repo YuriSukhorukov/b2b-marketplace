@@ -4,5 +4,5 @@ const app               = require('./src/app');
 const port 				      = process.env.PORT || appConfig.port;
 
 app.listen(port, () => {
-  console.log(`Offer server listening on port ${port}`);
+  console.log(`Market server listening on port ${port}`);
 });

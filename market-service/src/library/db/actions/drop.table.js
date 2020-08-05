@@ -9,9 +9,9 @@ module.exports = async (pool, params) => {
         await client.query(
             `DROP TABLE ${params.table} CASCADE;`, 
             (error, result) => {
-                console.log("client ready:", client.readyForQuery);
+                // console.log("client ready:", client.readyForQuery);
                 if (result) {
-                    console.log(`DROP TABLE '${params.table}' result:`, result.rows);
+                    // console.log(`DROP TABLE '${params.table}' result:`, result.rows);
                     client.release();
                     res(result);
                 }
