@@ -14,9 +14,7 @@ module.exports = async (req, res) => {
     const response = await rp({
         uri,
         method,
-        headers: {
-            "content-type": "application/json"
-        },
+        headers,
         body
     });
 

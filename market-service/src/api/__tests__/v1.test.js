@@ -59,9 +59,8 @@ describe('Offers API /{id}', () => {
                 userId: 1
             })
         }));
-        const result = response.code;
-        const expected = 200;
-        console.log(response);
+        const result = response.code == 200 && response.body.length == 1 && response.body[0].user_id == 1;
+        const expected = true;
         expect(result).toBe(expected);
     })
     // test('PUT .../offers/{id}', async () => {
@@ -79,8 +78,8 @@ describe('Offers API /{id}', () => {
             uri: `${config.uri}:${config.port}/offers`, 
             method: 'GET'
         }));
-        const result = response.code;
-        const expected = 200;
+        const result = response.code == 200 && response.body.length == 1 && response.body[0].user_id == 1;
+        const expected = true;
         expect(result).toBe(expected);
     })
     // test('DELETE .../offers/{id}', async () => {
@@ -97,6 +96,12 @@ describe('Offers API /{id}', () => {
 
 describe('Offers API /proposals', () => {
     test('Создать новый proposal: POST {URI}/proposals', async () => {
+        const response_offers = JSON.parse(await rp({
+            uri: `${config.uri}:${config.port}/offers`, 
+            method: 'GET'
+        }));
+        const offers = response_offers.body;
+
         const response = JSON.parse(await rp({
             uri: `${config.uri}:${config.port}/proposals`, 
             method: 'POST',
@@ -104,16 +109,22 @@ describe('Offers API /proposals', () => {
                 "content-type": "application/json"
             },
             body: JSON.stringify({
-                userId: 3,
-                offerId: 1
+                userId: 2,
+                offerId: offers[0].id
             })
         }));
+        
         const result = response.code;
         const expected = 200;
-        console.log(response);
         expect(result).toBe(expected);
     })
     test('Неудачная попытка создать дубликат: POST ${URI}/proposals', async () => {
+        const response_offers = JSON.parse(await rp({
+            uri: `${config.uri}:${config.port}/offers`, 
+            method: 'GET'
+        }));
+        const offers = response_offers.body;
+
         const response = JSON.parse(await rp({
             uri: `${config.uri}:${config.port}/proposals`, 
             method: 'POST',
@@ -121,13 +132,36 @@ describe('Offers API /proposals', () => {
                 "content-type": "application/json"
             },
             body: JSON.stringify({
-                userId: 3,
-                offerId: 1
+                userId: 2,
+                offerId: offers[0].id
             })
         }));
         const result = response.code;
         const expected = 404;
-        console.log(response);
+        // console.log(response);
+        expect(result).toBe(expected);
+    })
+    test('Неудачная попытка создать proposal с user_id из offers.user_id: POST ${URI}/proposals', async () => {
+        const response_offers = JSON.parse(await rp({
+            uri: `${config.uri}:${config.port}/offers`, 
+            method: 'GET'
+        }));
+        const offers = response_offers.body;
+
+        const response = JSON.parse(await rp({
+            uri: `${config.uri}:${config.port}/proposals`, 
+            method: 'POST',
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({
+                userId: offers[0].user_id,
+                offerId: offers[0].id
+            })
+        }));
+        const result = response.code;
+        const expected = 404;
+        // console.log(response);
         expect(result).toBe(expected);
     })
     test('Получить список proposals: GET ${URI}/proposals/?offer_id={id}', async () => {
@@ -137,7 +171,7 @@ describe('Offers API /proposals', () => {
         }));
         const result = response.code;
         const expected = 200;
-        console.log(response);
+        // console.log(response);
         expect(result).toBe(expected);
     })
     // test('DELETE .../proposals/{id}', async () => {

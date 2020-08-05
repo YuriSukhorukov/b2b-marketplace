@@ -9,7 +9,6 @@ module.exports = async (pool, params) => {
         const {
             offerId
         } = params;
-        console.log(`${offerId}`);
         
         await client.query(
             `
@@ -18,9 +17,9 @@ module.exports = async (pool, params) => {
                 ORDER BY created_on ASC;
             `, 
             (error, result) => {
-                console.log("client ready:", client.readyForQuery);
+                // console.log("client ready:", client.readyForQuery);
                 if (result) {
-                    console.log(`SELECT * FROM proposals '${params}' result:`, result.rows);
+                    // console.log(`SELECT * FROM proposals '${params}' result:`, result.rows);
                     client.release();
                     res(result.rows);
                 }

@@ -6,7 +6,15 @@ module.exports = async (req, res) => {
         try {
             const result = await createProposal({userId, offerId});
             console.log(result);
-            res.json({code: 200, message: `create.proposal.js`, body: result});
+            if (result.length > 0) {
+                res.json({code: 200, message: `create.proposal.js`, body: result});
+            } else {
+                res.json({
+                    success: false,
+                    code: 404,
+                    message: "Something wrong"
+                })
+            }
         } catch (e) {
             res.json({
                 success: false,

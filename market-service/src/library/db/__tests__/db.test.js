@@ -34,8 +34,7 @@ describe('DB действия с таблицей offers', () => {
     expect(result['rows']).not.toBeNull();
   })
   test('Получение всех записей из таблицы offers', async () => {
-    const result = await db.getOffers({});
-    console.log(result);
+    const result = await db.getOffers();
     expect(result['rows']).not.toBeNull();
   })
 });
@@ -80,10 +79,8 @@ describe('DB действия с таблицей proposals', () => {
       let offer_2 = await db.createOffer({userId: 10});
       let offer_id_1 = offer_1[0].id;
       let offer_id_2 = offer_2[0].id;
-      let user_id_1 = 10;
-      let user_id_2 = 11;
-      await db.createProposal({userId: user_id_1, offerId: offer_id_1});
-      await db.createProposal({userId: user_id_1, offerId: offer_id_1});
+      let res_1 = await db.createProposal({userId: 20, offerId: offer_id_1});
+      let res_2 = await db.createProposal({userId: 20, offerId: offer_id_1});
     }
     try {
       await fn();
@@ -92,5 +89,11 @@ describe('DB действия с таблицей proposals', () => {
       expect(e).not.toBeNull();
       done();
     }
+  })
+  test('Пустой результат создания proposal с userId из offers.user_id', async () => {
+    const offer_1 = await db.createOffer({userId: 11});
+    const result = await db.createProposal({userId: 11, offerId: offer_1[0].id});
+    const expected = 0;
+    expect(result).toHaveLength(expected)
   })
 });

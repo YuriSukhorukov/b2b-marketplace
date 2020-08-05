@@ -2,8 +2,16 @@
 node -e "
 let db = require('./auth-service/src/library/db/index.js');
 (async()=>{
-    await db.dropTable({table: 'users'});
-    await db.createTableUsers();
+    try {
+        await db.dropTable({table: 'users'});
+    } catch (e) {
+        console.log(e.message)
+    }
+    try {
+        await db.createTableUsers();
+    } catch (e) {
+        console.log(e.message)
+    }
     process.exit();
 })()
 "

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch --notify --detectOpenHandles --unhandled-rejections=strict"
+    "test": "jest --watch --detectOpenHandles --unhandled-rejections=strict"
   },
   "author": "",
   "license": "ISC",

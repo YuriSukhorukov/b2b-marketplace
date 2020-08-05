@@ -9,7 +9,6 @@ module.exports = async (pool, params) => {
         const {
             userId
         } = params;
-        console.log(`${userId}`);
         
         await client.query(
             `
@@ -18,9 +17,9 @@ module.exports = async (pool, params) => {
                 RETURNING id, user_id, created_on;
             `, 
             (error, result) => {
-                console.log("client ready:", client.readyForQuery);
+                // console.log("client ready:", client.readyForQuery);
                 if (result) {
-                    console.log(`INSERT INTO offers '${params}' result:`, result.rows);
+                    // console.log(`INSERT INTO offers '${params}' result:`, result.rows);
                     client.release();
                     res(result.rows);
                 }
