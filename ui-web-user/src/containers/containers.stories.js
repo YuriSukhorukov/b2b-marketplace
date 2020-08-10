@@ -8,7 +8,7 @@ export default {
   decorators: [withKnobs]
 };
 
-export const Auth = () => <AuthForm disabled={boolean("Disabled", false)} />;
+export const Auth = () => <AuthForm />;
 
 export const withAButton = () => (
   <button disabled={boolean("Disabled", false)}>
