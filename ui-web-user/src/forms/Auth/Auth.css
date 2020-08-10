@@ -1,0 +1,12 @@
+ .auth-form {
+    width: 500px;
+ }
+ .auth-form__tabs_padding {
+    padding: 50px;
+ }
+ .auth-form__tabs_margin {
+    margin: 48px 48px;
+ }
+.auth-form__tabs_margin_bottom {
+    margin-bottom: 60px;
+}
