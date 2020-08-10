@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form , Input, Button } from 'antd';
 import 'antd/dist/antd.css';
+import { AuthAPI } from '../../api/index';
 
 const layout = {
     labelCol: { span: 8 },
@@ -9,6 +10,9 @@ const layout = {
 export default () => {
     const onFinish = values => {
       console.log('Success:', values);
+
+      let res = AuthAPI.checkEmail();
+      console.log(res);
     };
     const onFinishFailed = errorInfo => {
       console.log('Failed:', errorInfo);
