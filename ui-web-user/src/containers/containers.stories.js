@@ -1,8 +1,8 @@
 import React from 'react';
-import AuthForm from './Auth';
+import AuthForm from './Auth/index';
 
 export default {
-  title: 'Forms',
+  title: 'Containers',
   component: AuthForm,
 };
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import Input from './Input';
+import Input from './Input/index';
 
 export default {
-  title: 'Input',
+  title: 'Inputs',
   component: Input,
 };
 
