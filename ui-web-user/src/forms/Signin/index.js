@@ -28,7 +28,7 @@ export default () => {
                 <Input placeholder="Электронная почта"/>
             </Form.Item>
             <Form.Item>
-            <Button 
+                <Button 
                     htmlType="submit" 
                     block 
                     type="primary" 
