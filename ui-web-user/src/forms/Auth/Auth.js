@@ -2,8 +2,6 @@ import React from 'react';
 import { Tabs, Form , Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 import './Auth.css';
-import '../../components/Button/Button.css';
-import '../../components/Input/Input.css';
 
 const { TabPane } = Tabs;
 
