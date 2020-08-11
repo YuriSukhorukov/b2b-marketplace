@@ -10,7 +10,7 @@ const layout = {
 
 const checkEmailMockResponse = () => {
     return new Promise((res, rej) => {
-        setTimeout(res, 2000);
+        setTimeout(res, 1000);
     });
 }
 
@@ -24,6 +24,11 @@ class SignupForm extends React.Component {
         }
         this.onFinish = this.onFinish.bind(this);
         this.onFinishFailed = this.onFinishFailed.bind(this);
+        this.checkPassword = this.checkPassword.bind(this);
+
+        // this.form = Form.useForm();
+        console.log(this.form);
+        
     }
     onFinish(values) {
         this.setState(state => ({
@@ -48,10 +53,21 @@ class SignupForm extends React.Component {
         }))
         console.log('Failed:', errorInfo);
     }
+    checkPassword(rule, value) {
+        console.log(rule);
+        console.log(value);
+        console.log(this.props);
+        
+        // if (!value || getFieldValue('password') === value) {
+            return Promise.resolve();
+        // }
+        // return Promise.reject('The two passwords that you entered do not match!');
+    }
     render() {
         this.a = number("Signup step", 1);
         this.aa = boolean("Is waiting data", false);
         this.aaa = boolean("Is error validating", false);
+        
         if (this.state.step == 1)
             return (
                 <Form
@@ -68,7 +84,7 @@ class SignupForm extends React.Component {
                             { required: true, message: 'Введите E-mail' }
                         ]}
                         validateStatus={this.state.isWaiting ? "validating" : this.state.isError ? "error" : undefined}
-                        help={this.state.isWaiting ? "Проверка..." : null}
+                        help={this.state.isWaiting ? "Проверка E-mail..." : null}
                         hasFeedback
                     >
                         <Input placeholder="Электронная почта" />
@@ -104,11 +120,12 @@ class SignupForm extends React.Component {
                     </Form.Item>
                     <Form.Item
                         name="password-confirm"
-                        rules={[{ required: true, message: 'Введите адрес электронной почты' }]}
+                        rules={[
+                            { required: true, message: 'Введите адрес электронной почты' },
+                            { validator: this.checkPassword }
+                        ]}
                     >
-                        <Input.Password
-                            placeholder="Пароль"
-                        />
+                        <Input.Password placeholder="Повторите пароль" />
                     </Form.Item>
                     <Form.Item>
                         <Button 
