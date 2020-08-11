@@ -2,6 +2,8 @@ import React                            from 'react';
 import { Form , Input, Button }         from 'antd';
 import { boolean, number }              from "@storybook/addon-knobs";
 import { AuthAPI }                      from '../../api/index';
+import { observer }                     from 'mobx-react';
+import authStore                        from '../../stores/authStore';
 import 'antd/dist/antd.css';
 
 const layout = {
@@ -10,11 +12,14 @@ const layout = {
 
 const checkEmailMockResponse = () => {
     return new Promise((res, rej) => {
-        setTimeout(res, 1000);
+        setTimeout(()=>{
+            res();
+            authStore.token = '213!E#R@';
+        }, 2000);
     });
 }
 
-class SignupForm extends React.Component {
+const SignupForm = observer(class SignupForm extends React.Component {
     constructor(props) {
         super(props);
         this.onFinish           = this.onFinish.bind(this);
@@ -32,11 +37,6 @@ class SignupForm extends React.Component {
         isWaiting: false
     }
     onChange(event) {
-        console.log(event);
-        console.log(event.target.value);
-        console.log(event.target);
-        console.log(event.target.name);
-
         this.setState({
             [event.target.name]: event.target.value
         })
@@ -61,7 +61,7 @@ class SignupForm extends React.Component {
         }))
         console.log('Failed:', errorInfo);
     }
-    checkPassword(rule, value) {        
+    checkPassword(rule, value) {     
         if (value == this.state['password']) {
             return Promise.resolve();
         }
@@ -138,10 +138,7 @@ class SignupForm extends React.Component {
                     </Form.Item>
                     <Form.Item
                         name="password-confirm"
-                        rules={[
-                            { required: true, message: 'Повторите пароль' },
-                            { validator: this.checkPassword }
-                        ]}
+                        rules={[{ validator: this.checkPassword }]}
                     >
                         <Input.Password 
                             placeholder="Повторите пароль" 
@@ -160,6 +157,6 @@ class SignupForm extends React.Component {
                 </Form>
             )
     }
-}
+})
 
 export default SignupForm;
