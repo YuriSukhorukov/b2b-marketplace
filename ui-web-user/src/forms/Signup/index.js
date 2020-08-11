@@ -62,10 +62,10 @@ const SignupForm = observer(class SignupForm extends React.Component {
         console.log('Failed:', errorInfo);
     }
     checkPassword(rule, value) {     
-        if (value == this.state['password']) {
+        if (value == this.state['password'])
             return Promise.resolve();
-        }
-        return Promise.reject('Введенные вами пароли не совпадают');
+        else if (value)
+            return Promise.reject('Введенные вами пароли не совпадают');
     }
     checkEmail(rule, value) {
         if (!value) 
@@ -96,8 +96,10 @@ const SignupForm = observer(class SignupForm extends React.Component {
                     <Form.Item
                         name="email"
                         rules={[
-                            { validator: this.checkEmail }
+                            { type: 'email', message: 'Введен неверный E-mail' },
+                            { required: true, message: 'Введите E-mail' }
                         ]}
+                        validateStatus={this.state.isWaiting ? "validating" : this.state.isError ? "error" : undefined}
                         help={this.state.isWaiting ? "Проверка E-mail..." : null}
                         hasFeedback
                     >
@@ -129,7 +131,9 @@ const SignupForm = observer(class SignupForm extends React.Component {
                 >
                     <Form.Item
                         name="password"
-                        rules={[{ required: true, message: 'Введите пароль' }]}
+                        rules={[
+                            { required: true, message: 'Введите пароль' }
+                        ]}
                     >
                         <Input.Password 
                             placeholder="Пароль"
@@ -138,7 +142,10 @@ const SignupForm = observer(class SignupForm extends React.Component {
                     </Form.Item>
                     <Form.Item
                         name="password-confirm"
-                        rules={[{ validator: this.checkPassword }]}
+                        rules={[
+                            { required: true, message: 'Повторите пароль' },
+                            { validator: this.state['password-confirm'] ? this.checkPassword : undefined }
+                        ]}
                     >
                         <Input.Password 
                             placeholder="Повторите пароль" 
