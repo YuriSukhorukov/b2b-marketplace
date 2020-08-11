@@ -2,83 +2,126 @@ import React from 'react';
 import { Form , Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 import { AuthAPI } from '../../api/index';
-import { withKnobs, text, boolean, number } from "@storybook/addon-knobs";
+import { boolean, number } from "@storybook/addon-knobs";
 
 const layout = {
     labelCol: { span: 8 },
 };
 
-export default () => {
-    const step = number("Signup step", 1);
+const checkEmailMockResponse = () => {
+    return new Promise((res, rej) => {
+        setTimeout(res, 2000);
+    });
+}
 
-    const onFinish = values => {
-      console.log('Success:', values);
-      let res = AuthAPI.checkEmail();
-    };
-    const onFinishFailed = errorInfo => {
-      console.log('Failed:', errorInfo);
-    }; 
+class SignupForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            step: 1,
+            isWaiting: false,
+            isError: false
+        }
+        this.onFinish = this.onFinish.bind(this);
+        this.onFinishFailed = this.onFinishFailed.bind(this);
+    }
+    onFinish(values) {
+        this.setState(state => ({
+            isWaiting: true,
+            isError: false
+        }))
+        checkEmailMockResponse().then(()=>{
+            this.setState(state => ({
+                step: state.step += 1,
+                isWaiting: false,
+                isError: false
+            }));
+            console.log('Success:', values);
+        })
+    }
+    onFinishFailed(errorInfo) {
+        console.log(this.a);
+        
+        this.setState(state => ({
+            isWaiting: false,
+            isError: true
+        }))
+        console.log('Failed:', errorInfo);
+    }
+    render() {
+        this.a = number("Signup step", 1);
+        this.aa = boolean("Is waiting data", false);
+        this.aaa = boolean("Is error validating", false);
+        if (this.state.step == 1)
+            return (
+                <Form
+                    {...layout}
+                    name="basic"
+                    initialValues={{ remember: true }}
+                    onFinish={this.onFinish}
+                    onFinishFailed={this.onFinishFailed}
+                >
+                    <Form.Item
+                        name="email"
+                        rules={[
+                            { type: 'email', message: 'Введен неверный E-mail' },
+                            { required: true, message: 'Введите E-mail' }
+                        ]}
+                        validateStatus={this.state.isWaiting ? "validating" : this.state.isError ? "error" : undefined}
+                        help={this.state.isWaiting ? "Проверка..." : null}
+                        hasFeedback
+                    >
+                        <Input placeholder="Электронная почта" />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button 
+                            htmlType="submit" 
+                            block 
+                            type="primary"
+                            disabled={this.state.isWaiting}
+                        >
+                            Продолжить
+                        </Button>
+                    </Form.Item>
+                </Form>
+            )
+        else
+            return(
+                <Form
+                    {...layout}
+                    name="basic"
+                    initialValues={{ remember: true }}
+                    onFinish={this.onFinish}
+                    onFinishFailed={this.onFinishFailed}
+                >
+                    <Form.Item
+                        name="password"
+                        rules={[{ required: true, message: 'Введите адрес электронной почты' }]}
+                    >
+                        <Input.Password 
+                            placeholder="Пароль"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name="password-confirm"
+                        rules={[{ required: true, message: 'Введите адрес электронной почты' }]}
+                    >
+                        <Input.Password
+                            placeholder="Пароль"
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button 
+                            htmlType="submit" 
+                            block 
+                            type="primary" 
+                        >
+                            Зарегистрироваться
+                        </Button>
+                    </Form.Item>
+                </Form>
+            )
+    }
+}
 
-    if (step == 1)
-        return (
-            <Form
-                {...layout}
-                name="basic"
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-            >
-                <Form.Item
-                    name="username"
-                    rules={[{ required: true, message: 'Введите адрес электронной почты' }]}
-                >
-                    <Input placeholder="Электронная почта"/>
-                </Form.Item>
-                <Form.Item>
-                    <Button 
-                        htmlType="submit" 
-                        block 
-                        type="primary" 
-                    >
-                        Продолжить
-                    </Button>
-                </Form.Item>
-            </Form>
-        )
-    else
-        return (
-            <Form
-                {...layout}
-                name="basic"
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-            >
-                <Form.Item
-                    name="password"
-                    rules={[{ required: true, message: 'Введите адрес электронной почты' }]}
-                >
-                    <Input.Password 
-                        placeholder="Пароль"
-                    />
-                </Form.Item>
-                <Form.Item
-                    name="password-confirm"
-                    rules={[{ required: true, message: 'Введите адрес электронной почты' }]}
-                >
-                    <Input.Password
-                        placeholder="Пароль"
-                    />
-                </Form.Item>
-                <Form.Item>
-                    <Button 
-                        htmlType="submit" 
-                        block 
-                        type="primary" 
-                    >
-                        Зарегистрироваться
-                    </Button>
-                </Form.Item>
-            </Form>
-        )
-  };
+export default SignupForm;
