@@ -1,8 +1,8 @@
-import React from 'react';
-import { Form , Input, Button } from 'antd';
+import React                            from 'react';
+import { Form , Input, Button }         from 'antd';
+import { boolean, number }              from "@storybook/addon-knobs";
+import { AuthAPI }                      from '../../api/index';
 import 'antd/dist/antd.css';
-import { AuthAPI } from '../../api/index';
-import { boolean, number } from "@storybook/addon-knobs";
 
 const layout = {
     labelCol: { span: 8 },
@@ -17,18 +17,28 @@ const checkEmailMockResponse = () => {
 class SignupForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            step: 1,
-            isWaiting: false,
-            isError: false
-        }
-        this.onFinish = this.onFinish.bind(this);
-        this.onFinishFailed = this.onFinishFailed.bind(this);
-        this.checkPassword = this.checkPassword.bind(this);
+        this.onFinish           = this.onFinish.bind(this);
+        this.onFinishFailed     = this.onFinishFailed.bind(this);
+        this.checkPassword      = this.checkPassword.bind(this);
+        this.onChange           = this.onChange.bind(this);        
+    }
+    state = {
+        step: 1,
+        isWaiting: false,
+        isError: false,
+        'email': null,
+        'password': null,
+        'password-confirm': null
+    }
+    onChange(event) {
+        console.log(event);
+        console.log(event.target.value);
+        console.log(event.target);
+        console.log(event.target.name);
 
-        // this.form = Form.useForm();
-        console.log(this.form);
-        
+        this.setState({
+            [event.target.name]: event.target.value
+        })
     }
     onFinish(values) {
         this.setState(state => ({
@@ -44,24 +54,18 @@ class SignupForm extends React.Component {
             console.log('Success:', values);
         })
     }
-    onFinishFailed(errorInfo) {
-        console.log(this.a);
-        
+    onFinishFailed(errorInfo) {        
         this.setState(state => ({
             isWaiting: false,
             isError: true
         }))
         console.log('Failed:', errorInfo);
     }
-    checkPassword(rule, value) {
-        console.log(rule);
-        console.log(value);
-        console.log(this.props);
-        
-        // if (!value || getFieldValue('password') === value) {
+    checkPassword(rule, value) {        
+        if (value == this.state['password']) {
             return Promise.resolve();
-        // }
-        // return Promise.reject('The two passwords that you entered do not match!');
+        }
+        return Promise.reject('Введенные вами пароли не совпадают');
     }
     render() {
         this.a = number("Signup step", 1);
@@ -87,7 +91,10 @@ class SignupForm extends React.Component {
                         help={this.state.isWaiting ? "Проверка E-mail..." : null}
                         hasFeedback
                     >
-                        <Input placeholder="Электронная почта" />
+                        <Input 
+                            placeholder="Электронная почта" 
+                            onChange={this.onChange} value={this.state['email']} name="email"
+                        />
                     </Form.Item>
                     <Form.Item>
                         <Button 
@@ -112,20 +119,24 @@ class SignupForm extends React.Component {
                 >
                     <Form.Item
                         name="password"
-                        rules={[{ required: true, message: 'Введите адрес электронной почты' }]}
+                        rules={[{ required: true, message: 'Введите пароль' }]}
                     >
                         <Input.Password 
                             placeholder="Пароль"
+                            onChange={this.onChange} value={this.state['password']} name="password"
                         />
                     </Form.Item>
                     <Form.Item
                         name="password-confirm"
                         rules={[
-                            { required: true, message: 'Введите адрес электронной почты' },
+                            { required: true, message: 'Повторите пароль' },
                             { validator: this.checkPassword }
                         ]}
                     >
-                        <Input.Password placeholder="Повторите пароль" />
+                        <Input.Password 
+                            placeholder="Повторите пароль" 
+                            onChange={this.onChange} value={this.state['password-confirm']} name="password-confirm"
+                        />
                     </Form.Item>
                     <Form.Item>
                         <Button 
