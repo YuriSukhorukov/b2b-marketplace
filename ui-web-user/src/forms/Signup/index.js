@@ -20,15 +20,16 @@ class SignupForm extends React.Component {
         this.onFinish           = this.onFinish.bind(this);
         this.onFinishFailed     = this.onFinishFailed.bind(this);
         this.checkPassword      = this.checkPassword.bind(this);
-        this.onChange           = this.onChange.bind(this);        
+        this.onChange           = this.onChange.bind(this);      
+        this.checkEmail         = this.checkEmail.bind(this);        
     }
     state = {
         step: 1,
-        isWaiting: false,
-        isError: false,
         'email': null,
         'password': null,
-        'password-confirm': null
+        'password-confirm': null,
+        validateStatus: undefined,
+        isWaiting: false
     }
     onChange(event) {
         console.log(event);
@@ -42,22 +43,21 @@ class SignupForm extends React.Component {
     }
     onFinish(values) {
         this.setState(state => ({
-            isWaiting: true,
-            isError: false
+            validateStatus: 'validating',
+            isWaiting: true
         }))
         checkEmailMockResponse().then(()=>{
             this.setState(state => ({
                 step: state.step += 1,
-                isWaiting: false,
-                isError: false
+                validateStatus: null,
+                isWaiting: false
             }));
             console.log('Success:', values);
         })
     }
     onFinishFailed(errorInfo) {        
         this.setState(state => ({
-            isWaiting: false,
-            isError: true
+            validateStatus: 'error'
         }))
         console.log('Failed:', errorInfo);
     }
@@ -66,6 +66,18 @@ class SignupForm extends React.Component {
             return Promise.resolve();
         }
         return Promise.reject('Введенные вами пароли не совпадают');
+    }
+    checkEmail(rule, value) {
+        if (!value) 
+            return Promise.reject('Введите E-mail');
+
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;        
+        const isValid = re.test(String(value).toLowerCase());
+
+        if (isValid)
+            return Promise.resolve();
+        else 
+            return Promise.reject('Введен неверный E-mail');
     }
     render() {
         this.a = number("Signup step", 1);
@@ -84,10 +96,8 @@ class SignupForm extends React.Component {
                     <Form.Item
                         name="email"
                         rules={[
-                            { type: 'email', message: 'Введен неверный E-mail' },
-                            { required: true, message: 'Введите E-mail' }
+                            { validator: this.checkEmail }
                         ]}
-                        validateStatus={this.state.isWaiting ? "validating" : this.state.isError ? "error" : undefined}
                         help={this.state.isWaiting ? "Проверка E-mail..." : null}
                         hasFeedback
                     >
