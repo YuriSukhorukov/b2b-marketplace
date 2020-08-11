@@ -1,0 +1,6 @@
+{
+    "gatewayServiceConfig": {
+        "uri": "http://localhost",
+        "port": 8080
+    }
+}
