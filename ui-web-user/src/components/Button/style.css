@@ -1,0 +1,29 @@
+.ant-btn.my-btn {
+    border-radius: 0%;
+    border: none;
+    background-color: #FFE00C;
+    background: #FFE00C;
+    color: #333;
+    outline-color: none;
+    font-family: inherit;
+    position: relative;
+    text-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.ant-btn.my-btn:hover, .ant-btn.my-btn:focus {
+    background-color: #FFCA00;
+    background: #FFCA00;
+    color: rgb(65, 65, 65);
+    position: relative;
+    border-radius: 0%;
+    border: none;
+}
+.ant-btn.my-btn:active {
+    background-color: #FFBC00;
+    background: #FFBC00;
+    color: rgb(65, 65, 65);
+    position: relative;
+    border-radius: 0%;
+    border: none;
+}
