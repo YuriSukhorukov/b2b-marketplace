@@ -3,6 +3,7 @@
 import React                            from 'react';
 import { Form , Input, Button }         from 'antd';
 import { boolean, number }              from "@storybook/addon-knobs";
+import { CheckCircleTwoTone }          from '@ant-design/icons';
 import { observer }                     from 'mobx-react';
 import authStore                        from '../../stores/authStore';
 import axios                            from 'axios';
@@ -11,6 +12,8 @@ import 'antd/dist/antd.css';
 // await API.signup();
 // await API.signin();
 // await API.checkEmailExist();
+
+// CheckCircleTwoTone
 
 const layout = {
     labelCol: { span: 8 },
@@ -76,7 +79,7 @@ const SignupForm = observer(class SignupForm extends React.Component {
             console.log(response.data.code);
             if (response.data.code != 302) {
                 this.setState(state => ({
-                    step: state.step += 1,
+                    step: 2,
                     validateStatus: undefined,
                     isEmailAlreadyRegistered: false,
                     isWaiting: false
@@ -95,23 +98,16 @@ const SignupForm = observer(class SignupForm extends React.Component {
         console.log('Failed:', errorInfo);
     }
 
-
-
     onPasswordFinish(values) {        
         console.log('Success:', values);
 
         const email = this.state.email;
         const password = this.state.password;
 
-        // axios.post(`/api/v1/auth/signup`, {
-        //     headers: {
-        //         username: 'yyy1',
-        //         email: 'yuri1@x.com',
-        //         password: 'pass_12345'
-        //     }
-        // }).then(response => {
-        //     console.log(response);
-        // });
+        this.setState(state => ({
+            isWaiting: true
+        }))
+
         axios({
             url: `/api/v1/auth/signup`,
             method: 'post',
@@ -120,17 +116,20 @@ const SignupForm = observer(class SignupForm extends React.Component {
                 password: `${password}`
             }
         }).then(response => {
+            this.setState(state => ({
+                step: state.step = 3
+            }));
             console.log(response);
+            this.setState(state => ({
+                isWaiting: false
+            }))
         });
-
 
         console.log(email, password);
     }
     onPasswordFinishFailed(errorInfo) {        
         console.log('Failed:', errorInfo);
     }
-
-
 
     checkPassword(rule, value) {     
         if (value == this.state['password'])
@@ -171,12 +170,13 @@ const SignupForm = observer(class SignupForm extends React.Component {
                             { required: true, message: 'Введите E-mail' }
                         ]}
                         validateStatus={this.state.validateStatus}
-                        help={this.state.isWaiting ? "Проверка E-mail..." : this.state.isEmailAlreadyRegistered ? "Почта уже зарегистрирована" : undefined}
-                        hasFeedback
+                        help={this.state.isEmailAlreadyRegistered && !this.state.isWaiting ? "Почта уже зарегистрирована" : undefined}
+                        hasFeedback={!this.state.isWaiting}
                     >
                         <Input 
                             placeholder="Электронная почта" 
                             onChange={this.onChange} value={this.state['email']} name="email"
+                            disabled={this.state.isWaiting}
                         />
                     </Form.Item>
                     <Form.Item>
@@ -184,14 +184,14 @@ const SignupForm = observer(class SignupForm extends React.Component {
                             htmlType="submit" 
                             block 
                             type="primary"
-                            disabled={this.state.isWaiting}
+                            loading={this.state.isWaiting}
                         >
-                            Продолжить
+                            {this.state.isWaiting ? "Подождите..." : "Продолжить"}
                         </Button>
                     </Form.Item>
                 </Form>
             )
-        else
+        else if (this.state.step == 2)
             return(
                 <Form
                     {...layout}
@@ -205,10 +205,12 @@ const SignupForm = observer(class SignupForm extends React.Component {
                         rules={[
                             { required: true, message: 'Введите пароль' }
                         ]}
+                        hasFeedback={!this.state.isWaiting}
                     >
                         <Input.Password 
                             placeholder="Пароль"
                             onChange={this.onChange} value={this.state['password']} name="password"
+                            disabled={this.state.isWaiting}
                         />
                     </Form.Item>
                     <Form.Item
@@ -217,22 +219,29 @@ const SignupForm = observer(class SignupForm extends React.Component {
                             { required: true, message: 'Повторите пароль' },
                             { validator: this.state['password-confirm'] ? this.checkPassword : undefined }
                         ]}
+                        hasFeedback={!this.state.isWaiting}
                     >
                         <Input.Password 
                             placeholder="Повторите пароль" 
                             onChange={this.onChange} value={this.state['password-confirm']} name="password-confirm"
+                            disabled={this.state.isWaiting}
                         />
                     </Form.Item>
                     <Form.Item>
                         <Button 
                             htmlType="submit" 
                             block 
-                            type="primary" 
+                            type="primary"
+                            loading={this.state.isWaiting}
                         >
-                            Зарегистрироваться
+                            {this.state.isWaiting ? "Подождите..." : "Зарегистрироваться"}
                         </Button>
                     </Form.Item>
                 </Form>
+            )
+        else if (this.state.step == 3)
+            return(
+                <CheckCircleTwoTone twoToneColor="#52c41a" style={{ fontSize: '26px', margin: '20px' }} />
             )
     }
 })
