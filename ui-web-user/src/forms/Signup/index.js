@@ -1,10 +1,16 @@
+// yuri@gmail.com
+
 import React                            from 'react';
 import { Form , Input, Button }         from 'antd';
 import { boolean, number }              from "@storybook/addon-knobs";
-import { AuthAPI }                      from '../../api/index';
 import { observer }                     from 'mobx-react';
 import authStore                        from '../../stores/authStore';
+import axios                            from 'axios';
 import 'antd/dist/antd.css';
+
+// await API.signup();
+// await API.signin();
+// await API.checkEmailExist();
 
 const layout = {
     labelCol: { span: 8 },
@@ -34,31 +40,60 @@ const SignupForm = observer(class SignupForm extends React.Component {
         'password': null,
         'password-confirm': null,
         validateStatus: undefined,
-        isWaiting: false
+        isWaiting: false,
+        isLoading: false,
+        isEmailAlreadyRegistered: false,
+        // help: ''
+    }
+    async componentDidMount() {
+        // let userData = await API.get('/', {params: {results: 1,inc: 'name,email,picture'}});
+        //   userData = userData.data.results[0];
+        //   console.log(userData);
+        // let email = 'yuri@gmail.com';
+        // let response = await axios.get(`/api/v1/auth/signup/email/${email}`);
     }
     onChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         })
+        if (this.state.isEmailAlreadyRegistered) {
+            this.setState({
+                isEmailAlreadyRegistered: false,
+                validateStatus: undefined
+            })
+        }
     }
     onFinish(values) {
         this.setState(state => ({
             validateStatus: 'validating',
             isWaiting: true
+            // help: 'Проверка email...'
         }))
-        checkEmailMockResponse().then(()=>{
-            this.setState(state => ({
-                step: state.step += 1,
-                validateStatus: null,
-                isWaiting: false
-            }));
-            console.log('Success:', values);
-        })
+        const { email } = values;
+        axios.get(`/api/v1/auth/signup/email/${email}`).then(response => {
+            console.log(response);
+            console.log(response.data.code);
+            if (response.data.code != 302) {
+                this.setState(state => ({
+                    step: state.step += 1,
+                    validateStatus: undefined,
+                    isEmailAlreadyRegistered: false,
+                    isWaiting: false
+                }));
+                console.log('Success:', values);
+            } else {
+                this.setState(state => ({
+                    validateStatus: "warning",
+                    isEmailAlreadyRegistered: true,
+                    isWaiting: false
+                }));
+            }
+        });
     }
     onFinishFailed(errorInfo) {        
-        this.setState(state => ({
-            validateStatus: 'error'
-        }))
+        // this.setState(state => ({
+        //     validateStatus: 'error'
+        // }))
         console.log('Failed:', errorInfo);
     }
     checkPassword(rule, value) {     
@@ -99,8 +134,8 @@ const SignupForm = observer(class SignupForm extends React.Component {
                             { type: 'email', message: 'Введен неверный E-mail' },
                             { required: true, message: 'Введите E-mail' }
                         ]}
-                        validateStatus={this.state.isWaiting ? "validating" : this.state.isError ? "error" : undefined}
-                        help={this.state.isWaiting ? "Проверка E-mail..." : null}
+                        validateStatus={this.state.validateStatus}
+                        help={this.state.isWaiting ? "Проверка E-mail..." : this.state.isEmailAlreadyRegistered ? "Почта уже зарегистрирована" : undefined}
                         hasFeedback
                     >
                         <Input 

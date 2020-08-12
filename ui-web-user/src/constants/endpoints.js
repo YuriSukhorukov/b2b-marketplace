@@ -1,6 +1,8 @@
-const BASE_API = "/api/v0";
+export const BASE_URL = "http://localhost:8080";
+export const BASE_URL_API = "api/v1";
 
-const API_CONSTANT_MAP = {
-    "signup": `${BASE_API}signup/`,
-    "signin": `${BASE_API}/signin/`
-  }
+// export const API_CONSTANT_MAP = {
+//     "signup": `${BASE_URL_API}/signup/`,
+//     "signin": `${BASE_URL_API}/signin/`,
+//     "email": `${BASE_URL_API}/signup/`
+// }
