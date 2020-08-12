@@ -28,11 +28,13 @@ const checkEmailMockResponse = () => {
 const SignupForm = observer(class SignupForm extends React.Component {
     constructor(props) {
         super(props);
-        this.onFinish           = this.onFinish.bind(this);
-        this.onFinishFailed     = this.onFinishFailed.bind(this);
-        this.checkPassword      = this.checkPassword.bind(this);
-        this.onChange           = this.onChange.bind(this);      
-        this.checkEmail         = this.checkEmail.bind(this);        
+        this.onEmailFinish              = this.onEmailFinish.bind(this);
+        this.onEmailFinishFailed        = this.onEmailFinishFailed.bind(this);
+        this.onPasswordFinish           = this.onPasswordFinish.bind(this);
+        this.onPasswordFinishFailed     = this.onPasswordFinishFailed.bind(this);
+        this.checkPassword              = this.checkPassword.bind(this);
+        this.onChange                   = this.onChange.bind(this);      
+        this.checkEmail                 = this.checkEmail.bind(this);        
     }
     state = {
         step: 1,
@@ -63,11 +65,10 @@ const SignupForm = observer(class SignupForm extends React.Component {
             })
         }
     }
-    onFinish(values) {
+    onEmailFinish(values) {
         this.setState(state => ({
             validateStatus: 'validating',
             isWaiting: true
-            // help: 'Проверка email...'
         }))
         const { email } = values;
         axios.get(`/api/v1/auth/signup/email/${email}`).then(response => {
@@ -90,12 +91,47 @@ const SignupForm = observer(class SignupForm extends React.Component {
             }
         });
     }
-    onFinishFailed(errorInfo) {        
-        // this.setState(state => ({
-        //     validateStatus: 'error'
-        // }))
+    onEmailFinishFailed(errorInfo) {        
         console.log('Failed:', errorInfo);
     }
+
+
+
+    onPasswordFinish(values) {        
+        console.log('Success:', values);
+
+        const email = this.state.email;
+        const password = this.state.password;
+
+        // axios.post(`/api/v1/auth/signup`, {
+        //     headers: {
+        //         username: 'yyy1',
+        //         email: 'yuri1@x.com',
+        //         password: 'pass_12345'
+        //     }
+        // }).then(response => {
+        //     console.log(response);
+        // });
+        axios({
+            url: `/api/v1/auth/signup`,
+            method: 'post',
+            headers: {
+                email: `${email}`,
+                password: `${password}`
+            }
+        }).then(response => {
+            console.log(response);
+        });
+
+
+        console.log(email, password);
+    }
+    onPasswordFinishFailed(errorInfo) {        
+        console.log('Failed:', errorInfo);
+    }
+
+
+
     checkPassword(rule, value) {     
         if (value == this.state['password'])
             return Promise.resolve();
@@ -125,8 +161,8 @@ const SignupForm = observer(class SignupForm extends React.Component {
                     {...layout}
                     name="basic"
                     initialValues={{ remember: true }}
-                    onFinish={this.onFinish}
-                    onFinishFailed={this.onFinishFailed}
+                    onFinish={this.onEmailFinish}
+                    onFinishFailed={this.onEmailFinishFailed}
                 >
                     <Form.Item
                         name="email"
@@ -161,8 +197,8 @@ const SignupForm = observer(class SignupForm extends React.Component {
                     {...layout}
                     name="basic"
                     initialValues={{ remember: true }}
-                    onFinish={this.onFinish}
-                    onFinishFailed={this.onFinishFailed}
+                    onFinish={this.onPasswordFinish}
+                    onFinishFailed={this.onPasswordFinishFailed}
                 >
                     <Form.Item
                         name="password"
