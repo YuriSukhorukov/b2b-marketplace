@@ -6,13 +6,13 @@ import './App.css';
 
 const App = () => {
   return (
-    <main>
+    <div className="App">
       <Switch>
         <Route exact path='/'><Header /></Route>
         <Route path="/home"><div>Home</div></Route>
         <Route path="/auth" component={AuthForm}/>
       </Switch>
-    </main>
+    </div>
   );
 }
 
