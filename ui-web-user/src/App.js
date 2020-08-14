@@ -7,12 +7,11 @@ import './App.css';
 const App = () => {
   return (
     <div className="App">
-      {/* <Switch>
+      <Switch>
         <Route exact path='/'><Header /></Route>
         <Route path="/home"><div>Home</div></Route>
         <Route path="/auth" component={AuthForm}/>
-      </Switch> */}
-      <Route path="/" component={AuthForm}/>
+      </Switch>
     </div>
   );
 }

@@ -4,8 +4,9 @@
 import React                            from 'react';
 import { Form , Input, Button }         from 'antd';
 import { boolean, number }              from "@storybook/addon-knobs";
-import { CheckCircleTwoTone }          from '@ant-design/icons';
+import { CheckCircleTwoTone }           from '@ant-design/icons';
 import { observer }                     from 'mobx-react';
+import { Redirect }                     from 'react-router-dom';
 import authStore                        from '../../stores/authStore';
 import axios                            from 'axios';
 import 'antd/dist/antd.css';
@@ -35,6 +36,7 @@ const SigninForm = observer(class SigninForm extends React.Component {
         isLoading: false,
         isEmailAlreadyRegistered: false,
         isPasswordFailed: false,
+        isAuthorized: false,
     }
     onChange(event) {
         this.setState({
@@ -109,7 +111,10 @@ const SigninForm = observer(class SigninForm extends React.Component {
                 console.log(response);
                 this.setState(state => ({
                     isWaiting: false
-                }))
+                }));
+                this.setState({
+                    isAuthorized: true
+                })
             } else if (response.data.code == 401) {
                 // fail
                 this.setState(state => ({
@@ -155,6 +160,12 @@ const SigninForm = observer(class SigninForm extends React.Component {
         this.a = number("Signup step", 1);
         this.aa = boolean("Is waiting data", false);
         this.aaa = boolean("Is error validating", false);
+
+        if (this.state.isAuthorized) {
+            // const history = useHistory();
+            // history.push('/home');
+            return <Redirect to="/home" push />
+        }
         
         if (this.state.step == 1)
             return (
