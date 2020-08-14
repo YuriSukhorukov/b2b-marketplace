@@ -1,13 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch } from 'react-router-dom';
 import AuthForm from './containers/Auth/index';
+import Header from './components/Header/index';
+import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <AuthForm />
-    </div>
+    <main>
+      <Switch>
+        <Route exact path='/'><Header /></Route>
+        <Route path="/home"><div>Home</div></Route>
+        <Route path="/auth" component={AuthForm}/>
+      </Switch>
+    </main>
   );
 }
 
