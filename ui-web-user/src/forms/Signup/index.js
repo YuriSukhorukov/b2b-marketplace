@@ -1,4 +1,5 @@
 // yuri@gmail.com
+// sdWE343sx!
 
 import React                            from 'react';
 import { Form , Input, Button }         from 'antd';
@@ -8,12 +9,6 @@ import { observer }                     from 'mobx-react';
 import authStore                        from '../../stores/authStore';
 import axios                            from 'axios';
 import 'antd/dist/antd.css';
-
-// await API.signup();
-// await API.signin();
-// await API.checkEmailExist();
-
-// CheckCircleTwoTone
 
 const layout = {
     labelCol: { span: 8 },
