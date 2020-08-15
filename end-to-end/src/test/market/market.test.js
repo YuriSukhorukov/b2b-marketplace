@@ -11,6 +11,7 @@ afterAll(async () => {
   // Отключение от БД
 });
 
+// TODO перенести тесты в окружение браузера для работы с cookies
 describe('Market API integration /api/v1/market/offer', () => {
   test('Создание оффера: POST /api/v1/market/offer', async () => {
     const uri       = `${config.uri}:${config.port}/api/v1/market/offers`;

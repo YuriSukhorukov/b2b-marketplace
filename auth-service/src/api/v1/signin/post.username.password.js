@@ -25,17 +25,17 @@ module.exports = async (req, res) => {
         console.log(`token: ${token}`);
         const decoded = await decodeJwt(token);
         console.log(decoded);
+        res.status(200);
+        res.cookie("jwt", token, {httpOnly: true}); //secure: false, 
         res.json({
             success: true,
             code: 200, 
-            token: token,
             message: `Authentication successful!`
         });
     } else {
-        res.json({
-            success: false,
-            code: 401, 
-            message: `Authentication failed!`
+        res.status(401).json({
+            success: false, 
+            error: 'Sorry, error'
         });
     }
 }
