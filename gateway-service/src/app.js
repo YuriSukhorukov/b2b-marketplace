@@ -18,6 +18,7 @@ app.use(cookieParser());
 app.use(`/`, require(`./middlewares/all.middle`));
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/home', home);
+// TODO добавить валидацию cookies jwt
 app.use('/api/v1/market', market);
 
 app.disable('etag');
