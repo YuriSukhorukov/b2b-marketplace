@@ -1,3 +1,5 @@
+// TODO добавить валидацию cookies
+
 const {appConfig}       = require('./src/config.json');
 const app               = require('./src/app');
 

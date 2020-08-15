@@ -2,9 +2,9 @@ import React from 'react';
 import Signup from '../../forms/Signup/index';
 import Signin from '../../forms/Signin/index';
 import { Tabs } from 'antd';
+import { LoginOutlined, UserAddOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import './style.css';
-import { LoginOutlined, UserAddOutlined } from '@ant-design/icons';
 
 const { TabPane } = Tabs;
 

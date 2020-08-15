@@ -1,9 +1,13 @@
+// yuri@gmail.com
+// sdWE343sx!
+
 import React                            from 'react';
 import { Form , Input, Button }         from 'antd';
 import { boolean, number }              from "@storybook/addon-knobs";
-import { AuthAPI }                      from '../../api/index';
+import { CheckCircleTwoTone }          from '@ant-design/icons';
 import { observer }                     from 'mobx-react';
 import authStore                        from '../../stores/authStore';
+import axios                            from 'axios';
 import 'antd/dist/antd.css';
 
 const layout = {
@@ -22,11 +26,13 @@ const checkEmailMockResponse = () => {
 const SignupForm = observer(class SignupForm extends React.Component {
     constructor(props) {
         super(props);
-        this.onFinish           = this.onFinish.bind(this);
-        this.onFinishFailed     = this.onFinishFailed.bind(this);
-        this.checkPassword      = this.checkPassword.bind(this);
-        this.onChange           = this.onChange.bind(this);      
-        this.checkEmail         = this.checkEmail.bind(this);        
+        this.onEmailFinish              = this.onEmailFinish.bind(this);
+        this.onEmailFinishFailed        = this.onEmailFinishFailed.bind(this);
+        this.onPasswordFinish           = this.onPasswordFinish.bind(this);
+        this.onPasswordFinishFailed     = this.onPasswordFinishFailed.bind(this);
+        this.checkPassword              = this.checkPassword.bind(this);
+        this.onChange                   = this.onChange.bind(this);      
+        this.checkEmail                 = this.checkEmail.bind(this);        
     }
     state = {
         step: 1,
@@ -34,33 +40,92 @@ const SignupForm = observer(class SignupForm extends React.Component {
         'password': null,
         'password-confirm': null,
         validateStatus: undefined,
-        isWaiting: false
+        isWaiting: false,
+        isLoading: false,
+        isEmailAlreadyRegistered: false,
+        // help: ''
+    }
+    async componentDidMount() {
+        // let userData = await API.get('/', {params: {results: 1,inc: 'name,email,picture'}});
+        //   userData = userData.data.results[0];
+        //   console.log(userData);
+        // let email = 'yuri@gmail.com';
+        // let response = await axios.get(`/api/v1/auth/signup/email/${email}`);
     }
     onChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         })
+        if (this.state.isEmailAlreadyRegistered) {
+            this.setState({
+                isEmailAlreadyRegistered: false,
+                validateStatus: undefined
+            })
+        }
     }
-    onFinish(values) {
+    onEmailFinish(values) {
         this.setState(state => ({
             validateStatus: 'validating',
             isWaiting: true
         }))
-        checkEmailMockResponse().then(()=>{
-            this.setState(state => ({
-                step: state.step += 1,
-                validateStatus: null,
-                isWaiting: false
-            }));
-            console.log('Success:', values);
-        })
+        const { email } = values;
+        axios.get(`/api/v1/auth/signup/email/${email}`).then(response => {
+            console.log(response);
+            console.log(response.data.code);
+            if (response.data.code != 302) {
+                this.setState(state => ({
+                    step: 2,
+                    validateStatus: undefined,
+                    isEmailAlreadyRegistered: false,
+                    isWaiting: false
+                }));
+                console.log('Success:', values);
+            } else {
+                this.setState(state => ({
+                    validateStatus: "warning",
+                    isEmailAlreadyRegistered: true,
+                    isWaiting: false
+                }));
+            }
+        });
     }
-    onFinishFailed(errorInfo) {        
-        this.setState(state => ({
-            validateStatus: 'error'
-        }))
+    onEmailFinishFailed(errorInfo) {        
         console.log('Failed:', errorInfo);
     }
+
+    onPasswordFinish(values) {        
+        console.log('Success:', values);
+
+        const email = this.state.email;
+        const password = this.state.password;
+
+        this.setState(state => ({
+            isWaiting: true
+        }))
+
+        axios({
+            url: `/api/v1/auth/signup`,
+            method: 'post',
+            headers: {
+                email: `${email}`,
+                password: `${password}`
+            }
+        }).then(response => {
+            this.setState(state => ({
+                step: state.step = 3
+            }));
+            console.log(response);
+            this.setState(state => ({
+                isWaiting: false
+            }))
+        });
+
+        console.log(email, password);
+    }
+    onPasswordFinishFailed(errorInfo) {        
+        console.log('Failed:', errorInfo);
+    }
+
     checkPassword(rule, value) {     
         if (value == this.state['password'])
             return Promise.resolve();
@@ -90,8 +155,8 @@ const SignupForm = observer(class SignupForm extends React.Component {
                     {...layout}
                     name="basic"
                     initialValues={{ remember: true }}
-                    onFinish={this.onFinish}
-                    onFinishFailed={this.onFinishFailed}
+                    onFinish={this.onEmailFinish}
+                    onFinishFailed={this.onEmailFinishFailed}
                 >
                     <Form.Item
                         name="email"
@@ -99,13 +164,14 @@ const SignupForm = observer(class SignupForm extends React.Component {
                             { type: 'email', message: 'Введен неверный E-mail' },
                             { required: true, message: 'Введите E-mail' }
                         ]}
-                        validateStatus={this.state.isWaiting ? "validating" : this.state.isError ? "error" : undefined}
-                        help={this.state.isWaiting ? "Проверка E-mail..." : null}
-                        hasFeedback
+                        validateStatus={this.state.validateStatus}
+                        help={this.state.isEmailAlreadyRegistered && !this.state.isWaiting ? "Почта уже зарегистрирована" : undefined}
+                        hasFeedback={!this.state.isWaiting}
                     >
                         <Input 
                             placeholder="Электронная почта" 
                             onChange={this.onChange} value={this.state['email']} name="email"
+                            disabled={this.state.isWaiting}
                         />
                     </Form.Item>
                     <Form.Item>
@@ -113,31 +179,33 @@ const SignupForm = observer(class SignupForm extends React.Component {
                             htmlType="submit" 
                             block 
                             type="primary"
-                            disabled={this.state.isWaiting}
+                            loading={this.state.isWaiting}
                         >
-                            Продолжить
+                            {this.state.isWaiting ? "Подождите..." : "Продолжить"}
                         </Button>
                     </Form.Item>
                 </Form>
             )
-        else
+        else if (this.state.step == 2)
             return(
                 <Form
                     {...layout}
                     name="basic"
                     initialValues={{ remember: true }}
-                    onFinish={this.onFinish}
-                    onFinishFailed={this.onFinishFailed}
+                    onFinish={this.onPasswordFinish}
+                    onFinishFailed={this.onPasswordFinishFailed}
                 >
                     <Form.Item
                         name="password"
                         rules={[
                             { required: true, message: 'Введите пароль' }
                         ]}
+                        hasFeedback={!this.state.isWaiting}
                     >
                         <Input.Password 
                             placeholder="Пароль"
                             onChange={this.onChange} value={this.state['password']} name="password"
+                            disabled={this.state.isWaiting}
                         />
                     </Form.Item>
                     <Form.Item
@@ -146,22 +214,29 @@ const SignupForm = observer(class SignupForm extends React.Component {
                             { required: true, message: 'Повторите пароль' },
                             { validator: this.state['password-confirm'] ? this.checkPassword : undefined }
                         ]}
+                        hasFeedback={!this.state.isWaiting}
                     >
                         <Input.Password 
                             placeholder="Повторите пароль" 
                             onChange={this.onChange} value={this.state['password-confirm']} name="password-confirm"
+                            disabled={this.state.isWaiting}
                         />
                     </Form.Item>
                     <Form.Item>
                         <Button 
                             htmlType="submit" 
                             block 
-                            type="primary" 
+                            type="primary"
+                            loading={this.state.isWaiting}
                         >
-                            Зарегистрироваться
+                            {this.state.isWaiting ? "Подождите..." : "Зарегистрироваться"}
                         </Button>
                     </Form.Item>
                 </Form>
+            )
+        else if (this.state.step == 3)
+            return(
+                <CheckCircleTwoTone twoToneColor="#52c41a" style={{ fontSize: '26px', margin: '20px' }} />
             )
     }
 })

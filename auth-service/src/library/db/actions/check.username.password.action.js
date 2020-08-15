@@ -13,8 +13,8 @@ module.exports = async (pool, params) => {
         console.log(`${username}, ${password}`);
         await client.query(
             `
-                SELECT user_id, username, email FROM users 
-                WHERE (username='${username}' OR email='${username}')
+                SELECT user_id, email FROM users 
+                WHERE email='${username}'
                 AND password='${password}'
                 ORDER BY user_id ASC;
             `, 
