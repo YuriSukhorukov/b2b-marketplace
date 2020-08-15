@@ -15,6 +15,10 @@ const layout = {
     labelCol: { span: 8 },
 };
 
+// axios.get(`/api/v1/home`).then(response => {
+//     console.log(response);
+// });
+
 const SigninForm = observer(class SigninForm extends React.Component {
     constructor(props) {
         super(props);
@@ -122,13 +126,6 @@ const SigninForm = observer(class SigninForm extends React.Component {
                     isPasswordFailed: true,
                     isWaiting: false
                 }));
-                // this.setState(state => ({
-                //     step: state.step = 3
-                // }));
-                // console.log(response);
-                // this.setState(state => ({
-                //     isWaiting: false
-                // }))
             }
         });
 
@@ -161,11 +158,8 @@ const SigninForm = observer(class SigninForm extends React.Component {
         this.aa = boolean("Is waiting data", false);
         this.aaa = boolean("Is error validating", false);
 
-        if (this.state.isAuthorized) {
-            // const history = useHistory();
-            // history.push('/home');
+        if (this.state.isAuthorized)
             return <Redirect to="/home" push />
-        }
         
         if (this.state.step == 1)
             return (
