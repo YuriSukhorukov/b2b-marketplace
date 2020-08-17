@@ -1,6 +1,6 @@
 import React        from 'react';
 import Auth         from './Auth/index';
-import Navigation   from './Navigation/index';
+import Menu         from './Menu/index';
 import { 
   withKnobs, 
   text, 
@@ -13,7 +13,7 @@ export default {
   decorators: [withKnobs]
 };
 
-export const NavigationMenu       = () => <Navigation />
+export const NavigationMenu       = () => <Menu />
 export const AuthenticationForm   = () => <Auth />;
 
 // export const withAButton = () => (
