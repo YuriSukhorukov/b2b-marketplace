@@ -1,25 +1,31 @@
-import React from 'react';
-import AuthForm from './Auth/index';
-import { withKnobs, text, boolean, number } from "@storybook/addon-knobs";
+import React        from 'react';
+import Auth         from './Auth/index';
+import Menu         from './Menu/index';
+import { 
+  withKnobs, 
+  text, 
+  boolean, 
+  number }          from "@storybook/addon-knobs";
 
 export default {
   title: 'Containers',
-  component: AuthForm,
+  component: Auth,
   decorators: [withKnobs]
 };
 
-export const Auth = () => <AuthForm />;
+export const NavigationMenu       = () => <Menu />
+export const AuthenticationForm   = () => <Auth />;
 
-export const withAButton = () => (
-  <button disabled={boolean("Disabled", false)}>
-    {text("Label", "Hello Storybook")}
-  </button>
-);
+// export const withAButton = () => (
+//   <button disabled={boolean("Disabled", false)}>
+//     {text("Label", "Hello Storybook")}
+//   </button>
+// );
 
-export const asDynamicVariables = () => {
-  const name = text("Name", "James");
-  const age = number("Age", 35);
-  const content = `I am ${name} and I'm ${age} years old.`;
+// export const asDynamicVariables = () => {
+//   const name = text("Name", "James");
+//   const age = number("Age", 35);
+//   const content = `I am ${name} and I'm ${age} years old.`;
 
-  return <div>{content}</div>;
-};
+//   return <div>{content}</div>;
+// };

@@ -107,26 +107,23 @@ const SigninForm = observer(class SigninForm extends React.Component {
                 password: `${password}`
             }
         }).then(response => {
-            if (response.data.code == 200) {
-                // success
-                this.setState(state => ({
-                    step: state.step = 3
-                }));
-                console.log(response);
-                this.setState(state => ({
-                    isWaiting: false
-                }));
-                this.setState({
-                    isAuthorized: true
-                })
-            } else if (response.data.code == 401) {
-                // fail
-                this.setState(state => ({
-                    validateStatus: "warning",
-                    isPasswordFailed: true,
-                    isWaiting: false
-                }));
-            }
+            // success
+            this.setState(state => ({
+                step: state.step = 3
+            }));
+            console.log(response);
+            this.setState(state => ({
+                isWaiting: false
+            }));
+            this.setState({
+                isAuthorized: true
+            });
+        }).catch(err => {
+            this.setState(state => ({
+                validateStatus: "warning",
+                isPasswordFailed: true,
+                isWaiting: false
+            }));
         });
 
         console.log(email, password);
