@@ -1,8 +1,6 @@
 import React from 'react';
-import { 
-    Card,
-    Rate
-} from 'antd';
+import { Card } from 'antd';
+import SecureRate from '../../Rate/Secure/index';
 import 'antd/dist/antd.css';
 
 export default class OfferCard extends React.Component {
@@ -12,7 +10,7 @@ export default class OfferCard extends React.Component {
     render() {
         return(
             <Card>
-                <Rate />
+                <SecureRate />
             </Card>
         );
     }

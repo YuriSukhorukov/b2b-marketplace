@@ -6,4 +6,4 @@ export default {
   title: 'Cards'
 };
 
-export const OfferCard = () => <Offer><Secure></Secure></Offer>;
+export const OfferCard = () => <Offer/>;
