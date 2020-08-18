@@ -1,6 +1,7 @@
 import React from 'react';
 import { Rate } from 'antd';
 import 'antd/dist/antd.css';
+import './style.css';
 
 const rates = [
     'Ужасная степень надежности и качества услуг', 
@@ -20,20 +21,21 @@ const desc = [
 export default class SecureRate extends React.Component {
     constructor(props) {
         super(props);
+        this.props = props
     }
     state = {
-        value: 1,
+        value: 5,
     }
     handleChange = value => {
         console.log(value);
         this.setState({ value });
     }
-    render() {
+    render(props) {
         const { value } = this.state;
         return(
             <span>
-                <Rate tooltips={desc} onChange={this.handleChange} value={value} />
-                {value ? <span className="ant-rate-text">{rates[value - 1]}</span> : ''}
+                <Rate disabled={true} tooltips={desc} onChange={this.handleChange} value={value} {...this.props} />
+                {/* {value ? <span className="ant-rate-text">{rates[value - 1]}</span> : ''} */}
             </span>
         );
     }

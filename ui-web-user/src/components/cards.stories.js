@@ -6,4 +6,15 @@ export default {
   title: 'Cards'
 };
 
-export const OfferCard = () => <Offer/>;
+export const OfferCard = () => {
+  return (
+    <div>
+      <Offer/>
+      <Offer/>
+      <Offer/>
+      <Offer/>
+      <Offer/>
+      <Offer/>
+    </div>
+  )
+};
