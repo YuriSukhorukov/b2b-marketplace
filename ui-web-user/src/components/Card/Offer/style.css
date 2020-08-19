@@ -1,0 +1,42 @@
+/* .offer-card__font_size_s {
+    font-size: 13px;
+}
+.offer-card.features__span_padding-top_s {
+    padding-top: 5px;
+}
+.offer-card.features__span_padding-top_m {
+    padding-top: 10px;
+}
+.offer-card.features__span_padding-top_l {
+    padding-top: 15px;
+}
+.offer-card.features__span_padding-lelft_s {
+    padding-left: 5px;
+}
+.offer-card.features__span_padding-lelft_m {
+    padding-left: 10px;
+}
+.offer-card.features__span_padding-lelft_l {
+    padding-left: 25px;
+}
+.offer-card.features__span_display-flex {
+    display: flex;
+}
+.text-muted {
+    color: #7e7e7e
+}
+.description__text_black {
+    color: black;
+} */
+
+.features__div_margin_left_s {
+    margin-left: 5px;
+}
+
+.features__div_margin_left_m {
+    margin-left: 10px;
+}
+
+.features__div_margin_left_l {
+    margin-left: 20px;
+}
