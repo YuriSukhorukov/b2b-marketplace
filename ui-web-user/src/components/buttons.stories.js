@@ -1,9 +1,8 @@
 import React from 'react';
-import Button from './Button/index';
+import Register from './Button/Register/index';
 
 export default {
   title: 'Buttons',
-  component: Button,
 };
 
-export const Register = () => <Button>Продолжить</Button>;
+export const RegisterButton = () => <Register>Продолжить</Register>;
