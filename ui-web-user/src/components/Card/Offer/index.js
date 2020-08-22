@@ -36,7 +36,7 @@ export default class OfferCard extends React.Component {
                     </div>                  
                     <span className="description">
                         <p style={{fontSize: 15, color: "black", paddingTop: 15}}>
-                            Оригинальная белорусская сгущенка. Просто пиздец какая вкусная сгуха.
+                            { this.props.description }
                         </p>
                     </span>
                     <div style={{display: "block", paddingTop: 10}}>
