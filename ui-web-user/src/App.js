@@ -90,3 +90,10 @@ const App = () => {
 }
 
 export default App;
+
+
+
+
+// border: 1px solid #f0f0f0;
+// box-shadow: 10px 5px 5px #e1dddd;
+// color: rgba(0, 0, 0, 0.65);
