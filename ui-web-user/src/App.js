@@ -23,10 +23,10 @@ const App = () => {
               <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white"}}>B2B Marketplace</div>
             </Link>
             <div style={{right: "15px", position: "absolute"}}>
-              <Link to="auth">
+              <Link to="auth/signin">
                 <Button style={{marginRight: "15px"}} >Войти</Button>
               </Link>
-              <Link to="auth">
+              <Link to="auth/signup">
                 <Button type="primary">Зарегистрироваться</Button>
               </Link>
             </div>
@@ -50,7 +50,7 @@ const App = () => {
           <Footer style={{ textAlign: 'center' }}>B2B Marketplace ©2020 Created by SPB-Tech</Footer>
         </Layout>
       </Route>
-      <Route exact path='/auth'>
+      <Route exact path='/auth/*'>
         <Layout>
           <Header className="header">
             <Link to="/">
@@ -60,7 +60,8 @@ const App = () => {
           <Content style={{ padding: '0 950px' }}>
             <Layout className="site-layout-background" style={{ padding: '24px 0', height: '90vh', position: "relative", marginLeft: "0", alignItems: "center", verticalAlign: "center" }}>
               <Content style={{position: "absolute", top: "50%", transform: "translateY(-100%)"}}>
-                <AuthForm />
+                <Route exact path='*/signin' component={AuthForm}/>
+                <Route exact path='*/signup' component={AuthForm}/>
               </Content>
             </Layout>
           </Content>
