@@ -9,7 +9,7 @@ import { observer }                     from 'mobx-react';
 import { Redirect }                     from 'react-router-dom';
 import authStore                        from '../../stores/authStore';
 import axios                            from 'axios';
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 
 const layout = {
     labelCol: { span: 8 },

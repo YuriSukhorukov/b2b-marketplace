@@ -9,3 +9,11 @@ export default authStore;
 autorun(()=>{
     console.log(authStore.token);
 })
+
+// login = () => {}
+// logout = () => {}
+// getToken = () => {}
+// setToken = () => {}
+// isAuthenticated = () => {}
+
+// const authStore = window.authStore = new Auth

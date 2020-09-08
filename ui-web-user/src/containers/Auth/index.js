@@ -3,8 +3,8 @@ import Signup from '../../forms/Signup/index';
 import Signin from '../../forms/Signin/index';
 import { Tabs } from 'antd';
 import { LoginOutlined, UserAddOutlined } from '@ant-design/icons';
-import 'antd/dist/antd.css';
-import './style.css';
+// import 'antd/dist/antd.css';
+// import './style.css';
 
 const { TabPane } = Tabs;
 
@@ -13,7 +13,7 @@ export default () => {
         console.log(key);
     };
     return (
-        <Tabs className="auth-form auth-form__tabs_margin_bottom auth-form__tabs_padding" defaultActiveKey="1" onChange={callback} centered={true}>
+        <Tabs style={{width: "500px"}} defaultActiveKey="1" onChange={callback} centered={true}>
             <TabPane 
                 tab={
                     <span>
