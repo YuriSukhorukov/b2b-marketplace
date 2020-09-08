@@ -32,12 +32,19 @@ const App = () => {
             </div>
           </Header>
           <Content style={{ padding: '0 600px' }}>
-            <Layout className="site-layout-background" style={{ padding: '24px 0' }}>
-              <Sider style={{height: '100vh', width: "256px"}} width={256} className="site-layout-background">
+            {/* НАВИГАЦИЯ */}
+            {/* <Breadcrumb style={{ margin: '16px 0' }}>
+              <Breadcrumb.Item>Home</Breadcrumb.Item>
+              <Breadcrumb.Item>List</Breadcrumb.Item>
+              <Breadcrumb.Item>App</Breadcrumb.Item>
+            </Breadcrumb> */}
+            <Layout className="site-layout-background" style={{ padding: '0 0' }}>
+              <Sider style={{height: '100vh', width: "256px", padding: "20px 0"}} width={256} className="site-layout-background">
                 <Menu mode="inline" style={{ height: '100%' }}></Menu>
               </Sider>
-              <Content style={{ padding: '0 24px', minHeight: 280 }}>
-                <Collapse bordered={false}
+              <Content style={{ padding: '0px 20px', minHeight: 280 }}>
+                {/* ФИЛЬТР */}
+                {/* <Collapse bordered={false}
                   defaultActiveKey={['1']}
                   expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
                   className="site-collapse-custom-collapse"
@@ -45,9 +52,9 @@ const App = () => {
                   style={{width: "1050px"}}
                 >
                   <Panel header="Фильтр" key="1">
-                    {/* <p>filter</p> */}
+                    <p>filter</p>
                   </Panel>
-                </Collapse>
+                </Collapse> */}
                 <Offer/>
                 <Offer/>
                 <Offer/>
