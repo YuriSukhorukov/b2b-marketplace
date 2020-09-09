@@ -17,3 +17,4 @@ autorun(()=>{
 // isAuthenticated = () => {}
 
 // const authStore = window.authStore = new Auth
+window.authStore = authStore;

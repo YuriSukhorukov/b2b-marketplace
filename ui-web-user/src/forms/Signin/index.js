@@ -8,16 +8,13 @@ import { CheckCircleTwoTone }           from '@ant-design/icons';
 import { observer }                     from 'mobx-react';
 import { Redirect }                     from 'react-router-dom';
 import authStore                        from '../../stores/authStore';
-import axios                            from 'axios';
+
+import api from '../../api/index';
 // import 'antd/dist/antd.css';
 
 const layout = {
     labelCol: { span: 8 },
 };
-
-// axios.get(`/api/v1/home`).then(response => {
-//     console.log(response);
-// });
 
 const SigninForm = observer(class SigninForm extends React.Component {
     constructor(props) {
@@ -65,9 +62,10 @@ const SigninForm = observer(class SigninForm extends React.Component {
             isWaiting: true
         }))
         const { email } = values;
-        axios.post(`/api/v1/auth/signin/${email}`).then(response => {
-            console.log(response);
-            console.log(response.data.code);
+
+
+
+        api.auth.signin.checkEmail({email}).then(response => {
             if (response.data.code == 302) {
                 this.setState(state => ({
                     step: 2,
@@ -83,7 +81,9 @@ const SigninForm = observer(class SigninForm extends React.Component {
                     isWaiting: false
                 }));
             }
-        });
+        })
+
+        
     }
     onEmailFinishFailed(errorInfo) {        
         console.log('Failed:', errorInfo);
@@ -99,15 +99,7 @@ const SigninForm = observer(class SigninForm extends React.Component {
             isWaiting: true
         }))
 
-        axios({
-            url: `/api/v1/auth/signin`,
-            method: 'post',
-            headers: {
-                username: `${email}`,
-                password: `${password}`
-            }
-        }).then(response => {
-            // success
+        api.auth.signin.login({email, password}).then(response => {
             this.setState(state => ({
                 step: state.step = 3
             }));
@@ -125,8 +117,6 @@ const SigninForm = observer(class SigninForm extends React.Component {
                 isWaiting: false
             }));
         });
-
-        console.log(email, password);
     }
     onPasswordFinishFailed(errorInfo) {        
         console.log('Failed:', errorInfo);
