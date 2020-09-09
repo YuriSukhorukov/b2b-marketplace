@@ -56,40 +56,36 @@ const SigninForm = observer(class SigninForm extends React.Component {
             })
         }
     }
-    onEmailFinish(values) {
+    async onEmailFinish(values) {
         this.setState(state => ({
             validateStatus: 'validating',
             isWaiting: true
         }))
         const { email } = values;
 
+        const isEmailExist = await authStore.isEmailExist({email});
 
-
-        api.auth.signin.checkEmail({email}).then(response => {
-            if (response.data.code == 302) {
-                this.setState(state => ({
-                    step: 2,
-                    validateStatus: undefined,
-                    isEmailAlreadyRegistered: false,
-                    isWaiting: false
-                }));
-                console.log('Success:', values);
-            } else {
-                this.setState(state => ({
-                    validateStatus: "warning",
-                    isEmailAlreadyRegistered: true,
-                    isWaiting: false
-                }));
-            }
-        })
-
-        
+        if (isEmailExist) {
+            this.setState(state => ({
+                step: 2,
+                validateStatus: undefined,
+                isEmailAlreadyRegistered: false,
+                isWaiting: false
+            }));
+            console.log('Success:', values);
+        } else {
+            this.setState(state => ({
+                validateStatus: "warning",
+                isEmailAlreadyRegistered: true,
+                isWaiting: false
+            }));
+        }
     }
     onEmailFinishFailed(errorInfo) {        
         console.log('Failed:', errorInfo);
     }
 
-    onPasswordFinish(values) {        
+    async onPasswordFinish(values) {        
         console.log('Success:', values);
 
         const email = this.state.email;
@@ -99,24 +95,25 @@ const SigninForm = observer(class SigninForm extends React.Component {
             isWaiting: true
         }))
 
-        api.auth.signin.login({email, password}).then(response => {
+        await authStore.login({email, password});
+
+        if (authStore.isAuthenticated) {
             this.setState(state => ({
                 step: state.step = 3
             }));
-            console.log(response);
             this.setState(state => ({
                 isWaiting: false
             }));
             this.setState({
                 isAuthorized: true
             });
-        }).catch(err => {
+        } else {
             this.setState(state => ({
                 validateStatus: "warning",
                 isPasswordFailed: true,
                 isWaiting: false
             }));
-        });
+        }
     }
     onPasswordFinishFailed(errorInfo) {        
         console.log('Failed:', errorInfo);
