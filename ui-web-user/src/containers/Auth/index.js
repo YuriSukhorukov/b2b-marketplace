@@ -14,7 +14,7 @@ export default class Auth extends React.Component {
     constructor(props) {
         super(props);
         this.props = props;
-        this.state = { key: 'signin' };
+        this.state = { key: '/auth/signin' };
     }
     componentWillMount() {
         this.setState(state => {
@@ -24,25 +24,35 @@ export default class Auth extends React.Component {
     render() {
         // const { match, location, history } = this.props;
         // console.log(location);
+        this.props.history.listen((location, action) => {
+            console.log("on route change");
+            console.log(location.pathname);
+            this.setState({
+                key: location.pathname
+            });
+          })
         return(
-            // this.props.history.push(key)
-            <Tabs style={{width: "500px"}} defaultActiveKey={this.state.key} onChange={this.props.history.push} centered={true}>
+            <Tabs {...this.props} activeKey={this.state.key} style={{width: "500px"}} defaultActiveKey={this.state.key} centered={true}>
                 <TabPane 
                     tab={
-                        <span>
-                            <LoginOutlined />
-                            Вход
-                        </span>
+                        <Link to="/auth/signin">
+                            <span>
+                                <LoginOutlined />
+                                Вход
+                            </span>
+                        </Link>
                     } key="/auth/signin"
                 >
                     <Signin />
                 </TabPane>
                 <TabPane
                     tab={
-                        <span>
-                            <UserAddOutlined />
-                            Регистрация
-                        </span>
+                        <Link to="/auth/signup">
+                            <span>
+                                <UserAddOutlined />
+                                Регистрация
+                            </span>
+                        </Link>
                     } key="/auth/signup"
                 >
                     <Signup />

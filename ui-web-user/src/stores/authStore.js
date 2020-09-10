@@ -40,7 +40,8 @@ const authStore = observable({
     login,
     isEmailFree,
     register,
-    authorization: null,
+    // authorization: null,
+    authorization: true,
     get isAuthenticated() {return this.authorization},
 });
 

@@ -1,10 +1,12 @@
 import React from 'react';
 import Menu         from './containers/Menu/index';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch, Link, Redirect } from 'react-router-dom';
+import authStore from './stores/authStore';
 import AuthForm from './containers/Auth/index';
 import OfferFeed from './components/OfferFeed';
 import OfferCreate from './components/OfferCreate';
 // import Header from './components/Header/index';
+import { observer } from 'mobx-react';
 import './App.css';
 import { Button, Collapse } from 'antd';
 import Offer from './components/Card/Offer/index';
@@ -15,12 +17,65 @@ const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 const { Panel } = Collapse;
 
-const App = () => {
+const App = observer(() => {
   return (
     <Switch>
-      {/* <OfferFeed /> */}
       {/* <OfferCreate /> */}
-      <Route exact path='/'>
+      <Layout>
+        <Header className="header">
+          <Link to="/">
+            <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white", left: "585px"}}>B2B Marketplace</div>
+          </Link>
+          {
+            !authStore.isAuthenticated 
+            &&
+              (
+                <div style={{right: "600px", position: "absolute"}}>
+                  <Link to="/auth/signin">
+                    <Button style={{marginRight: "15px"}} >Войти</Button>
+                  </Link>
+                  <Link to="/auth/signup">
+                    <Button type="primary">Зарегистрироваться</Button>
+                  </Link>
+                </div>
+              )
+          }
+        </Header>
+        <Content style={{ padding: '0 600px' }}>
+          <Layout className="site-layout-background" style={{ padding: '0 0', minHeight: '90vh' }}>
+            {
+              authStore.isAuthenticated 
+              ?
+                (
+                  <div>
+                    <Sider style={{height: '100%', width: "256px", padding: "20px 0"}} width={256} className="site-layout-background">
+                      <Menu mode="inline" style={{ height: '100%' }}></Menu>
+                    </Sider>
+                  </div>
+                ) 
+              : 
+                <Redirect to="/auth/signin"></Redirect>
+            }
+            {/* Регистрация || Список предложений || Либо... */}
+            <Content style={{ padding: '0px 20px', minHeight: 280 }}>
+              <Route path="/auth/*" render={(props) => {
+                return (
+                  authStore.isAuthenticated ? <Redirect to='/'></Redirect> :
+                  <div style={{position: "absolute", top: "50%", left: '50%', transform: "translateY(-100%) translateX(-50%)"}}>
+                    <AuthForm {...props}/>
+                  </div>
+                )
+              }}></Route>
+              <Route path="/offers/search">
+                <OfferFeed />
+              </Route>
+            </Content>
+          </Layout>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>B2B Marketplace ©2020 Created by SPB-Tech</Footer>
+      </Layout>
+
+      {/* <Route exact path='/'>
         <Layout>
           <Header className="header">
             <Link to="/">
@@ -36,29 +91,11 @@ const App = () => {
             </div>
           </Header>
           <Content style={{ padding: '0 600px' }}>
-            {/* НАВИГАЦИЯ */}
-            {/* <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb> */}
             <Layout className="site-layout-background" style={{ padding: '0 0' }}>
               <Sider style={{height: '100vh', width: "256px", padding: "20px 0"}} width={256} className="site-layout-background">
                 <Menu mode="inline" style={{ height: '100%' }}></Menu>
               </Sider>
               <Content style={{ padding: '0px 20px', minHeight: 280 }}>
-                {/* ФИЛЬТР */}
-                {/* <Collapse bordered={false}
-                  defaultActiveKey={['1']}
-                  expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-                  className="site-collapse-custom-collapse"
-                  bordered={true}
-                  style={{width: "1050px"}}
-                >
-                  <Panel header="Фильтр" key="1">
-                    <p>filter</p>
-                  </Panel>
-                </Collapse> */}
                 <Offer/>
                 <Offer/>
                 <Offer/>
@@ -70,28 +107,10 @@ const App = () => {
           </Content>
           <Footer style={{ textAlign: 'center' }}>B2B Marketplace ©2020 Created by SPB-Tech</Footer>
         </Layout>
-      </Route>
-      <Route exact path='/auth/*'>
-        <Layout>
-          <Header className="header">
-            <Link to="/">
-              <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white", left: "585px"}}>B2B Marketplace</div>
-            </Link>
-          </Header>
-          <Content style={{ padding: '0 600px' }}>
-            <Layout className="site-layout-background" style={{ padding: '24px 0', height: '90vh', position: "relative", marginLeft: "0", alignItems: "center", verticalAlign: "center" }}>
-              <Content style={{position: "absolute", top: "50%", transform: "translateY(-100%)"}}>
-                <Route exact path='*/signin' component={AuthForm}/>
-                <Route exact path='*/signup' component={AuthForm}/>
-              </Content>
-            </Layout>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>B2B Marketplace ©2020 Created by SPB-Tech</Footer>
-        </Layout>
-      </Route>
+      </Route> */}
     </Switch>
   );
-}
+})
 
 export default App;
 

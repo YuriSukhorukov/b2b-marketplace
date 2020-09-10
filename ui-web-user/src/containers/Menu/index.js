@@ -46,7 +46,7 @@ export default class Navigation extends React.Component {
         </SubMenu>
         <SubMenu key="sub2" title="Мои предложения">
           <Menu.Item key="4">Опубликованные<Link to="/offers/created" /></Menu.Item>
-          <Menu.Item key="4">Добавить<Link to="/offers/new" /></Menu.Item>
+          <Menu.Item key="5">Добавить<Link to="/offers/new" /></Menu.Item>
         </SubMenu>
         
 
