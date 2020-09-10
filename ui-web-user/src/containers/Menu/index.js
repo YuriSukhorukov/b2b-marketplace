@@ -34,11 +34,28 @@ export default class Navigation extends React.Component {
           mode="inline"
           inlineCollapsed={this.state.collapsed}
       >
-        <SubMenu key="sub1" icon={<HomeOutlined />} title="Предложения">
+
+
+        <SubMenu key="sub1" title="Найти предложения">
           <Menu.Item key="1">Поиск</Menu.Item>
-          <Menu.Item key="2">Мои Предложения</Menu.Item>
+          <Menu.Item key="2">Сохраненные</Menu.Item>
+          <Menu.Item key="3">Отклики</Menu.Item>
           {/* <Menu.Item key="3">Добавить Предложение</Menu.Item> */}
         </SubMenu>
+        <SubMenu key="sub2" title="Мои предложения">
+          <Menu.Item key="4">Опубликованные</Menu.Item>
+          <Menu.Item key="5">Добавить</Menu.Item>
+          {/* <Menu.Item key="3">Добавить Предложение</Menu.Item> */}
+        </SubMenu>
+
+
+
+
+        {/* <SubMenu key="sub1" icon={<HomeOutlined />} title="Предложения">
+          <Menu.Item key="1">Поиск</Menu.Item>
+          <Menu.Item key="2">Мои Предложения</Menu.Item>
+          <Menu.Item key="3">Добавить Предложение</Menu.Item>
+        </SubMenu> */}
         {/* <SubMenu key="sub2" icon={<MenuFoldOutlined />} title="Отклики">
           <Menu.Item key="3">Собственные</Menu.Item>
           <Menu.Item key="4">Активность</Menu.Item>

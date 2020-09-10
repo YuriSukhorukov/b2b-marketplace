@@ -10,13 +10,15 @@ const getOfferDetails   = action(async ()=>{});
 const getOffers         = action(async ()=>{});
 
 const offersStore = observable({
-    token: '',
-    isEmailExist,
-    login,
-    isEmailFree,
-    register,
-    authorization: null,
-    get isAuthenticated() {return this.authorization},
+    filter: {
+        type: null,
+        lowPrice: null, 
+        hightPrice: null,
+    },
+    offers: [],
+    createOffer,
+    getOfferDetails,
+    getOffers
 });
 
 export default offersStore;

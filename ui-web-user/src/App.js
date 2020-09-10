@@ -17,6 +17,7 @@ const { Panel } = Collapse;
 const App = () => {
   return (
     <Switch>
+      {/* <OfferFeed /> */}
       <Route exact path='/'>
         <Layout>
           <Header className="header">
