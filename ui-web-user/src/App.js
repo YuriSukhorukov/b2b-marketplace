@@ -2,7 +2,8 @@ import React from 'react';
 import Menu         from './containers/Menu/index';
 import { Route, Switch, Link } from 'react-router-dom';
 import AuthForm from './containers/Auth/index';
-import OfferFeed from './components/OfferFeed/index';
+import OfferFeed from './components/OfferFeed';
+import OfferCreate from './components/OfferCreate';
 // import Header from './components/Header/index';
 import './App.css';
 import { Button, Collapse } from 'antd';
@@ -18,6 +19,7 @@ const App = () => {
   return (
     <Switch>
       {/* <OfferFeed /> */}
+      {/* <OfferCreate /> */}
       <Route exact path='/'>
         <Layout>
           <Header className="header">
