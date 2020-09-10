@@ -1,5 +1,6 @@
 import React from 'react';
 import { Menu } from 'antd';
+import { Link } from "react-router-dom";
 import { 
     HomeOutlined, 
     MailOutlined, 
@@ -13,6 +14,7 @@ const { SubMenu } = Menu;
 export default class Navigation extends React.Component {
   constructor(props){
     super(props);
+    this.props = props;
   }
   handleClick = e => {
     console.log('click ', e);
@@ -33,21 +35,20 @@ export default class Navigation extends React.Component {
           defaultOpenKeys={['sub1']}
           mode="inline"
           inlineCollapsed={this.state.collapsed}
+          onClick={this.handleClick}
       >
 
-
+      
         <SubMenu key="sub1" title="Найти предложения">
-          <Menu.Item key="1">Поиск</Menu.Item>
-          <Menu.Item key="2">Сохраненные</Menu.Item>
-          <Menu.Item key="3">Отклики</Menu.Item>
-          {/* <Menu.Item key="3">Добавить Предложение</Menu.Item> */}
+          <Menu.Item key="1">Поиск<Link to="/offers/search" /></Menu.Item>
+          <Menu.Item key="2">Сохраненные<Link to="/offers/saved" /></Menu.Item>
+          <Menu.Item key="3">Отклики<Link to="/offers/proposals" /></Menu.Item>
         </SubMenu>
         <SubMenu key="sub2" title="Мои предложения">
-          <Menu.Item key="4">Опубликованные</Menu.Item>
-          <Menu.Item key="5">Добавить</Menu.Item>
-          {/* <Menu.Item key="3">Добавить Предложение</Menu.Item> */}
+          <Menu.Item key="4">Опубликованные<Link to="/offers/created" /></Menu.Item>
+          <Menu.Item key="4">Добавить<Link to="/offers/new" /></Menu.Item>
         </SubMenu>
-
+        
 
 
 
