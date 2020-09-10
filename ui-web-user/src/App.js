@@ -2,6 +2,7 @@ import React from 'react';
 import Menu         from './containers/Menu/index';
 import { Route, Switch, Link } from 'react-router-dom';
 import AuthForm from './containers/Auth/index';
+import OfferFeed from './components/OfferFeed/index';
 // import Header from './components/Header/index';
 import './App.css';
 import { Button, Collapse } from 'antd';

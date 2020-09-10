@@ -19,6 +19,9 @@ const login = action(async ({email, password}) => {
         authStore.authorization = false;
     }
 });
+const logout = action(async ()=>{
+    // remove token from httpomly cookie
+});
 
 // Signup
 const isEmailFree = action(async ({email})=>{
