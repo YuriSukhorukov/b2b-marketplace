@@ -8,16 +8,11 @@ import { CheckCircleTwoTone }           from '@ant-design/icons';
 import { observer }                     from 'mobx-react';
 import { Redirect }                     from 'react-router-dom';
 import authStore                        from '../../stores/authStore';
-import axios                            from 'axios';
 import 'antd/dist/antd.css';
 
 const layout = {
     labelCol: { span: 8 },
 };
-
-// axios.get(`/api/v1/home`).then(response => {
-//     console.log(response);
-// });
 
 const SigninForm = observer(class SigninForm extends React.Component {
     constructor(props) {
@@ -59,37 +54,36 @@ const SigninForm = observer(class SigninForm extends React.Component {
             })
         }
     }
-    onEmailFinish(values) {
+    async onEmailFinish(values) {
         this.setState(state => ({
             validateStatus: 'validating',
             isWaiting: true
         }))
         const { email } = values;
-        axios.post(`/api/v1/auth/signin/${email}`).then(response => {
-            console.log(response);
-            console.log(response.data.code);
-            if (response.data.code == 302) {
-                this.setState(state => ({
-                    step: 2,
-                    validateStatus: undefined,
-                    isEmailAlreadyRegistered: false,
-                    isWaiting: false
-                }));
-                console.log('Success:', values);
-            } else {
-                this.setState(state => ({
-                    validateStatus: "warning",
-                    isEmailAlreadyRegistered: true,
-                    isWaiting: false
-                }));
-            }
-        });
+
+        const isEmailExist = await authStore.isEmailExist({email});
+
+        if (isEmailExist) {
+            this.setState(state => ({
+                step: 2,
+                validateStatus: undefined,
+                isEmailAlreadyRegistered: false,
+                isWaiting: false
+            }));
+            console.log('Success:', values);
+        } else {
+            this.setState(state => ({
+                validateStatus: "warning",
+                isEmailAlreadyRegistered: true,
+                isWaiting: false
+            }));
+        }
     }
     onEmailFinishFailed(errorInfo) {        
         console.log('Failed:', errorInfo);
     }
 
-    onPasswordFinish(values) {        
+    async onPasswordFinish(values) {        
         console.log('Success:', values);
 
         const email = this.state.email;
@@ -99,34 +93,25 @@ const SigninForm = observer(class SigninForm extends React.Component {
             isWaiting: true
         }))
 
-        axios({
-            url: `/api/v1/auth/signin`,
-            method: 'post',
-            headers: {
-                username: `${email}`,
-                password: `${password}`
-            }
-        }).then(response => {
-            // success
+        await authStore.login({email, password});
+
+        if (authStore.isAuthenticated) {
             this.setState(state => ({
                 step: state.step = 3
             }));
-            console.log(response);
             this.setState(state => ({
                 isWaiting: false
             }));
             this.setState({
                 isAuthorized: true
             });
-        }).catch(err => {
+        } else {
             this.setState(state => ({
                 validateStatus: "warning",
                 isPasswordFailed: true,
                 isWaiting: false
             }));
-        });
-
-        console.log(email, password);
+        }
     }
     onPasswordFinishFailed(errorInfo) {        
         console.log('Failed:', errorInfo);

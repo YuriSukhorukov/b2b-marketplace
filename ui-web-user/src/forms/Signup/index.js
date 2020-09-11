@@ -4,7 +4,7 @@
 import React                            from 'react';
 import { Form , Input, Button }         from 'antd';
 import { boolean, number }              from "@storybook/addon-knobs";
-import { CheckCircleTwoTone }          from '@ant-design/icons';
+import { CheckCircleTwoTone }           from '@ant-design/icons';
 import { observer }                     from 'mobx-react';
 import authStore                        from '../../stores/authStore';
 import axios                            from 'axios';
@@ -63,37 +63,34 @@ const SignupForm = observer(class SignupForm extends React.Component {
             })
         }
     }
-    onEmailFinish(values) {
+    async onEmailFinish(values) {
         this.setState(state => ({
             validateStatus: 'validating',
             isWaiting: true
         }))
         const { email } = values;
-        axios.get(`/api/v1/auth/signup/email/${email}`).then(response => {
-            console.log(response);
-            console.log(response.data.code);
-            if (response.data.code != 302) {
-                this.setState(state => ({
-                    step: 2,
-                    validateStatus: undefined,
-                    isEmailAlreadyRegistered: false,
-                    isWaiting: false
-                }));
-                console.log('Success:', values);
-            } else {
-                this.setState(state => ({
-                    validateStatus: "warning",
-                    isEmailAlreadyRegistered: true,
-                    isWaiting: false
-                }));
-            }
-        });
+        const isEmailFree = await authStore.isEmailFree({email});
+        if (isEmailFree) {
+            this.setState(state => ({
+                step: 2,
+                validateStatus: undefined,
+                isEmailAlreadyRegistered: false,
+                isWaiting: false
+            }));
+            console.log('Success:', values);
+        } else {
+            this.setState(state => ({
+                validateStatus: "warning",
+                isEmailAlreadyRegistered: true,
+                isWaiting: false
+            }));
+        }
     }
     onEmailFinishFailed(errorInfo) {        
         console.log('Failed:', errorInfo);
     }
 
-    onPasswordFinish(values) {        
+    async onPasswordFinish(values) {        
         console.log('Success:', values);
 
         const email = this.state.email;
@@ -103,24 +100,13 @@ const SignupForm = observer(class SignupForm extends React.Component {
             isWaiting: true
         }))
 
-        axios({
-            url: `/api/v1/auth/signup`,
-            method: 'post',
-            headers: {
-                email: `${email}`,
-                password: `${password}`
-            }
-        }).then(response => {
+        const isRegisterSuccess = await authStore.register({email, password});
+        if (isRegisterSuccess) {
             this.setState(state => ({
-                step: state.step = 3
-            }));
-            console.log(response);
-            this.setState(state => ({
+                step: state.step = 3,
                 isWaiting: false
-            }))
-        });
-
-        console.log(email, password);
+            }));
+        }
     }
     onPasswordFinishFailed(errorInfo) {        
         console.log('Failed:', errorInfo);

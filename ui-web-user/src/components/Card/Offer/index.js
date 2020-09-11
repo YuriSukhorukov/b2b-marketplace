@@ -17,7 +17,7 @@ export default class OfferCard extends React.Component {
     render() {
         return(
             <span>
-                <Card size="medium" title="Сгущенка Рогачев" extra={<a href="#">Детали</a>} style={{ width: 900, margin: 20 }}>
+                <Card size="medium" title="Сгущенка Рогачев" extra={<a href="#">Детали</a>} style={{ width: "100%", marginTop: "20px" }}>
                     <div className="count">
                         <span style={{fontSize: 14}}>
                             <span>
@@ -36,7 +36,7 @@ export default class OfferCard extends React.Component {
                     </div>                  
                     <span className="description">
                         <p style={{fontSize: 15, color: "black", paddingTop: 15}}>
-                            Оригинальная белорусская сгущенка. Просто пиздец какая вкусная сгуха.
+                            { this.props.description || "Очень вкусная сгущенка" }
                         </p>
                     </span>
                     <div style={{display: "block", paddingTop: 10}}>
