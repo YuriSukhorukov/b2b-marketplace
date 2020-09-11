@@ -8,9 +8,7 @@ import { CheckCircleTwoTone }           from '@ant-design/icons';
 import { observer }                     from 'mobx-react';
 import { Redirect }                     from 'react-router-dom';
 import authStore                        from '../../stores/authStore';
-
-import api from '../../api/index';
-// import 'antd/dist/antd.css';
+import 'antd/dist/antd.css';
 
 const layout = {
     labelCol: { span: 8 },

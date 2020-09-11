@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import {Button, Collapse} from 'antd';
 import { CheckCircleTwoTone, CaretRightOutlined }           from '@ant-design/icons';
 import Offer from '../Card/Offer';
+import offersStore from '../../stores/offersStore';
 
 const { Panel } = Collapse;
 
@@ -16,6 +17,9 @@ const text = `
 const OfferCreate = observer(class OfferFeed extends React.Component {
     constructor(props) {
         super(props);
+    }
+    async createOffer() {
+        await offersStore.createOffer({});
     }
     render() {
         return(
@@ -42,7 +46,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                         <div style={{padding: "0px", borderTop: "1px solid #f0f0f0"}}>
                             <div style={{display: "flex", justifyContent: "space-between", marginTop: "20px"}}>
                                 <p>Просмотр и публикация</p>
-                                <Button type="primary">Опубликовать предложение</Button>
+                                <Button onClick={this.createOffer} type="primary">Опубликовать предложение</Button>
                             </div>
                             <Offer />
                         </div>

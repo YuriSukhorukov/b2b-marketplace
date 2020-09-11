@@ -5,7 +5,10 @@ import {
 
 import api from '../api/index';
 
-const createOffer       = action(async ()=>{});
+const createOffer       = action(async ()=>{
+    let result = await api.market.offers.createOffer(offersStore.newOffer);
+    console.log('create offer: ', result);
+});
 const getOfferDetails   = action(async ()=>{});
 const getOffers         = action(async ()=>{});
 
@@ -15,24 +18,16 @@ const offersStore = observable({
         lowPrice: null, 
         hightPrice: null,
     },
+    newOffer: {
+        // description: null,
+        userId: 1,
+    },
     offers: [],
     createOffer,
     getOfferDetails,
-    getOffers
+    getOffers,
 });
 
 export default offersStore;
 
 window.offersStore = offersStore;
-
-// login = () => {}
-// logout = () => {}
-// getToken = () => {}
-// setToken = () => {}
-// isAuthenticated = () => {}
-
-// autorun(()=>{
-//     console.log(authStore.token);
-// })
-
-// const authStore = window.authStore = new Auth
