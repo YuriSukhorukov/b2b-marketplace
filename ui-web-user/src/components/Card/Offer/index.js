@@ -17,7 +17,7 @@ export default class OfferCard extends React.Component {
     render() {
         return(
             <span>
-                <Card size="medium" title="Сгущенка Рогачев" extra={<a href="#">Детали</a>} style={{ width: 1050, marginTop: "20px" }}>
+                <Card size="medium" title="Сгущенка Рогачев" extra={<a href="#">Детали</a>} style={{ width: "100%", marginTop: "20px" }}>
                     <div className="count">
                         <span style={{fontSize: 14}}>
                             <span>

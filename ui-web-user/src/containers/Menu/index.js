@@ -31,8 +31,8 @@ export default class Navigation extends React.Component {
   render() {
     return (
       <Menu {...this.props}
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
+          defaultSelectedKeys={[window.location.pathname]}
+          defaultOpenKeys={[window.location.pathname]}
           mode="inline"
           inlineCollapsed={this.state.collapsed}
           onClick={this.handleClick}
@@ -40,13 +40,13 @@ export default class Navigation extends React.Component {
 
       
         <SubMenu key="sub1" title="Найти предложения">
-          <Menu.Item key="1">Поиск<Link to="/offers/search" /></Menu.Item>
-          <Menu.Item key="2">Сохраненные<Link to="/offers/saved" /></Menu.Item>
-          <Menu.Item key="3">Отклики<Link to="/offers/proposals" /></Menu.Item>
+          <Menu.Item key="/offers/search">Поиск<Link to="/offers/search" /></Menu.Item>
+          <Menu.Item key="/offers/saved">Сохраненные<Link to="/offers/saved" /></Menu.Item>
+          <Menu.Item key="/offers/proposals">Отклики<Link to="/offers/proposals" /></Menu.Item>
         </SubMenu>
         <SubMenu key="sub2" title="Мои предложения">
-          <Menu.Item key="4">Опубликованные<Link to="/offers/created" /></Menu.Item>
-          <Menu.Item key="5">Добавить<Link to="/offers/new" /></Menu.Item>
+          <Menu.Item key="/offers/created">Опубликованные<Link to="/offers/created" /></Menu.Item>
+          <Menu.Item key="/offers/new">Добавить<Link to="/offers/new" /></Menu.Item>
         </SubMenu>
         
 
