@@ -1,5 +1,7 @@
-import checkEmail from './checkEmail';
+import signin from './signin/index';
+import signup from './signup/index';
 
 export default {
-    checkEmail
+    signin,
+    signup
 }
