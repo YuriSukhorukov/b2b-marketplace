@@ -26,7 +26,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
             <div>
                 <Collapse expandIconPosition={'left'} accordion ghost expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}>
                     <Panel header="Описание" key="1">
-                        <div style={{padding: "20px"}}>
+                        <div style={{padding: "20px", borderTop: "1px solid #f0f0f0"}}>
                             <p>{text}</p>
                         </div>
                     </Panel>

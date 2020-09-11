@@ -17,7 +17,7 @@ export default class Navigation extends React.Component {
     this.props = props;
   }
   handleClick = e => {
-    console.log('click ', e);
+    // console.log('click ', e);
   };
   state = {
     collapsed: false,
