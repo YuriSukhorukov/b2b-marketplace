@@ -47,8 +47,8 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
 
         await offersStore.createOffer({});
     }
-    onChange(event) {
-        this.setState({
+    async onChange(event) {
+        await this.setState({
             [event.target.name]: event.target.value
         });
     }
@@ -111,7 +111,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                     <Option value="SELL">Продажа</Option>
                     <Option value="BUY">Покупка</Option>
                 </Select>
-                <Select placeholder="Валюта" style={{ width: 120 }} defaultValue={"RUB"} value={this.state.currency_code} onChange={this.onChangeCurrencyCode}>
+                <Select placeholder="Валюта" style={{ width: 120 }} value={this.state.currency_code} onChange={this.onChangeCurrencyCode}>
                     <Option value="RUB">Рубль</Option>
                     <Option value="USD" disabled>Доллар</Option>
                 </Select>
@@ -167,7 +167,12 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                                 <p>Просмотр и публикация</p>
                                 <Button onClick={this.createOffer} type="primary">Опубликовать предложение</Button>
                             </div>
-                            <Offer />
+                            <Offer 
+                                title={this.state.title} 
+                                description={this.state.description}
+                                price={this.state.price}
+                                currency_code={this.state.currency_code}
+                            />
                         </div>
                     </Panel>
                 </Collapse>

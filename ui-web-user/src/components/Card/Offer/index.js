@@ -3,25 +3,54 @@ import {
     Card, 
     PageHeader,
     Descriptions,
-    Tag
+    Tag,
+    Typography
 } from 'antd';
 import { CheckCircleTwoTone, GlobalOutlined, EnvironmentOutlined} from '@ant-design/icons';
 import SecureRate from '../../Rate/Secure/index';
 import 'antd/dist/antd.css';
 import './style.css';
 
+const { Paragraph } = Typography;
+
 export default class OfferCard extends React.Component {
     constructor(props) {
         super(props);
+        this.props = props;
+    }
+    componentDidUpdate() {
+        console.log(this.props);
+    }
+    state = {
+        currency_symbol: null
     }
     render() {
+        const {
+            title,
+            description,
+            price,
+            currency_code,
+            offer_type,
+            date_expires,
+            country,
+            city,
+        } = this.props;
+
+        let currency_symbol = null;
+        let price_formatted = currency_code == "RUB" ? new Intl.NumberFormat('ru-RU').format(price) : currency_code == "USD" ? new Intl.NumberFormat('de-DE').format(price) : price;
+        
+        if (parseInt(price_formatted))
+            currency_symbol = currency_code == "RUB" ? <span>&#8381;</span> : currency_code == "USD" ? <span>&#65284;</span> : null;
+        else
+            currency_symbol = null;
+        
         return(
             <span>
-                <Card size="medium" title="Сгущенка Рогачев" extra={<a href="#">Детали</a>} style={{ width: "100%", marginTop: "20px" }}>
+                <Card size="medium" title={title} extra={<a href="#">Детали</a>} style={{ width: "100%", marginTop: "20px" }}>
                     <div className="count">
                         <span style={{fontSize: 14}}>
                             <span>
-                                Цена: <strong>10.000.000р.</strong>
+                                Цена: <strong>{parseInt(price_formatted) ? price_formatted : "" } {currency_symbol}</strong>
                             </span>
                             <span style={{paddingLeft: 20}}>
                                 Количество: <strong>40т.</strong>
@@ -35,9 +64,21 @@ export default class OfferCard extends React.Component {
                         </span>
                     </div>                  
                     <span className="description">
-                        <p style={{fontSize: 15, color: "black", paddingTop: 15}}>
-                            { this.props.description || "Очень вкусная сгущенка" }
-                        </p>
+                        <div style={{fontSize: 15, color: "black", paddingTop: 15}}>
+                            <Paragraph
+                                ellipsis={{
+                                    rows: 3,
+                                    expandable: true,
+                                    suffix: '',
+                                    onEllipsis: ellipsis => {
+                                      console.log('Ellipsis changed:', ellipsis);
+                                    },
+                                  }}
+                                  title={`${description}`}
+                            >
+                                {description}
+                            </Paragraph>
+                        </div>
                     </span>
                     <div style={{display: "block", paddingTop: 10}}>
                         <div>

@@ -11,7 +11,7 @@ module.exports = async (pool, params) => {
                     user_id SERIAL NOT NULL,
                     title VARCHAR(255) NOT NULL,
                     description VARCHAR(255) NOT NULL,
-                    price NUMERIC(17,2) NOT NULL,
+                    price NUMERIC(17,3) NOT NULL,
                     currency_code VARCHAR(3) NOT NULL,
                     offer_type VARCHAR(16) NOT NULL,
                     country VARCHAR(255) NOT NULL,
