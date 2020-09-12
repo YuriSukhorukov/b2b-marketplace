@@ -69,7 +69,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
     async onChangeTime(event, date) {
         var d = new Date(this.state.date_expires);
 
-        let time = date.split(':');
+        let time = date ? date.split(':') : '00:00:00'.split(':');
         let hours = time[0];
         let minutes = time[1];
         let seconds = time[2];
@@ -81,7 +81,6 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
         await this.setState({
             date_expires: new Date(d).toISOString()
         });
-        // console.log(this.state);
     }
     async onChangeOfferType(value) {
         console.log(value);
@@ -120,7 +119,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
 
 
 
-                <Select placeholder="Единица измерения" style={{ width: 120 }} value={this.state.measure_unit} onChange={this.onChangeMeasureUnit}>
+                <Select placeholder="Единица измерения" style={{ width: 200 }} value={this.state.measure_unit} onChange={this.onChangeMeasureUnit}>
                     <Option value="1">Килограмм</Option>
                     <Option value="2">Грамм</Option>
                     <Option value="3">Квадратный метр</Option>
