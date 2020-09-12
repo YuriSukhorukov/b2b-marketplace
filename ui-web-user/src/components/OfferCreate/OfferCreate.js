@@ -15,6 +15,8 @@ const text = `
   it can be found as a welcome guest in many households across the world.
 `;
 
+// const measure_unit
+
 const OfferCreate = observer(class OfferFeed extends React.Component {
     constructor(props) {
         super(props);
@@ -24,11 +26,13 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
         this.onChangeOfferType      = this.onChangeOfferType.bind(this);
         this.createOffer            = this.createOffer.bind(this);
         this.onChangeCurrencyCode   = this.onChangeCurrencyCode.bind(this);
+        this.onChangeMeasureUnit    = this.onChangeMeasureUnit.bind(this);
     }
     state = {
         title: undefined,
         description: undefined,
         price: undefined,
+        measure_unit: undefined,
         currency_code: undefined,
         offer_type: undefined,
         date_expires: undefined,
@@ -91,6 +95,12 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
             currency_code: value
         });
     }
+    async onChangeMeasureUnit(value) {
+        console.log(value);
+        this.setState({
+            measure_unit: value
+        });
+    }
     render() {
         return(
             <div>
@@ -106,7 +116,25 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                     placeholder="Цена" 
                     onChange={this.onChange} value={this.state.price} name="price"
                 />
-       
+
+
+
+
+                <Select placeholder="Единица измерения" style={{ width: 120 }} value={this.state.measure_unit} onChange={this.onChangeMeasureUnit}>
+                    <Option value="1">Килограмм</Option>
+                    <Option value="2">Грамм</Option>
+                    <Option value="3">Квадратный метр</Option>
+                    <Option value="4">Литр</Option>
+                    <Option value="5">Метр</Option>
+                    <Option value="6">Штука</Option>
+                    <Option value="7">Кубический метр</Option>
+                    <Option value="8">Упаковка</Option>
+                </Select>
+
+
+
+
+
                 <Select placeholder="Тип предложения" style={{ width: 120 }} value={this.state.offer_type} onChange={this.onChangeOfferType}>
                     <Option value="SELL">Продажа</Option>
                     <Option value="BUY">Покупка</Option>
