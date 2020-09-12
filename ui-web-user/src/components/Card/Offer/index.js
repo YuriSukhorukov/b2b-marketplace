@@ -37,7 +37,7 @@ export default class OfferCard extends React.Component {
         } = this.props;
 
         let currency_symbol = null;
-        let price_formatted = currency_code == "RUB" ? new Intl.NumberFormat('ru-RU').format(price) : currency_code == "USD" ? new Intl.NumberFormat('de-DE').format(price) : price;
+        let price_formatted = currency_code == "RUB" ? new Intl.NumberFormat('ru-RU').format(price) : currency_code == "USD" ? new Intl.NumberFormat('en-IN').format(price) : price;
         
         if (parseInt(price_formatted))
             currency_symbol = currency_code == "RUB" ? <span>&#8381;</span> : currency_code == "USD" ? <span>&#65284;</span> : null;
@@ -50,7 +50,7 @@ export default class OfferCard extends React.Component {
                     <div className="count">
                         <span style={{fontSize: 14}}>
                             <span>
-                                Цена: <strong>{parseInt(price_formatted) ? price_formatted : "" } {currency_symbol}</strong>
+                                Цена: <strong>{parseInt(price_formatted) ? price_formatted : "" }{currency_symbol}</strong>
                             </span>
                             <span style={{paddingLeft: 20}}>
                                 Количество: <strong>40т.</strong>
