@@ -1,13 +1,35 @@
 const createOffer = require(`${global.appRoot}/controllers/offer/create.offer.js`);
 
 module.exports = async (req, res) => {
-    const {userId} = req.body;
+    console.log('offer:', req.body);
+    
+    const {
+        userId,
+        title,
+        description,
+        price,
+        currency_code,
+        offer_type,
+        date_expires,
+        country,
+        city
+    } = req.body;
 
-    if (userId) {
-        const result = await createOffer({userId});
-        console.log(result);
+    try {
+        const result = await createOffer({
+            userId,
+            title,
+            description,
+            price,
+            currency_code,
+            offer_type,
+            date_expires,
+            country,
+            city
+        });
+        console.log('result: ', result);
         res.json({code: 200, message: `create.offer.js`, body: result});
-    } else {
+    } catch (e) {
         res.json({
             success: false,
             code: 404,

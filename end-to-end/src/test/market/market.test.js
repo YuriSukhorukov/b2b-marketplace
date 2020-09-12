@@ -16,23 +16,46 @@ describe('Market API integration /api/v1/market/offer', () => {
   test('Создание оффера: POST /api/v1/market/offer', async () => {
     const uri       = `${config.uri}:${config.port}/api/v1/market/offers`;
     const method    = 'POST';
-    const headers   = {"content-type": "application/json"}
-    const body      = JSON.stringify({userId: 1})
+    const headers   = {"content-type": "application/json"};
+    const body      = JSON.stringify({
+      userId: 1,
+      title: "Сгущенка",
+      description: "Оригинальная сгущенка Рогачевъ.",
+      price: 1000000,
+      currency_code: "RUB",
+      offer_type: "SELL",
+      date_expires: new Date().toISOString(),
+      country: "Российская Федерация",
+      city: "Москва"
+    });
     const response  = JSON.parse(await rp({uri, method, headers, body}));
-    const result    = response.code == 200 && response.body.length == 1 && response.body[0].user_id == 1;
+
+    const result    = response.code == 200;
     const expected  = true;
+
 		expect(result).toBe(expected);
   })
   test('Создать несколько офферов и получить список всех офферов: POST /api/v1/market/offer', async () => {
     const uri       = `${config.uri}:${config.port}/api/v1/market/offers`;
     let method      = 'POST';
     const headers   = {"content-type": "application/json"}
-    const body      = JSON.stringify({userId: 1})
+    const body      = JSON.stringify({
+      userId: 1,
+      title: "Сгущенка",
+      description: "Оригинальная сгущенка Рогачевъ.",
+      price: 1000000,
+      currency_code: "RUB",
+      offer_type: "SELL",
+      date_expires: new Date().toISOString(),
+      country: "Российская Федерация",
+      city: "Москва"
+    });
     JSON.parse(await rp({uri, method, headers, body}));
     JSON.parse(await rp({uri, method, headers, body}));
     JSON.parse(await rp({uri, method, headers, body}));
     method = 'GET';
     const response = JSON.parse(await rp({uri, method, headers}));
+    
     const result = response.code == 200 
                 && response.body.length == 4 
                 && response.body[0].user_id == 1
@@ -40,6 +63,7 @@ describe('Market API integration /api/v1/market/offer', () => {
                 && response.body[2].user_id == 1
                 && response.body[3].user_id == 1;
     const expected = true;
+    
 		expect(result).toBe(expected);
   })
 });
