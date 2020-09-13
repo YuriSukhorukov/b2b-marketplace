@@ -35,6 +35,21 @@ const measureSymbols = {
     [MEASURE_UNIT_CODE_PACK]: "у.",
 }
 
+const monthNames = {
+    0: "января",
+    1: "февраля",
+    2: "марта",
+    3: "апрель",
+    4: "мая",
+    5: "июня",
+    6: "июля",
+    7: "августа",
+    8: "сентября",
+    9: "октября",
+    10: "ноября",
+    11: "декабря",
+}
+
 const { Paragraph } = Typography;
 
 export default class OfferCard extends React.Component {
@@ -57,6 +72,7 @@ export default class OfferCard extends React.Component {
             measure_unit_code,
             currency_code,
             offer_type,
+            // date_publication,
             date_expires,
             country,
             city,
@@ -67,6 +83,24 @@ export default class OfferCard extends React.Component {
         
         let currency_symbol = currency_code == "RUB" ? <span>&#8381;</span> : currency_code == "USD" ? <span>&#65284;</span> : null;
         let measure_unit_symbol = measureSymbols[measure_unit_code];
+
+
+        // let date = new Date(date_expires);
+
+        // let t = new Date(date_expires);
+
+        let dateFormatted = date_expires ? dateToFormat(date_expires) : null;        
+
+        // let date = new Date(_date);
+        
+        // let year = date.getFullYear();
+        // let day = date.getDate();
+        // let monthNumber = date.getMonth();
+        // let monthName = monthNames[monthNumber];
+        // let time = date.toLocaleTimeString();
+        // console.log(year, day, monthName, time);
+        
+        
         
         return(
             <span>
@@ -83,7 +117,7 @@ export default class OfferCard extends React.Component {
                                 Опубликовано: <strong>1 января 2020 в 17:25</strong>
                             </span>
                             <span style={{paddingLeft: 20}}>
-                                Истекает: <strong>11 января 2020 в 17:25</strong>
+                                Истекает: <strong>{dateFormatted || '...'}</strong>
                             </span>
                         </span>
                     </div>                  
@@ -130,4 +164,24 @@ export default class OfferCard extends React.Component {
             </span>
         );
     }
+}
+
+function dateToISOLikeButLocal(date_expires) {
+    const date = new Date(date_expires);
+    const offsetMs = date.getTimezoneOffset() * 60 * 1000;
+    const msLocal =  date.getTime() - offsetMs;
+    const dateLocal = new Date(msLocal);
+    const iso = dateLocal.toISOString();
+    const isoLocal = iso.slice(0, 19);
+    return isoLocal;
+}
+function dateToFormat(date_expires) {
+    let dateLocalISO = dateToISOLikeButLocal(date_expires)
+    let date = new Date(dateLocalISO);        
+    let year = date.getFullYear();
+    let day = date.getDate();
+    let monthNumber = date.getMonth();
+    let monthName = monthNames[monthNumber];
+    let time = date.toLocaleTimeString();
+    return `${day} ${monthName} ${year} в ${time}`;
 }

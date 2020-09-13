@@ -68,7 +68,10 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
         measure_unit_code: MEASURE_UNIT_CODE_KILOGRAM,
         currency_code: "RUB",
         offer_type: "SELL",
-        date_expires: new Date().toISOString(),
+        // date_expires: new Date().toISOString(),
+        // time_expires: new Date().toISOString(),
+        date_expires: undefined,
+        time_expires: undefined,
         country: "Российская Федерация",
         city: "Москва"
     }
@@ -94,8 +97,26 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
         // console.log(event);
         // console.log(date);
         // console.log(new Date(date).toISOString());
+
+        var d = new Date(date);
+        let time = this.state.time_expires ? this.state.time_expires.split(':') : '00:00:00'.split(':');
+        console.log(time);
+        
+        let hours = time[0];
+        let minutes = time[1];
+        let seconds = time[2];
+        d.setHours(hours);
+        d.setMinutes(minutes);
+        d.setSeconds(seconds);
+
+
+
         await this.setState({
-            date_expires: new Date(date).toISOString()
+            time_expires: d.toISOString()
+        });
+
+        await this.setState({
+            date_expires: d.toISOString()
         });
         // console.log('date_expires: ', this.state.date_expires);
     }
@@ -110,6 +131,10 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
         d.setHours(hours);
         d.setMinutes(minutes);
         d.setSeconds(seconds);
+
+        await this.setState({
+            time_expires: new Date(d).toISOString()
+        });
         
         await this.setState({
             date_expires: new Date(d).toISOString()
@@ -245,6 +270,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                                 amount={this.state.amount}
                                 currency_code={this.state.currency_code}
                                 measure_unit_code={this.state.measure_unit_code}
+                                date_expires={this.state.date_expires}
                             />
                         </div>
                     </Panel>
