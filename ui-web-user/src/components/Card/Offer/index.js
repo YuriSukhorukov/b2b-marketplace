@@ -53,6 +53,7 @@ export default class OfferCard extends React.Component {
             title,
             description,
             price,
+            amount,
             measure_unit_code,
             currency_code,
             offer_type,
@@ -61,19 +62,11 @@ export default class OfferCard extends React.Component {
             city,
         } = this.props;
 
-        let currency_symbol = null;
-        let price_formatted = currency_code == "RUB" ? new Intl.NumberFormat('ru-RU').format(price) : currency_code == "USD" ? new Intl.NumberFormat('en-IN').format(price) : price;
+        let price_formatted = isNaN(price) ? 0 : currency_code == "RUB" ? new Intl.NumberFormat('ru-RU').format(price) : currency_code == "USD" ? new Intl.NumberFormat('en-IN').format(price) : price;
+        let amount_formatted = isNaN(amount) ? null : Intl.NumberFormat('ru-RU').format(amount);
         
-        if (parseInt(price_formatted))
-            currency_symbol = currency_code == "RUB" ? <span>&#8381;</span> : currency_code == "USD" ? <span>&#65284;</span> : null;
-        else
-            currency_symbol = null;
-
+        let currency_symbol = currency_code == "RUB" ? <span>&#8381;</span> : currency_code == "USD" ? <span>&#65284;</span> : null;
         let measure_unit_symbol = measureSymbols[measure_unit_code];
-        console.log(measureSymbols);
-        console.log(measure_unit_code);
-        console.log(measure_unit_symbol);
-        
         
         return(
             <span>
@@ -81,10 +74,10 @@ export default class OfferCard extends React.Component {
                     <div className="count">
                         <span style={{fontSize: 14}}>
                             <span>
-                                Цена: <strong>{parseInt(price_formatted) ? price_formatted : "" }{currency_symbol}</strong>
+                                Цена: <strong>{ price_formatted }{currency_symbol}</strong>
                             </span>
                             <span style={{paddingLeft: 20}}>
-                                Количество: <strong>40{measure_unit_symbol}</strong>
+                                Количество: <strong>{amount_formatted}{measure_unit_symbol}</strong>
                             </span>
                             <span style={{paddingLeft: 20}}>
                                 Опубликовано: <strong>1 января 2020 в 17:25</strong>

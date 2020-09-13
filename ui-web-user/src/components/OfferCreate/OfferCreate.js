@@ -49,6 +49,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
         this.createOffer            = this.createOffer.bind(this);
         this.onChangeCurrencyCode   = this.onChangeCurrencyCode.bind(this);
         this.onChangeMeasureUnit    = this.onChangeMeasureUnit.bind(this);
+        // this.onChangeAmount         = this.onChangeAmount.bind(this);
     }
     state = {
         // title: undefined,
@@ -63,6 +64,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
         title: "Сгущенка",
         description: "Оригинальная сгущенка Рогачевъ.",
         price: 1000000,
+        amount: 44,
         measure_unit_code: MEASURE_UNIT_CODE_KILOGRAM,
         currency_code: "RUB",
         offer_type: "SELL",
@@ -131,6 +133,12 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
             measure_unit_code: value
         });
     }
+    // async onChangeAmount(value) {
+    //     console.log(value);
+    //     this.setState({
+    //         amount: value
+    //     });
+    // }
     render() {
         return(
             <div>
@@ -145,6 +153,10 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                 <Input 
                     placeholder="Цена" 
                     onChange={this.onChange} value={this.state.price} name="price"
+                />
+                <Input 
+                    placeholder="Количество" 
+                    onChange={this.onChange} value={this.state.amount} name="amount"
                 />
 
 
@@ -230,6 +242,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                                 title={this.state.title} 
                                 description={this.state.description}
                                 price={this.state.price}
+                                amount={this.state.amount}
                                 currency_code={this.state.currency_code}
                                 measure_unit_code={this.state.measure_unit_code}
                             />
