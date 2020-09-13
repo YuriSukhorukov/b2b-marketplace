@@ -21,23 +21,11 @@ import {
 const { Panel }     = Collapse;
 const { Option }    = Select;
 
-{/* <Option value="KG">Килограмм</Option>
-                    <Option value="GR">Грамм</Option>
-                    <Option value="MM2">Квадратный метр</Option>
-                    <Option value="LT">Литр</Option>
-                    <Option value="MM">Метр</Option>
-                    <Option value="TH">Штука</Option>
-                    <Option value="MM3">Кубический метр</Option>
-                    <Option value="PCK">Упаковка</Option> */}
-
-
 const text = `
   A dog is a type of domesticated animal.
   Known for its loyalty and faithfulness,
   it can be found as a welcome guest in many households across the world.
 `;
-
-// const measure_unit
 
 const OfferCreate = observer(class OfferFeed extends React.Component {
     constructor(props) {
@@ -92,53 +80,55 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
             [event.target.name]: event.target.value
         });
     }
-    async onChangeDate(event, date) {
-        if (!date) return;
-        // console.log(event);
-        // console.log(date);
-        // console.log(new Date(date).toISOString());
 
-        var d = new Date(date);
-        let time = this.state.time_expires ? this.state.time_expires.split(':') : '00:00:00'.split(':');
-        console.log(time);
-        
-        let hours = time[0];
-        let minutes = time[1];
-        let seconds = time[2];
+    async onChangeDate(event, date) {
+        if (!date) {
+            await this.setState({
+                date_expires: undefined
+            });
+            return;
+        }
+
+        let time        = this.state.time_expires ? this.state.time_expires.split(':') : '00:00:00'.split(':');
+        let hours       = time[0];
+        let minutes     = time[1];
+        let seconds     = '00';//time[2];
+        let d           = new Date(date);
+
         d.setHours(hours);
         d.setMinutes(minutes);
         d.setSeconds(seconds);
-
-
-
-        await this.setState({
-            time_expires: d.toISOString()
-        });
 
         await this.setState({
             date_expires: d.toISOString()
         });
-        // console.log('date_expires: ', this.state.date_expires);
+
+        console.log(this.state.date_expires);
     }
+
     async onChangeTime(event, date) {
-        var d = new Date(this.state.date_expires);
-
-        let time = date ? date.split(':') : '00:00:00'.split(':');
-        let hours = time[0];
-        let minutes = time[1];
-        let seconds = time[2];
-
-        d.setHours(hours);
-        d.setMinutes(minutes);
-        d.setSeconds(seconds);
-
+        console.log(date)
         await this.setState({
-            time_expires: new Date(d).toISOString()
+            time_expires: date
         });
         
-        await this.setState({
-            date_expires: new Date(d).toISOString()
-        });
+        if (this.state.date_expires) {
+            let time        = this.state.time_expires ? this.state.time_expires.split(':') : '00:00:00'.split(':');
+            let hours       = time[0];
+            let minutes     = time[1];
+            let seconds     = '00';//time[2];
+            let d           = new Date(this.state.date_expires);
+
+            d.setHours(hours);
+            d.setMinutes(minutes);
+            d.setSeconds(seconds);
+            
+            await this.setState({
+                date_expires: new Date(d).toISOString()
+            });
+        }
+
+        console.log(this.state.date_expires);
     }
     async onChangeOfferType(value) {
         console.log(value);
@@ -158,12 +148,6 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
             measure_unit_code: value
         });
     }
-    // async onChangeAmount(value) {
-    //     console.log(value);
-    //     this.setState({
-    //         amount: value
-    //     });
-    // }
     render() {
         return(
             <div>
@@ -184,9 +168,6 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                     onChange={this.onChange} value={this.state.amount} name="amount"
                 />
 
-
-
-
                 <Select placeholder="Единица измерения" style={{ width: 200 }} value={this.state.measure_unit_code} onChange={this.onChangeMeasureUnit}>
                     <Option value={MEASURE_UNIT_CODE_TON}>Тонна</Option>
                     <Option value={MEASURE_UNIT_CODE_KILOGRAM}>Килограмм</Option>
@@ -198,10 +179,6 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                     <Option value={MEASURE_UNIT_CODE_CUBIC_METER}>Кубический метр</Option>
                     <Option value={MEASURE_UNIT_CODE_PACK}>Упаковка</Option>
                 </Select>
-
-
-
-
 
                 <Select placeholder="Тип предложения" style={{ width: 120 }} value={this.state.offer_type} onChange={this.onChangeOfferType}>
                     <Option value="SELL">Продажа</Option>
@@ -221,11 +198,13 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                 <TimePicker 
                     placeholder="Время"
                     onChange={this.onChangeTime}
+                    format="HH:mm"
                     // name="date_expires"
                     // format="YYYY-MM-DDTHH:mm:ss.sssZ"
                 />
                 <Input 
-                    placeholder="Страна" 
+                    disabled
+                    placeholder="Российская Федерация" 
                     onChange={this.onChange} value={this.state.country} name="country"
                 />
                 <Input 
@@ -237,6 +216,9 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
 
                 
                 
+
+
+
                 
                 
                 <Collapse expandIconPosition={'left'} accordion ghost expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}>
@@ -271,6 +253,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                                 currency_code={this.state.currency_code}
                                 measure_unit_code={this.state.measure_unit_code}
                                 date_expires={this.state.date_expires}
+                                city={this.state.city}
                             />
                         </div>
                     </Panel>

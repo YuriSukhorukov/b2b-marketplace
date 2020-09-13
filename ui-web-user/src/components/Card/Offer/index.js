@@ -1,8 +1,6 @@
 import React from 'react';
 import { 
     Card, 
-    PageHeader,
-    Descriptions,
     Tag,
     Typography
 } from 'antd';
@@ -50,6 +48,9 @@ const monthNames = {
     11: "декабря",
 }
 
+const SYMBOL_RUBLE = <span>&#8381;</span>;
+const SYMBOL_DOLLAR = <span>&#65284;</span>;
+
 const { Paragraph } = Typography;
 
 export default class OfferCard extends React.Component {
@@ -60,9 +61,6 @@ export default class OfferCard extends React.Component {
     componentDidUpdate() {
         console.log(this.props);
     }
-    // state = {
-    //     currency_symbol: null
-    // }
     render() {
         const {
             title,
@@ -79,28 +77,12 @@ export default class OfferCard extends React.Component {
         } = this.props;
 
         let price_formatted = isNaN(price) ? 0 : currency_code == "RUB" ? new Intl.NumberFormat('ru-RU').format(price) : currency_code == "USD" ? new Intl.NumberFormat('en-IN').format(price) : price;
-        let amount_formatted = isNaN(amount) ? null : Intl.NumberFormat('ru-RU').format(amount);
+        let amount_formatted = isNaN(amount) ? 0 : Intl.NumberFormat('ru-RU').format(amount);
         
-        let currency_symbol = currency_code == "RUB" ? <span>&#8381;</span> : currency_code == "USD" ? <span>&#65284;</span> : null;
+        let currency_symbol = currency_code == "RUB" ? SYMBOL_RUBLE : currency_code == "USD" ? SYMBOL_DOLLAR : null;
         let measure_unit_symbol = measureSymbols[measure_unit_code];
 
-
-        // let date = new Date(date_expires);
-
-        // let t = new Date(date_expires);
-
-        let dateFormatted = date_expires ? dateToFormat(date_expires) : null;        
-
-        // let date = new Date(_date);
-        
-        // let year = date.getFullYear();
-        // let day = date.getDate();
-        // let monthNumber = date.getMonth();
-        // let monthName = monthNames[monthNumber];
-        // let time = date.toLocaleTimeString();
-        // console.log(year, day, monthName, time);
-        
-        
+        let dateFormatted = date_expires ? dateToFormat(date_expires) : null;
         
         return(
             <span>
@@ -154,9 +136,9 @@ export default class OfferCard extends React.Component {
                                 <CheckCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#52c41a" />
                                 <strong className="features__div_margin_left_s">Верифицирован</strong>
                                 <SecureRate className="features__div_margin_left_l" style={{ fontSize: 12 }}/>
-                                <span><strong className="features__div_margin_left_l">400млн.</strong> оборот</span>
+                                <span className="features__div_margin_left_l">Оборот: <strong>400млн.</strong></span>
                                 <EnvironmentOutlined className="features__div_margin_left_l" style={{ fontSize: '20px' }} />
-                                <strong className="features__div_margin_left_s">Москва</strong>
+                                <strong className="features__div_margin_left_s">{city}</strong>
                             </span>  
                         </div>
                     </div>
@@ -182,6 +164,8 @@ function dateToFormat(date_expires) {
     let day = date.getDate();
     let monthNumber = date.getMonth();
     let monthName = monthNames[monthNumber];
-    let time = date.toLocaleTimeString();
-    return `${day} ${monthName} ${year} в ${time}`;
+    let time = date.toLocaleTimeString().split(':');
+    let hours = time[0];
+    let minutes = time[1];
+    return `${day} ${monthName} ${year} в ${hours}:${minutes}`;
 }
