@@ -70,7 +70,7 @@ export default class OfferCard extends React.Component {
             measure_unit_code,
             currency_code,
             offer_type,
-            // date_publication,
+            date_publication,
             date_expires,
             country,
             city,
@@ -81,8 +81,9 @@ export default class OfferCard extends React.Component {
         
         let currency_symbol = currency_code == "RUB" ? SYMBOL_RUBLE : currency_code == "USD" ? SYMBOL_DOLLAR : null;
         let measure_unit_symbol = measureSymbols[measure_unit_code];
-
-        let dateFormatted = date_expires ? dateToFormat(date_expires) : null;
+        
+        let dateExpiresFormatted = date_expires ? dateToFormat(date_expires) : null;
+        let datePublicationFormatted = date_publication ? dateToFormat(date_publication) : null;
         
         return(
             <span>
@@ -96,10 +97,10 @@ export default class OfferCard extends React.Component {
                                 Количество: <strong>{amount_formatted}{measure_unit_symbol}</strong>
                             </span>
                             <span style={{paddingLeft: 20}}>
-                                Опубликовано: <strong>1 января 2020 в 17:25</strong>
+                                Опубликовано: <strong>{datePublicationFormatted || '...'}</strong>
                             </span>
                             <span style={{paddingLeft: 20}}>
-                                Истекает: <strong>{dateFormatted || '...'}</strong>
+                                Истекает: <strong>{dateExpiresFormatted || '...'}</strong>
                             </span>
                         </span>
                     </div>                  

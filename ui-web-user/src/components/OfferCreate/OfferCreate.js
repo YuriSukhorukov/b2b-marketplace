@@ -253,6 +253,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                                 currency_code={this.state.currency_code}
                                 measure_unit_code={this.state.measure_unit_code}
                                 date_expires={this.state.date_expires}
+                                // date_publication={new Date().toISOString()} // удалить
                                 city={this.state.city}
                             />
                         </div>
