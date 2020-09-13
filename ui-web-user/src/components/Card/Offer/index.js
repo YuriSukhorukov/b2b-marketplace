@@ -11,6 +11,30 @@ import SecureRate from '../../Rate/Secure/index';
 import 'antd/dist/antd.css';
 import './style.css';
 
+import {
+    MEASURE_UNIT_CODE_TON,
+    MEASURE_UNIT_CODE_KILOGRAM,
+    MEASURE_UNIT_CODE_GRAM,
+    MEASURE_UNIT_CODE_SQUARE_METER,
+    MEASURE_UNIT_CODE_LITER,
+    MEASURE_UNIT_CODE_METER,
+    MEASURE_UNIT_CODE_THING,
+    MEASURE_UNIT_CODE_CUBIC_METER,
+    MEASURE_UNIT_CODE_PACK,
+} from '../../../constants/measure.units.constants';
+
+const measureSymbols = {
+    [MEASURE_UNIT_CODE_TON]: "т.",
+    [MEASURE_UNIT_CODE_KILOGRAM]: "кг.",
+    [MEASURE_UNIT_CODE_GRAM]: "гр.",
+    [MEASURE_UNIT_CODE_SQUARE_METER]: "кв.м",
+    [MEASURE_UNIT_CODE_LITER]: "л.",
+    [MEASURE_UNIT_CODE_METER]: "м.",
+    [MEASURE_UNIT_CODE_THING]: "шт.",
+    [MEASURE_UNIT_CODE_CUBIC_METER]: "кб.м",
+    [MEASURE_UNIT_CODE_PACK]: "у.",
+}
+
 const { Paragraph } = Typography;
 
 export default class OfferCard extends React.Component {
@@ -21,14 +45,15 @@ export default class OfferCard extends React.Component {
     componentDidUpdate() {
         console.log(this.props);
     }
-    state = {
-        currency_symbol: null
-    }
+    // state = {
+    //     currency_symbol: null
+    // }
     render() {
         const {
             title,
             description,
             price,
+            measure_unit_code,
             currency_code,
             offer_type,
             date_expires,
@@ -43,6 +68,12 @@ export default class OfferCard extends React.Component {
             currency_symbol = currency_code == "RUB" ? <span>&#8381;</span> : currency_code == "USD" ? <span>&#65284;</span> : null;
         else
             currency_symbol = null;
+
+        let measure_unit_symbol = measureSymbols[measure_unit_code];
+        console.log(measureSymbols);
+        console.log(measure_unit_code);
+        console.log(measure_unit_symbol);
+        
         
         return(
             <span>
@@ -53,7 +84,7 @@ export default class OfferCard extends React.Component {
                                 Цена: <strong>{parseInt(price_formatted) ? price_formatted : "" }{currency_symbol}</strong>
                             </span>
                             <span style={{paddingLeft: 20}}>
-                                Количество: <strong>40т.</strong>
+                                Количество: <strong>40{measure_unit_symbol}</strong>
                             </span>
                             <span style={{paddingLeft: 20}}>
                                 Опубликовано: <strong>1 января 2020 в 17:25</strong>

@@ -6,8 +6,30 @@ import { CheckCircleTwoTone, CaretRightOutlined } from '@ant-design/icons';
 import Offer from '../Card/Offer';
 import offersStore from '../../stores/offersStore';
 
+import {
+    MEASURE_UNIT_CODE_TON,
+    MEASURE_UNIT_CODE_KILOGRAM,
+    MEASURE_UNIT_CODE_GRAM,
+    MEASURE_UNIT_CODE_SQUARE_METER,
+    MEASURE_UNIT_CODE_LITER,
+    MEASURE_UNIT_CODE_METER,
+    MEASURE_UNIT_CODE_THING,
+    MEASURE_UNIT_CODE_CUBIC_METER,
+    MEASURE_UNIT_CODE_PACK,
+} from '../../constants/measure.units.constants';
+
 const { Panel }     = Collapse;
 const { Option }    = Select;
+
+{/* <Option value="KG">Килограмм</Option>
+                    <Option value="GR">Грамм</Option>
+                    <Option value="MM2">Квадратный метр</Option>
+                    <Option value="LT">Литр</Option>
+                    <Option value="MM">Метр</Option>
+                    <Option value="TH">Штука</Option>
+                    <Option value="MM3">Кубический метр</Option>
+                    <Option value="PCK">Упаковка</Option> */}
+
 
 const text = `
   A dog is a type of domesticated animal.
@@ -29,15 +51,24 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
         this.onChangeMeasureUnit    = this.onChangeMeasureUnit.bind(this);
     }
     state = {
-        title: undefined,
-        description: undefined,
-        price: undefined,
-        measure_unit: undefined,
-        currency_code: undefined,
-        offer_type: undefined,
-        date_expires: undefined,
-        country: undefined,
-        city: undefined,
+        // title: undefined,
+        // description: undefined,
+        // price: undefined,
+        // measure_unit_code: undefined,
+        // currency_code: undefined,
+        // offer_type: undefined,
+        // date_expires: undefined,
+        // country: undefined,
+        // city: undefined,
+        title: "Сгущенка",
+        description: "Оригинальная сгущенка Рогачевъ.",
+        price: 1000000,
+        measure_unit_code: MEASURE_UNIT_CODE_KILOGRAM,
+        currency_code: "RUB",
+        offer_type: "SELL",
+        date_expires: new Date().toISOString(),
+        country: "Российская Федерация",
+        city: "Москва"
     }
     async createOffer() {
         await offersStore.setOfferTitle(this.state.title);
@@ -97,7 +128,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
     async onChangeMeasureUnit(value) {
         console.log(value);
         this.setState({
-            measure_unit: value
+            measure_unit_code: value
         });
     }
     render() {
@@ -119,15 +150,16 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
 
 
 
-                <Select placeholder="Единица измерения" style={{ width: 200 }} value={this.state.measure_unit} onChange={this.onChangeMeasureUnit}>
-                    <Option value="1">Килограмм</Option>
-                    <Option value="2">Грамм</Option>
-                    <Option value="3">Квадратный метр</Option>
-                    <Option value="4">Литр</Option>
-                    <Option value="5">Метр</Option>
-                    <Option value="6">Штука</Option>
-                    <Option value="7">Кубический метр</Option>
-                    <Option value="8">Упаковка</Option>
+                <Select placeholder="Единица измерения" style={{ width: 200 }} value={this.state.measure_unit_code} onChange={this.onChangeMeasureUnit}>
+                    <Option value={MEASURE_UNIT_CODE_TON}>Тонна</Option>
+                    <Option value={MEASURE_UNIT_CODE_KILOGRAM}>Килограмм</Option>
+                    <Option value={MEASURE_UNIT_CODE_GRAM}>Грамм</Option>
+                    <Option value={MEASURE_UNIT_CODE_SQUARE_METER}>Квадратный метр</Option>
+                    <Option value={MEASURE_UNIT_CODE_LITER}>Литр</Option>
+                    <Option value={MEASURE_UNIT_CODE_METER}>Метр</Option>
+                    <Option value={MEASURE_UNIT_CODE_THING}>Штука</Option>
+                    <Option value={MEASURE_UNIT_CODE_CUBIC_METER}>Кубический метр</Option>
+                    <Option value={MEASURE_UNIT_CODE_PACK}>Упаковка</Option>
                 </Select>
 
 
@@ -199,6 +231,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                                 description={this.state.description}
                                 price={this.state.price}
                                 currency_code={this.state.currency_code}
+                                measure_unit_code={this.state.measure_unit_code}
                             />
                         </div>
                     </Panel>
