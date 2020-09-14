@@ -1,0 +1,9 @@
+export const MEASURE_UNIT_CODE_TON             = "TN";
+export const MEASURE_UNIT_CODE_KILOGRAM        = "KG";
+export const MEASURE_UNIT_CODE_GRAM            = "GM";
+export const MEASURE_UNIT_CODE_SQUARE_METER    = "M2";
+export const MEASURE_UNIT_CODE_LITER           = "L";
+export const MEASURE_UNIT_CODE_METER           = "M";
+export const MEASURE_UNIT_CODE_THING           = "TH";
+export const MEASURE_UNIT_CODE_CUBIC_METER     = "M3";
+export const MEASURE_UNIT_CODE_PACK            = "PKG";
