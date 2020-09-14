@@ -23,6 +23,11 @@ import {
     OFFER_TYPE_SELL
 } from '../../constants/offer/offer.types';
 
+import {
+    OFFER_CURRENCY_RUBLE,
+    OFFER_CURRENCY_DOLLAR
+} from '../../constants/offer/offer.currencies';
+
 const { Panel }     = Collapse;
 const { Option }    = Select;
 
@@ -59,7 +64,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
         price: 1000000,
         amount: 44,
         measure_unit_code: MEASURE_UNIT_CODE_KILOGRAM,
-        currency_code: "RUB",
+        currency_code: OFFER_CURRENCY_RUBLE,
         offer_type: OFFER_TYPE_SELL,
         // date_expires: new Date().toISOString(),
         // time_expires: new Date().toISOString(),
