@@ -2,7 +2,8 @@ import React from 'react';
 import { 
     Card, 
     Tag,
-    Typography
+    Typography,
+    Divider,
 } from 'antd';
 import { CheckCircleTwoTone, GlobalOutlined, EnvironmentOutlined} from '@ant-design/icons';
 import SecureRate from '../../Rate/Secure/index';
@@ -20,6 +21,11 @@ import {
     MEASURE_UNIT_CODE_CUBIC_METER,
     MEASURE_UNIT_CODE_PACK,
 } from '../../../constants/measure.units.constants';
+
+import {
+    OFFER_TYPE_BUY,
+    OFFER_TYPE_SELL
+} from '../../../constants/offer/offer.types';
 
 const measureSymbols = {
     [MEASURE_UNIT_CODE_TON]: "т.",
@@ -52,6 +58,19 @@ const SYMBOL_RUBLE = <span>&#8381;</span>;
 const SYMBOL_DOLLAR = <span>&#65284;</span>;
 
 const { Paragraph } = Typography;
+
+const OfferType = (props) => {
+    const {offer_type} = props;
+    return(
+        <>
+            <div>
+            {
+                offer_type == OFFER_TYPE_BUY ? <Tag color="green">Покупка</Tag> : offer_type == OFFER_TYPE_SELL ? <Tag color="red">Продажа</Tag> : <></>
+            }
+            </div>
+        </>
+    );
+}
 
 export default class OfferCard extends React.Component {
     constructor(props) {
@@ -133,14 +152,17 @@ export default class OfferCard extends React.Component {
                             </span>
                         </div>
                         <div style={{paddingTop: 5}}>
-                            <span style={{display: "inline-flex", alignItems: "center"}}>
-                                <CheckCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#52c41a" />
-                                <strong className="features__div_margin_left_s">Верифицирован</strong>
-                                <SecureRate className="features__div_margin_left_l" style={{ fontSize: 12 }}/>
-                                <span className="features__div_margin_left_l">Оборот: <strong>400млн.</strong></span>
-                                <EnvironmentOutlined className="features__div_margin_left_l" style={{ fontSize: '20px' }} />
-                                <strong className="features__div_margin_left_s">{city}</strong>
-                            </span>  
+                            <span style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                                <div style={{justifyItems: "baseline"}}>
+                                    <CheckCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#52c41a" />
+                                    <strong className="features__div_margin_left_s">Верифицирован</strong>
+                                    <SecureRate className="features__div_margin_left_l" style={{ fontSize: 12 }}/>
+                                    <span className="features__div_margin_left_l">Оборот: <strong>400млн.</strong></span>
+                                    <EnvironmentOutlined className="features__div_margin_left_l" style={{ fontSize: '20px' }} />
+                                    <strong className="features__div_margin_left_s">{city}</strong>
+                                </div>
+                                <OfferType offer_type={offer_type} />
+                            </span>
                         </div>
                     </div>
                 </Card>

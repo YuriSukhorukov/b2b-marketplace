@@ -18,6 +18,11 @@ import {
     MEASURE_UNIT_CODE_PACK,
 } from '../../constants/measure.units.constants';
 
+import {
+    OFFER_TYPE_BUY,
+    OFFER_TYPE_SELL
+} from '../../constants/offer/offer.types';
+
 const { Panel }     = Collapse;
 const { Option }    = Select;
 
@@ -55,7 +60,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
         amount: 44,
         measure_unit_code: MEASURE_UNIT_CODE_KILOGRAM,
         currency_code: "RUB",
-        offer_type: "SELL",
+        offer_type: OFFER_TYPE_SELL,
         // date_expires: new Date().toISOString(),
         // time_expires: new Date().toISOString(),
         date_expires: undefined,
@@ -181,8 +186,8 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                 </Select>
 
                 <Select placeholder="Тип предложения" style={{ width: 120 }} value={this.state.offer_type} onChange={this.onChangeOfferType}>
-                    <Option value="SELL">Продажа</Option>
-                    <Option value="BUY">Покупка</Option>
+                    <Option value={OFFER_TYPE_SELL}>Продажа</Option>
+                    <Option value={OFFER_TYPE_BUY}>Покупка</Option>
                 </Select>
                 <Select placeholder="Валюта" style={{ width: 120 }} value={this.state.currency_code} onChange={this.onChangeCurrencyCode}>
                     <Option value="RUB">Рубль</Option>
@@ -255,6 +260,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                                 date_expires={this.state.date_expires}
                                 // date_publication={new Date().toISOString()} // удалить
                                 city={this.state.city}
+                                offer_type={this.state.offer_type}
                             />
                         </div>
                     </Panel>
