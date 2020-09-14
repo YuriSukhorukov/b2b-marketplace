@@ -9,17 +9,21 @@ module.exports = async (pool, params) => {
             title,
             description,
             price,
+            amount,
             currency_code,
             offer_type,
+            measure_unit_code,
             date_expires,
             country,
             city
         } = params;
+
+        console.log('params: ', params);
         
         await client.query(
             `
-                INSERT INTO offers(user_id, title, description, price, currency_code, offer_type, country, city, date_expires) 
-                VALUES ('${userId}', '${title}', '${description}', '${price}', '${currency_code}', '${offer_type}', '${country}', '${city}', '${date_expires}')
+                INSERT INTO offers(user_id, title, description, price, amount, currency_code, offer_type, measure_unit_code, date_expires, country, city) 
+                VALUES ('${userId}', '${title}', '${description}', '${price}', '${amount}', '${currency_code}', '${offer_type}', '${measure_unit_code}', '${date_expires}', '${country}', '${city}')
                 RETURNING created_on;
             `, 
             (error, result) => {
@@ -28,8 +32,7 @@ module.exports = async (pool, params) => {
                     // console.log(`INSERT INTO offers '${params}' result:`, result.rows);
                     client.release();
                     res(result.rows);
-                }
-                if (error) {
+                } else if (error) {
                     console.log(`INSERT INTO offers '${params}' error`, error.stack);
                     client.release();
                     rej(error.stack);
