@@ -27,6 +27,11 @@ import {
     OFFER_TYPE_SELL
 } from '../../../constants/offer/offer.types';
 
+import {
+    OFFER_CURRENCY_RUBLE,
+    OFFER_CURRENCY_DOLLAR
+} from '../../../constants/offer/offer.currencies';
+
 const measureSymbols = {
     [MEASURE_UNIT_CODE_TON]: "т.",
     [MEASURE_UNIT_CODE_KILOGRAM]: "кг.",
@@ -37,6 +42,11 @@ const measureSymbols = {
     [MEASURE_UNIT_CODE_THING]: "шт.",
     [MEASURE_UNIT_CODE_CUBIC_METER]: "кб.м",
     [MEASURE_UNIT_CODE_PACK]: "у.",
+}
+
+const currencySymbols = {
+    [OFFER_CURRENCY_RUBLE]: <span>&#8381;</span>,
+    [OFFER_CURRENCY_DOLLAR]: <span>&#65284;</span>
 }
 
 const monthNames = {
@@ -98,7 +108,7 @@ export default class OfferCard extends React.Component {
         let price_formatted = isNaN(price) ? 0 : currency_code == "RUB" ? new Intl.NumberFormat('ru-RU').format(price) : currency_code == "USD" ? new Intl.NumberFormat('en-IN').format(price) : price;
         let amount_formatted = isNaN(amount) ? 0 : Intl.NumberFormat('ru-RU').format(amount);
         
-        let currency_symbol = currency_code == "RUB" ? SYMBOL_RUBLE : currency_code == "USD" ? SYMBOL_DOLLAR : null;
+        let currency_symbol = currencySymbols[currency_code];
         let measure_unit_symbol = measureSymbols[measure_unit_code];
         
         let dateExpiresFormatted = date_expires ? dateToFormat(date_expires) : null;

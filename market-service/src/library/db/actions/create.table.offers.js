@@ -11,11 +11,14 @@ module.exports = async (pool, params) => {
                     user_id SERIAL NOT NULL,
                     title VARCHAR(255) NOT NULL,
                     description VARCHAR(255) NOT NULL,
-                    price NUMERIC(17,3) NOT NULL,
-                    currency_code VARCHAR(3) NOT NULL,
+                    price NUMERIC(19,6) NOT NULL,
+                    amount NUMERIC(19,0) NOT NULL,
+                    currency_code VARCHAR(8) NOT NULL,
                     offer_type VARCHAR(16) NOT NULL,
+                    measure_unit_code VARCHAR(16) NOT NULL,
                     country VARCHAR(255) NOT NULL,
                     city VARCHAR(255) NOT NULL,
+                    date_publication TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                     date_expires TIMESTAMP NOT NULL,
                     created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
                 );
