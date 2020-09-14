@@ -24,7 +24,7 @@ const App = observer(() => {
       <Layout>
         <Header className="header">
           <Link to="/">
-            <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white", left: "585px"}}>B2B Marketplace</div>
+            <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white", left: "535px"}}>Tetra LTD</div>
           </Link>
           {
             !authStore.isAuthenticated 
