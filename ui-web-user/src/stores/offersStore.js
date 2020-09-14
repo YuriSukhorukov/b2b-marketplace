@@ -25,6 +25,9 @@ const setOfferDescription       = action(async (description)=>{
 const setOfferPrice             = action(async (price)=>{
     offersStore.newOffer.price = price;
 });
+const setOfferAmount            = action(async (amount)=>{
+    offersStore.newOffer.amount = amount;
+});
 const setOfferCurrencyCode      = action(async (currency_code)=>{
     offersStore.newOffer.currency_code = currency_code;
 });
@@ -40,6 +43,9 @@ const setOfferCountry           = action(async (country)=>{
 const setOfferCity              = action(async (city)=>{
     offersStore.newOffer.city = city;
 });
+const setOfferMeasureUnit       = action(async (measure_unit_code)=>{
+    offersStore.newOffer.measure_unit_code = measure_unit_code;
+});
 
 const offersStore = observable({
     filter: {
@@ -52,8 +58,10 @@ const offersStore = observable({
         title: null,
         description: null,
         price: null,
+        amount: null,
         currency_code: null,
         offer_type: null,
+        measure_unit_code: null,
         date_expires: null,
         country: null,
         city: null,
@@ -66,11 +74,13 @@ const offersStore = observable({
     setOfferTitle,
     setOfferDescription,
     setOfferPrice,
+    setOfferAmount,
     setOfferCurrencyCode,
     setOfferOfferType,
     setOfferDataExpires,
     setOfferCountry,
     setOfferCity,
+    setOfferMeasureUnit,
 });
 
 export default offersStore;

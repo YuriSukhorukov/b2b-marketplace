@@ -40,14 +40,13 @@ const text = `
 const OfferCreate = observer(class OfferFeed extends React.Component {
     constructor(props) {
         super(props);
-        this.onChange               = this.onChange.bind(this);
+        // this.onChange               = this.onChange.bind(this);
         this.onChangeDate           = this.onChangeDate.bind(this);
         this.onChangeTime           = this.onChangeTime.bind(this);
         this.onChangeOfferType      = this.onChangeOfferType.bind(this);
         this.createOffer            = this.createOffer.bind(this);
         this.onChangeCurrencyCode   = this.onChangeCurrencyCode.bind(this);
         this.onChangeMeasureUnit    = this.onChangeMeasureUnit.bind(this);
-        // this.onChangeAmount         = this.onChangeAmount.bind(this);
     }
     state = {
         // title: undefined,
@@ -66,9 +65,7 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
         measure_unit_code: MEASURE_UNIT_CODE_KILOGRAM,
         currency_code: OFFER_CURRENCY_RUBLE,
         offer_type: OFFER_TYPE_SELL,
-        // date_expires: new Date().toISOString(),
-        // time_expires: new Date().toISOString(),
-        date_expires: undefined,
+        date_expires: new Date().toISOString(),//undefined,
         time_expires: undefined,
         country: "Российская Федерация",
         city: "Москва"
@@ -77,17 +74,51 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
         await offersStore.setOfferTitle(this.state.title);
         await offersStore.setOfferDescription(this.state.description);
         await offersStore.setOfferPrice(this.state.price);
+        await offersStore.setOfferPrice(this.state.price);
+        await offersStore.setOfferAmount(this.state.amount);
         await offersStore.setOfferCurrencyCode(this.state.currency_code);
         await offersStore.setOfferOfferType(this.state.offer_type);
         await offersStore.setOfferDataExpires(this.state.date_expires);
         await offersStore.setOfferCountry(this.state.country);
         await offersStore.setOfferCity(this.state.city);
+        await offersStore.setOfferMeasureUnit(this.state.measure_unit_code);
 
+        console.log({...offersStore.newOffer});
         await offersStore.createOffer({});
     }
-    async onChange(event) {
+    // async onChange(event) {
+    //     await this.setState({
+    //         [event.target.name]: event.target.value
+    //     });
+    // }
+    onChangeTitle = async (event) => {
         await this.setState({
-            [event.target.name]: event.target.value
+            title: event.target.value
+        });
+    }
+    onChangeDescription = async (event) => {
+        await this.setState({
+            description: event.target.value
+        });
+    }
+    onChangePrice = async (event) => {
+        await this.setState({
+            price: event.target.value
+        });
+    }
+    onChangeAmount = async (event) => {
+        await this.setState({
+            amount: event.target.value
+        });
+    }
+    onChangeCountry = async (event) => {
+        await this.setState({
+            country: event.target.value
+        });
+    }
+    onChangeCity = async (event) => {
+        await this.setState({
+            city: event.target.value
         });
     }
 
@@ -163,19 +194,19 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
             <div>
                 <Input 
                     placeholder="Название" 
-                    onChange={this.onChange} value={this.state.title} name="title"
+                    onChange={this.onChangeTitle} value={this.state.title} name="title"
                 />
                 <Input 
                     placeholder="Описание" 
-                    onChange={this.onChange} value={this.state.description} name="description"
+                    onChange={this.onChangeDescription} value={this.state.description} name="description"
                 />
                 <Input 
                     placeholder="Цена" 
-                    onChange={this.onChange} value={this.state.price} name="price"
+                    onChange={this.onChangePrice} value={this.state.price} name="price"
                 />
                 <Input 
                     placeholder="Количество" 
-                    onChange={this.onChange} value={this.state.amount} name="amount"
+                    onChange={this.onChangeAmount} value={this.state.amount} name="amount"
                 />
 
                 <Select placeholder="Единица измерения" style={{ width: 200 }} value={this.state.measure_unit_code} onChange={this.onChangeMeasureUnit}>
@@ -215,13 +246,12 @@ const OfferCreate = observer(class OfferFeed extends React.Component {
                 <Input 
                     disabled
                     placeholder="Российская Федерация" 
-                    onChange={this.onChange} value={this.state.country} name="country"
+                    onChange={this.onChangeCountry} value={this.state.country} name="country"
                 />
                 <Input 
                     placeholder="Город" 
-                    onChange={this.onChange} value={this.state.city} name="city"
+                    onChange={this.onChangeCity} value={this.state.city} name="city"
                 />
-
 
 
                 

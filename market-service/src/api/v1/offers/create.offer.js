@@ -8,8 +8,10 @@ module.exports = async (req, res) => {
         title,
         description,
         price,
+        amount,
         currency_code,
         offer_type,
+        measure_unit_code,
         date_expires,
         country,
         city
@@ -21,8 +23,10 @@ module.exports = async (req, res) => {
             title,
             description,
             price,
+            amount,
             currency_code,
             offer_type,
+            measure_unit_code,
             date_expires,
             country,
             city
