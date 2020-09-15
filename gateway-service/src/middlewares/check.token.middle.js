@@ -12,11 +12,12 @@ module.exports = (req, res, next) => {
 
     decodeJwt(token)
     .then(result => {
-        console.log(result);
+        console.log('result: ', result);
         return next();
     })
     .catch(error => {
-        console.log(error);
-        res.send('error jwt');
+        console.log('error: ', error);
+        res.status(401).json({error: error.message});
+        return next(error);
     })
 };

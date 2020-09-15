@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Menu         from './containers/Menu/index';
 import { Route, Switch, Link, Redirect } from 'react-router-dom';
 import authStore from './stores/authStore';
@@ -10,21 +10,51 @@ import { observer } from 'mobx-react';
 import './App.css';
 import { Button, Collapse } from 'antd';
 import Offer from './components/Card/Offer/index';
-
+import axios from 'axios';
 import { Layout, Breadcrumb, Input } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, CaretRightOutlined } from '@ant-design/icons';
+import auth from './api/auth';
+import signin from './api/auth/signin';
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 const { Panel } = Collapse;
 
+const DebugAPI = () => {
+  const request = ({url, method, body, headers}) => {
+    return new Promise((res, rej) => {
+      axios({
+        url,
+        method,
+        body,
+        headers
+      }).then(response => {
+        console.log(response);
+        res(response);
+      }).catch((error) => {
+        console.log(error);
+        res(error);
+      });;
+    });
+  }
+  return(
+    <>
+      <Button type="primary" style={{margin: "10px"}} onClick={()=>{request({url: '/', method: 'POST'})}}>POST URL: "/"</Button>
+      <Button type="primary" style={{margin: "10px"}} onClick={()=>{request({url: '/', method: 'GET'})}}>GET URL: "/"</Button>
+      <Button type="primary" style={{margin: "10px"}} onClick={()=>{request({url: '/api/v1/jwt', method: 'POST'})}}>POST URL: "/api/v1/jwt"</Button>
+      <Button type="primary" style={{margin: "10px"}} onClick={()=>{request({url: '/api/v1/auth/signin', method: 'POST', body: {}, headers: {username: 'yuri@gmail.com', password: 'sdWE343sx!'}})}}>POST URL: "/api/v1/auth/signin"</Button>
+      <Button type="primary" style={{margin: "10px"}} onClick={()=>{request({url: '/api/v1/auth/signout', method: 'POST'})}}>POST URL: "/api/v1/auth/signout"</Button>
+    </>
+  );
+}
+
 const App = observer(() => {
   return (
     <Switch>
-      {/* <OfferCreate /> */}
+      <Route path="/debug" component={DebugAPI} />
       <Layout>
         <Header className="header">
           <Link to="/">
-            <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white", left: "585px"}}>B2B Marketplace</div>
+            <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white", left: "535px"}}>Tetra LTD</div>
           </Link>
           {
             !authStore.isAuthenticated 

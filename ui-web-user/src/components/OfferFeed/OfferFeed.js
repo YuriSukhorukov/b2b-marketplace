@@ -1,33 +1,67 @@
-import React from 'react';
-import 'antd/dist/antd.css';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import Offer from '../../components/Card/Offer/index';
 import offersStore from '../../stores/offersStore';
+import { Drawer, Button, PageHeader, Descriptions } from 'antd';
 
-// let offers = [1,2,3];
+import 'antd/dist/antd.css';
+
+const OfferDetails = (props) => {
+    const onClose = () => {
+        props.closeOfferDetails();
+    };
+    return(
+        <>
+            <Drawer
+                width={820}
+                title=""
+                placement="right"
+                closable={false}
+                onClose={onClose}
+                visible={props.visible}
+            >
+                <PageHeader
+                    ghost={false}
+                    onBack={onClose}
+                    title="Title"
+                    subTitle="This is a subtitle"
+                    extra={[
+                        <Button key="1" type="primary">Откликнуться</Button>,
+                    ]} 
+                />
+            </Drawer>
+        </>
+    );
+}
 
 const OfferFeed = observer(class OfferFeed extends React.Component {
     constructor(props) {
         super(props);
     }
+    state = {
+        offerDetailsVisible: false
+    }
     async componentDidMount() {
         await offersStore.getOffers();
+    }
+    openOfferDetails = async () => {
+        this.setState({
+            offerDetailsVisible: true
+        })
+        console.log('openOfferDetails');
+    }
+    closeOfferDetails = async () => {
+        this.setState({
+            offerDetailsVisible: false
+        })
+        console.log('closeOfferDetails');
     }
     render() {
         return(
             <div>
-                {/* <input placeholder="Искать предложения"></input>
-                <a>Расширенный поиск</a>
-                <div>
-                    {offers.map((value, index) => {
-                        return <li key={index}>{value}</li>
-                    })}
-                </div> */}
-
+                <OfferDetails visible={this.state.offerDetailsVisible} closeOfferDetails={this.closeOfferDetails}/>
                 <div>
                     {offersStore.offers.map((value, index) => {
-                        console.log(value);                 
-                        // return <li key={index}>{value.created_on}</li>
                         return(
                             <Offer 
                                 key={index}
@@ -42,6 +76,7 @@ const OfferFeed = observer(class OfferFeed extends React.Component {
                                 date_expires={value.date_expires}
                                 country={value.country}
                                 city={value.city}
+                                openOfferDetails={this.openOfferDetails}
                             />
                         )
                     })}
