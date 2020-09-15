@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import Offer from '../../components/Card/Offer/index';
 import offersStore from '../../stores/offersStore';
-import { Drawer } from 'antd';
+import { Drawer, Button, PageHeader, Descriptions } from 'antd';
 
 import 'antd/dist/antd.css';
 
@@ -20,7 +20,15 @@ const OfferDetails = (props) => {
                 onClose={onClose}
                 visible={props.visible}
             >
-                <p>Контент...</p>
+                <PageHeader
+                    ghost={false}
+                    onBack={onClose}
+                    title="Title"
+                    subTitle="This is a subtitle"
+                    extra={[
+                        <Button key="1" type="primary">Откликнуться</Button>,
+                    ]} 
+                />
             </Drawer>
         </>
     );
