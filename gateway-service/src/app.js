@@ -15,12 +15,17 @@ app.use(cors());
 app.use(bodyParser());
 app.use(cookieParser());
 
-app.use(`/`, require(`./middlewares/all.middle`));
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/home', home);
-// TODO добавить валидацию cookies jwt
 app.use('/api/v1/market', market);
 
 app.disable('etag');
 
 module.exports = app;
+
+// app.post(`/api/v1/jwt`, require(`./middlewares/check.token.middle`));
+// app.post('/api/v1/jwt', async (req, res)=>{
+//     const token = req.cookies.jwt;
+//     console.log(`token in /api/v1/jwt: ${token}`);
+//     res.status(200).end();
+// });
