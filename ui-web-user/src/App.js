@@ -100,8 +100,9 @@ const App = observer(() => {
                   </div>
                 )
               }}></Route>
-              <Route path="/offers/search" component={OfferFeed} />
-              <Route path="/offers/new" component={OfferCreate} />
+              <Route path="/offers/search"><OfferFeed /></Route>
+              <Route path="/offers/published"><OfferFeed /></Route>
+              <Route path="/offers/new"><OfferCreate /></Route>
             </Content>
           </Layout>
         </Content>

@@ -53,6 +53,7 @@ const authStore = observable({
     isEmailFree,
     register,
     authorization: false,
+    get user_id() {return getCookie('id')},
     get isAuthenticated() {return this.authorization},
 });
 
