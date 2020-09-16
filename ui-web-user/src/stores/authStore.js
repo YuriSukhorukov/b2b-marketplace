@@ -17,6 +17,17 @@ const login = action(async ({email, password}) => {
         authStore.authorization = response.status == 200;
         setCookie('id', response.data.user_id, 30);
     } catch (e) {
+        console.log(e);
+        authStore.authorization = false;
+    }
+});
+
+const verify = action(async () => {
+    try {
+        const response = await api.auth.verification.verify();
+        authStore.authorization = response.status == 200;    
+    } catch (e) {
+        console.log(e);
         authStore.authorization = false;
     }
 });
@@ -48,6 +59,7 @@ const logout = action(async ()=>{
 const authStore = observable({
     token: '',
     isEmailExist,
+    verify,
     login,
     logout,
     isEmailFree,

@@ -47,103 +47,118 @@ const DebugAPI = () => {
   );
 }
 
-const App = observer(() => {
-  return (
-    <Switch>
-      <Route path="/debug" component={DebugAPI} />
-      <Layout>
-        <Header className="header">
-          <Link to="/">
-            <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white", left: "535px"}}>Tetra LTD</div>
-          </Link>
-          {
-            (authStore.isAuthenticated && 
-              <div style={{right: "600px", position: "absolute"}}>
-                <Button style={{marginRight: "15px"}} onClick={authStore.logout}>Выйти</Button>
-              </div>
-            ) 
-            ||
-            (!authStore.isAuthenticated && (
-                <div style={{right: "600px", position: "absolute"}}>
-                  <Link to="/auth/signin">
-                    <Button style={{marginRight: "15px"}} >Войти</Button>
-                  </Link>
-                  <Link to="/auth/signup">
-                    <Button type="primary">Зарегистрироваться</Button>
-                  </Link>
-                </div>
-              ))
-          }
-        </Header>
-        <Content style={{ padding: '0 600px' }}>
-          <Layout className="site-layout-background" style={{ padding: '0 0', minHeight: '90vh' }}>
-            {
-              authStore.isAuthenticated 
-              ?
-                (
-                  <div>
-                    <Sider style={{height: '100%', width: "256px", padding: "20px 0"}} width={256} className="site-layout-background">
-                      <Menu mode="inline" style={{ height: '100%' }}></Menu>
-                    </Sider>
-                  </div>
-                ) 
-              : 
-                <Redirect to="/auth/signin"></Redirect>
-            }
-            {/* Регистрация || Список предложений || Либо... */}
-            <Content style={{ padding: '0px 20px', minHeight: 280 }}>
-              <Route path="/auth/*" render={(props) => {
-                return (
-                  authStore.isAuthenticated ? <Redirect to='/'></Redirect> :
-                  <div style={{position: "absolute", top: "50%", left: '50%', transform: "translateY(-100%) translateX(-50%)"}}>
-                    <AuthForm {...props}/>
-                  </div>
-                )
-              }}></Route>
-              <Route path="/offers/search"><OfferFeed /></Route>
-              <Route path="/offers/published"><OfferFeed /></Route>
-              <Route path="/offers/new"><OfferCreate /></Route>
-            </Content>
-          </Layout>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>B2B Marketplace ©2020 Created by SPB-Tech</Footer>
-      </Layout>
+// const OfferAppFeed = observer(class App extends React.Component {
+//   render() {
 
-      {/* <Route exact path='/'>
+//   }
+// })
+
+const App = observer(class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  async componentWillMount(){
+    // TODO добавить лоадер, на случай долгого ответа по /api/v1/auth/verification
+    await authStore.verify();
+  }
+  render() {
+    return (
+      <Switch>
+        <Route path="/debug" component={DebugAPI} />
         <Layout>
           <Header className="header">
             <Link to="/">
-              <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white", left: "585px"}}>B2B Marketplace</div>
+              <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white", left: "535px"}}>Tetra LTD</div>
             </Link>
-            <div style={{right: "600px", position: "absolute"}}>
-              <Link to="auth/signin">
-                <Button style={{marginRight: "15px"}} >Войти</Button>
-              </Link>
-              <Link to="auth/signup">
-                <Button type="primary">Зарегистрироваться</Button>
-              </Link>
-            </div>
+            {
+              (authStore.isAuthenticated && 
+                <div style={{right: "600px", position: "absolute"}}>
+                  <Button style={{marginRight: "15px"}} onClick={authStore.logout}>Выйти</Button>
+                </div>
+              ) 
+              ||
+              (!authStore.isAuthenticated && (
+                  <div style={{right: "600px", position: "absolute"}}>
+                    <Link to="/auth/signin">
+                      <Button style={{marginRight: "15px"}} >Войти</Button>
+                    </Link>
+                    <Link to="/auth/signup">
+                      <Button type="primary">Зарегистрироваться</Button>
+                    </Link>
+                  </div>
+                ))
+            }
           </Header>
           <Content style={{ padding: '0 600px' }}>
-            <Layout className="site-layout-background" style={{ padding: '0 0' }}>
-              <Sider style={{height: '100vh', width: "256px", padding: "20px 0"}} width={256} className="site-layout-background">
-                <Menu mode="inline" style={{ height: '100%' }}></Menu>
-              </Sider>
+            <Layout className="site-layout-background" style={{ padding: '0 0', minHeight: '90vh' }}>
+              {
+                authStore.isAuthenticated 
+                ?
+                  (
+                    <div>
+                      <Sider style={{height: '100%', width: "256px", padding: "20px 0"}} width={256} className="site-layout-background">
+                        <Menu mode="inline" style={{ height: '100%' }}></Menu>
+                      </Sider>
+                    </div>
+                  ) 
+                : 
+                  <Redirect to="/auth/signin"></Redirect>
+              }
+              {/* Регистрация || Список предложений || Либо... */}
               <Content style={{ padding: '0px 20px', minHeight: 280 }}>
-                <Offer/>
-                <Offer/>
-                <Offer/>
-                <Offer/>
-                <Offer/>
-                <Offer/>
+                <Route path="/auth/*" render={(props) => {
+                  return (
+                    authStore.isAuthenticated ? <Redirect to='/'></Redirect> :
+                    <div style={{position: "absolute", top: "50%", left: '50%', transform: "translateY(-100%) translateX(-50%)"}}>
+                      <AuthForm {...props}/>
+                    </div>
+                  )
+                }}></Route>
+                <Route path="/offers/search"><OfferFeed /></Route>
+                <Route path="/offers/published"><OfferFeed /></Route>
+                <Route path="/offers/new"><OfferCreate /></Route>
               </Content>
             </Layout>
           </Content>
           <Footer style={{ textAlign: 'center' }}>B2B Marketplace ©2020 Created by SPB-Tech</Footer>
         </Layout>
-      </Route> */}
-    </Switch>
-  );
+
+        {/* <Route exact path='/'>
+          <Layout>
+            <Header className="header">
+              <Link to="/">
+                <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white", left: "585px"}}>B2B Marketplace</div>
+              </Link>
+              <div style={{right: "600px", position: "absolute"}}>
+                <Link to="auth/signin">
+                  <Button style={{marginRight: "15px"}} >Войти</Button>
+                </Link>
+                <Link to="auth/signup">
+                  <Button type="primary">Зарегистрироваться</Button>
+                </Link>
+              </div>
+            </Header>
+            <Content style={{ padding: '0 600px' }}>
+              <Layout className="site-layout-background" style={{ padding: '0 0' }}>
+                <Sider style={{height: '100vh', width: "256px", padding: "20px 0"}} width={256} className="site-layout-background">
+                  <Menu mode="inline" style={{ height: '100%' }}></Menu>
+                </Sider>
+                <Content style={{ padding: '0px 20px', minHeight: 280 }}>
+                  <Offer/>
+                  <Offer/>
+                  <Offer/>
+                  <Offer/>
+                  <Offer/>
+                  <Offer/>
+                </Content>
+              </Layout>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>B2B Marketplace ©2020 Created by SPB-Tech</Footer>
+          </Layout>
+        </Route> */}
+      </Switch>
+    );
+  }
 })
 
 export default App;

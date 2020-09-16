@@ -11,5 +11,6 @@ router.post(`/signin/:username/:password`, require('./get.post'));
 router.post(`/signup`, require('./get.post'));
 router.post(`/signin`, require('./get.post'));
 router.post(`/signout`, require('./get.post'));
+router.post(`/verification`, require('./get.post'));
 
 module.exports = router;
