@@ -19,9 +19,6 @@ const login = action(async ({email, password}) => {
         authStore.authorization = false;
     }
 });
-const logout = action(async ()=>{
-    // remove token from httpomly cookie
-});
 
 // Signup
 const isEmailFree = action(async ({email})=>{
@@ -33,15 +30,27 @@ const register = action(async ({email, password})=>{
     return response != undefined;
 });
 
+// Signout
+const logout = action(async ()=>{
+    try {
+        const response = await api.auth.signout.logout();
+        authStore.authorization = !(response.status == 200);
+        return true;
+    } catch (e) {
+        authStore.authorization = false;
+        return e;
+    }
+});
+
 // Export
 const authStore = observable({
     token: '',
     isEmailExist,
     login,
+    logout,
     isEmailFree,
     register,
-    // authorization: null,
-    authorization: true,
+    authorization: false,
     get isAuthenticated() {return this.authorization},
 });
 

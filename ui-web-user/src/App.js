@@ -42,7 +42,7 @@ const DebugAPI = () => {
       <Button type="primary" style={{margin: "10px"}} onClick={()=>{request({url: '/', method: 'GET'})}}>GET URL: "/"</Button>
       <Button type="primary" style={{margin: "10px"}} onClick={()=>{request({url: '/api/v1/jwt', method: 'POST'})}}>POST URL: "/api/v1/jwt"</Button>
       <Button type="primary" style={{margin: "10px"}} onClick={()=>{request({url: '/api/v1/auth/signin', method: 'POST', body: {}, headers: {username: 'yuri@gmail.com', password: 'sdWE343sx!'}})}}>POST URL: "/api/v1/auth/signin"</Button>
-      <Button type="primary" style={{margin: "10px"}} onClick={()=>{request({url: '/api/v1/auth/signout', method: 'POST'})}}>POST URL: "/api/v1/auth/signout"</Button>
+      <Button type="primary" style={{margin: "10px"}} onClick={()=>{authStore.logout()}}>POST URL: "/api/v1/auth/signout"</Button>
     </>
   );
 }
@@ -57,9 +57,13 @@ const App = observer(() => {
             <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white", left: "535px"}}>Tetra LTD</div>
           </Link>
           {
-            !authStore.isAuthenticated 
-            &&
-              (
+            (authStore.isAuthenticated && 
+              <div style={{right: "600px", position: "absolute"}}>
+                <Button style={{marginRight: "15px"}} onClick={authStore.logout}>Выйти</Button>
+              </div>
+            ) 
+            ||
+            (!authStore.isAuthenticated && (
                 <div style={{right: "600px", position: "absolute"}}>
                   <Link to="/auth/signin">
                     <Button style={{marginRight: "15px"}} >Войти</Button>
@@ -68,7 +72,7 @@ const App = observer(() => {
                     <Button type="primary">Зарегистрироваться</Button>
                   </Link>
                 </div>
-              )
+              ))
           }
         </Header>
         <Content style={{ padding: '0 600px' }}>
