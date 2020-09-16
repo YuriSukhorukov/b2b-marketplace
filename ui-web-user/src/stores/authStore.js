@@ -13,8 +13,9 @@ const isEmailExist = action(async ({email})=>{
 });
 const login = action(async ({email, password}) => {
     try {
-        await api.auth.signin.login({email, password});
-        authStore.authorization = true;
+        let response = await api.auth.signin.login({email, password});
+        authStore.authorization = response.status == 200;
+        setCookie('id', response.data.user_id, 30);
     } catch (e) {
         authStore.authorization = false;
     }
@@ -35,6 +36,7 @@ const logout = action(async ()=>{
     try {
         const response = await api.auth.signout.logout();
         authStore.authorization = !(response.status == 200);
+        deleteCookie('id');
         return true;
     } catch (e) {
         authStore.authorization = false;
@@ -69,3 +71,32 @@ window.authStore = authStore;
 // })
 
 // const authStore = window.authStore = new Auth
+
+
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  function deleteCookie(cname) {
+    document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
