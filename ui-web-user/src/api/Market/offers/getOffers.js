@@ -10,6 +10,7 @@ export default (params) => {
             url,
             method,
             headers,
+            params
         }).then(response => {
             res(response);
         }).catch((error) => {

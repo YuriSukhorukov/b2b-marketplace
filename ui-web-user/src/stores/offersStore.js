@@ -13,8 +13,17 @@ const getOffers = action(async ()=>{
     let result = await api.market.offers.getOffers(offersStore.filter);
     offersStore.offers = result.data.body;
 });
+const resetOffers = action(async ()=>{
+    offersStore.offers = null;
+});
 const getOfferDetails   = action(async ()=>{});
-const resetOffersFilter = action(async ()=>{});
+const setOfferFilter    = action(async (filter)=>{
+    console.log('filter', filter);
+    offersStore.filter = filter;
+});
+const resetOffersFilter = action(async ()=>{
+    offersStore.filter = {};
+});
 
 const setOfferTitle             = action(async (title)=>{
     offersStore.newOffer.title = title;
@@ -49,6 +58,7 @@ const setOfferMeasureUnit       = action(async (measure_unit_code)=>{
 
 const offersStore = observable({
     filter: {
+        user_id: null,
         type: null,
         lowPrice: null, 
         hightPrice: null,
@@ -70,6 +80,8 @@ const offersStore = observable({
     createOffer,
     getOfferDetails,
     getOffers,
+    resetOffers,
+    setOfferFilter,
     resetOffersFilter,
     setOfferTitle,
     setOfferDescription,

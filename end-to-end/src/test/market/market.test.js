@@ -81,6 +81,65 @@ describe('Market API integration /api/v1/market/offer', () => {
     
 		expect(result).toBe(expected);
   })
+  test('Получить список всех офферов: POST /api/v1/market/offer', async () => {
+    const uri       = `${config.uri}:${config.port}/api/v1/market/offers`;
+    const method    = 'GET';
+    const headers   = {"content-type": "application/json"};
+    const response  = JSON.parse(await rp({uri, method, headers}));
+    
+    const result = response.code != undefined;
+    const expected = true;
+    expect(result).toBe(expected);
+  });
+  test('Создать два типа офферов: POST /api/v1/market/offer', async () => {
+    const uri       = `${config.uri}:${config.port}/api/v1/market/offers`;
+    const method    = 'POST';
+    const headers   = {"content-type": "application/json"};
+    const body_offer_buy = JSON.stringify({
+      userId: 1,
+      title: "Сгущенка",
+      description: "Оригинальная сгущенка Рогачевъ.",
+      price: 1000000,
+      amount: 149,
+      currency_code: "RUB",
+      offer_type: "BUY",
+      measure_unit_code: "TN",
+      date_expires: new Date().toISOString(),
+      country: "Российская Федерация",
+      city: "Москва"
+    });
+    const body_offer_sell = JSON.stringify({
+      userId: 1,
+      title: "Сгущенка",
+      description: "Оригинальная сгущенка Рогачевъ.",
+      price: 1000000,
+      amount: 149,
+      currency_code: "RUB",
+      offer_type: "SELL",
+      measure_unit_code: "TN",
+      date_expires: new Date().toISOString(),
+      country: "Российская Федерация",
+      city: "Москва"
+    });
+    const response_1 = JSON.parse(await rp({uri, method, headers, body: body_offer_buy}));
+    const response_2 = JSON.parse(await rp({uri, method, headers, body: body_offer_sell}));
+
+    const result = response_1.code == 200 && response_2.code == 200;
+    const expected = true;
+    expect(result).toBe(expected);
+  });
+  test('Получить список всех отфильтрованных офферов: POST /api/v1/market/offer', async () => {
+    const uri       = `${config.uri}:${config.port}/api/v1/market/offers`;
+    const method    = 'GET';
+    const headers   = {"content-type": "application/json"};
+    const qs        = {user_id: 1, amount: 149};
+    const response  = JSON.parse(await rp({uri, method, headers, qs}));
+    console.log('filtered: ', response);
+    
+    const result = response.code != undefined;
+    const expected = true;
+    expect(result).toBe(expected);
+  });
 });
 
 // describe('Market API integration /api/v1/market/proposals', () => {
