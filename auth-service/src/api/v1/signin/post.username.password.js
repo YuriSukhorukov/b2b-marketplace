@@ -30,7 +30,8 @@ module.exports = async (req, res) => {
         res.json({
             success: true,
             code: 200, 
-            message: `Authentication successful!`
+            user_id: user_id,
+            message: `Authentication successful!`,
         });
     } else {
         res.status(401).json({
