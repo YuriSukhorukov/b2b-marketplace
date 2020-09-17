@@ -1,10 +1,11 @@
 const createOffer = require(`${global.appRoot}/controllers/offer/create.offer.js`);
+const decodeJwt = require(`${global.appRoot}/controllers/decode.jwt`);
 
 module.exports = async (req, res) => {
+    console.log('!!!!@E@#RE#@R');
     console.log('offer:', req.body);
     
     const {
-        userId,
         title,
         description,
         price,
@@ -16,6 +17,16 @@ module.exports = async (req, res) => {
         country,
         city
     } = req.body;
+
+    const {cookies} = req;
+    
+    let userId = null;
+    let decodedToken = null;
+
+    try {
+        decodedToken = await decodeJwt(cookies.jwt);
+        userId = decodedToken.user_id;
+    } catch (e) {}
 
     try {
         const result = await createOffer({
@@ -32,12 +43,8 @@ module.exports = async (req, res) => {
             city
         });
         console.log('result: ', result);
-        res.json({code: 200, message: `create.offer.js`, body: result});
+        res.status(200).json(result).end();
     } catch (e) {
-        res.json({
-            success: false,
-            code: 404,
-            message: "Something wrong"
-        })
+        res.status(424).end();
     }
 }
