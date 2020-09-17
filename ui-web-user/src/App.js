@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Menu         from './containers/Menu/index';
-import { Route, Switch, Link, Redirect } from 'react-router-dom';
+import { Route, Switch, Link, Redirect, useHistory } from 'react-router-dom';
 import authStore from './stores/authStore';
 import AuthForm from './containers/Auth/index';
 import OfferFeed from './components/OfferFeed';
@@ -8,11 +8,11 @@ import OfferCreate from './components/OfferCreate';
 // import Header from './components/Header/index';
 import { observer } from 'mobx-react';
 import './App.css';
-import { Button, Collapse } from 'antd';
+import { Button, Collapse, Spin } from 'antd';
 import Offer from './components/Card/Offer/index';
 import axios from 'axios';
 import { Layout, Breadcrumb, Input } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined, CaretRightOutlined } from '@ant-design/icons';
+import { UserOutlined, LaptopOutlined, NotificationOutlined, CaretRightOutlined, LoadingOutlined } from '@ant-design/icons';
 import auth from './api/auth';
 import signin from './api/auth/signin';
 const { SubMenu } = Menu;
@@ -53,6 +53,14 @@ const DebugAPI = () => {
 //   }
 // })
 
+const Loading = () => {
+  return(
+    <div style={{position: 'relative', width: '100vw', height: '100vh'}}>
+      <Spin style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}} indicator={<LoadingOutlined style={{ fontSize: 40 }} spin />} />
+    </div>
+  )
+}
+
 const App = observer(class App extends React.Component {
   constructor(props) {
     super(props);
@@ -64,7 +72,9 @@ const App = observer(class App extends React.Component {
   render() {
     return (
       <Switch>
+        
         <Route path="/debug" component={DebugAPI} />
+        { (authStore.isAuthenticated === null && <Loading />) || (authStore.isAuthenticated !== null &&
         <Layout>
           <Header className="header">
             <Link to="/">
@@ -122,40 +132,7 @@ const App = observer(class App extends React.Component {
           </Content>
           <Footer style={{ textAlign: 'center' }}>B2B Marketplace ©2020 Created by SPB-Tech</Footer>
         </Layout>
-
-        {/* <Route exact path='/'>
-          <Layout>
-            <Header className="header">
-              <Link to="/">
-                <div className="logo" style={{position: "absolute", width: "10%", height: "100%", textAlign: "center", fontSize: "30px", color: "white", left: "585px"}}>B2B Marketplace</div>
-              </Link>
-              <div style={{right: "600px", position: "absolute"}}>
-                <Link to="auth/signin">
-                  <Button style={{marginRight: "15px"}} >Войти</Button>
-                </Link>
-                <Link to="auth/signup">
-                  <Button type="primary">Зарегистрироваться</Button>
-                </Link>
-              </div>
-            </Header>
-            <Content style={{ padding: '0 600px' }}>
-              <Layout className="site-layout-background" style={{ padding: '0 0' }}>
-                <Sider style={{height: '100vh', width: "256px", padding: "20px 0"}} width={256} className="site-layout-background">
-                  <Menu mode="inline" style={{ height: '100%' }}></Menu>
-                </Sider>
-                <Content style={{ padding: '0px 20px', minHeight: 280 }}>
-                  <Offer/>
-                  <Offer/>
-                  <Offer/>
-                  <Offer/>
-                  <Offer/>
-                  <Offer/>
-                </Content>
-              </Layout>
-            </Content>
-            <Footer style={{ textAlign: 'center' }}>B2B Marketplace ©2020 Created by SPB-Tech</Footer>
-          </Layout>
-        </Route> */}
+        )}
       </Switch>
     );
   }
