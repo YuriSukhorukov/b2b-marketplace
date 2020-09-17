@@ -1,36 +1,42 @@
 const config            = require(`${global.appRoot}/config.json`).offersServiceConfig;
-const rp                = require('request-promise');
-const decodeJwt         = require(`${global.appRoot}/controllers/decode.jwt`);
+const axios             = require('axios');
 
 module.exports = async (req, res) => {
     const uri = `${config.uri}:${config.port}${req.url}`;
+
     const {
         method,
-        headers,
         query,
         params,
-        cookies,
         body,
-    } = req;
-
-    let userId = null;
-    let decodedToken = null;
-    try {
-        decodedToken = await decodeJwt(cookies.jwt);
-        userId = decodedToken.userId;
-    } catch (e) {}
-    
-    console.log(body);
-    console.log('cookies: ', cookies);
-    console.log('decoded: ', decodedToken);
-    
-    const response = await rp({
-        uri,
-        method,
         headers,
+        mode,
+        cache,
+        credentials,
+        redirect,
+        referrerPolicy,
         cookies,
-        body: body ? JSON.stringify({userId, ...body}) : undefined
+        withCredentials
+    } = req;
+    
+    axios(uri, {
+        method,
+        query,
+        params,
+        data: body,
+        headers,
+        mode,
+        cache,
+        credentials,
+        redirect,
+        referrerPolicy,
+        cookies,
+        withCredentials
+    }).then(response => {
+        console.log(response.data); 
+        res.status(200).json(response.data).end();
+    }).catch(e => {
+        res.status(424).end();
+        console.log(e.message)
     });
-
-    res.send(response);
 };

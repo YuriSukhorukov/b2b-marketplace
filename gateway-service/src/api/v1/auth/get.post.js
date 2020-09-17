@@ -1,5 +1,4 @@
 const config            = require(`${global.appRoot}/config.json`).authServiceConfig;
-const rp                = require('request-promise');
 const axios             = require('axios');
 
 module.exports = async (req, res) => {
