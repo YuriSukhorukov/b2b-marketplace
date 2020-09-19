@@ -12,6 +12,7 @@ beforeAll(async () => {
     });
     page = await browser.newPage();
 });
+
 afterAll(async () => {
     await browser.close();
 });

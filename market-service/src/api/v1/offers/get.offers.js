@@ -14,5 +14,5 @@ module.exports = async (req, res) => {
     console.log('body', req.body);
     
 
-    res.json({code: 200, message: `get.offers.js`, body: result});
+    res.status(200).json({succes: true, body: result});
 }
