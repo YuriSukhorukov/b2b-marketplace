@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
         console.log(`Status: ${response.status}`);
         console.log(response.data);
         res.cookie(response.headers['set-cookie']);
-        res.send(response.data);
+        res.status(response.status).send(response.data);
     }).catch((err) => {
         console.log(err.response.status);
         res.status(err.response.status).json({success: false, error: 'Sorry, error'});

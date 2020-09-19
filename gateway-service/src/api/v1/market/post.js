@@ -34,9 +34,9 @@ module.exports = async (req, res) => {
         withCredentials
     }).then(response => {
         console.log(response.data); 
-        res.status(200).json(response.data).end();
+        res.status(response.status).send(response.data);
     }).catch(e => {
-        res.status(424).end();
-        console.log(e.message)
+        res.status(err.response.status).end();
+        console.log(e.message);
     });
 };
