@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     console.log(`checkEmailExist: ${result}`);
     console.log(result);
     if (result == true)
-        res.send({code: 302, message: `Email '${email}' занят`});
+        res.status(200).send({succes: false, message: `Email '${email}' занят`});
     else 
-        res.send({code: 204, message: `Email '${email}' свободен`});
+        res.status(200).send({succes: true, message: `Email '${email}' свободен`});
 }

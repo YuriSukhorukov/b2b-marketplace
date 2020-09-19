@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     console.log(`checkLoginExist: ${result}`);
     console.log(result);
     if (result == true)
-        res.send({code: 302, message: `Login '${login}' занят`});
+        res.status(200).send({succes: false, message: `Login '${login}' занят`});
     else 
-        res.send({code: 204, message: `Login '${login}' свободен`});
+        res.status(200).send({succes: true, message: `Login '${login}' свободен`});
 }
