@@ -7,15 +7,15 @@ module.exports = async (req, res) => {
     console.log(req.headers);
     
     if (!email || !password)
-        res.status(401).end();
+        res.status(200).send({succes: false, message: "Недостаточно параметров"});
 
     console.log(`email: ${email}, password: ${password}`);
     try {
         const result = await createAccount({password, email});
-        res.status(201).end();
+        res.status(200).send({succes: true});
         console.log(`createAccount: ${result}`);
         console.log(result);
     } catch (e) {
-        res.status(403).end();
+        res.status(200).send({succes: false});
     }
 }

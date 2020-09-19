@@ -9,17 +9,13 @@ import api from '../api/index';
 // Signin
 const isEmailExist = action(async ({email})=>{
     const response = await api.auth.signin.checkEmail({email});
-    return response.data.code == 302;
+    return response.data.succes;
 });
 const login = action(async ({email, password}) => {
-    try {
-        let response = await api.auth.signin.login({email, password});
-        authStore.authorization = response.status == 200;
+    let response = await api.auth.signin.login({email, password});
+    authStore.authorization = response.data.succes;
+    if (response.data.succes === true)
         setCookie('id', response.data.user_id, 30);
-    } catch (e) {
-        console.log(e);
-        authStore.authorization = false;
-    }
 });
 
 const verify = action(async () => {
@@ -29,7 +25,7 @@ const verify = action(async () => {
             return;
         }else {
             const response = await api.auth.verification.verify();
-            authStore.authorization = response.status == 200;        
+            authStore.authorization = response.data.succes;        
         }
     } catch (e) {
         console.log(e);
@@ -40,24 +36,20 @@ const verify = action(async () => {
 // Signup
 const isEmailFree = action(async ({email})=>{
     const response = await api.auth.signup.checkEmail({email});
-    return response.data.code != 302;
+    return response.data.succes;
 });
 const register = action(async ({email, password})=>{
     const response = await api.auth.signup.register({email, password});
-    return response != undefined;
+    return response.data.succes;
 });
 
 // Signout
 const logout = action(async ()=>{
-    try {
-        const response = await api.auth.signout.logout();
-        authStore.authorization = !(response.status == 200);
+    const response = await api.auth.signout.logout();
+    authStore.authorization = !response.data.succes;
+    if (response.data.succes)
         deleteCookie('id');
-        return true;
-    } catch (e) {
-        authStore.authorization = false;
-        return e;
-    }
+    return response.data.succes;
 });
 
 // Export
