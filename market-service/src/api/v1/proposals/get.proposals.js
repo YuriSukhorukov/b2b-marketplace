@@ -2,15 +2,12 @@ const getProposals = require(`${global.appRoot}/controllers/proposal/get.proposa
 
 module.exports = async (req, res) => {
     const {offer_id} = req.query;
+    console.log('offer_id: ', offer_id);
     if (offer_id) {
         const result = await getProposals({offerId: offer_id});
         console.log(result);
-        res.json({code: 200, message: `get.proposals.js`, body: result});
+        res.status(200).send({succes: true, body: result});
     } else {
-        res.json({
-            success: false,
-            code: 404,
-            message: "Something wrong"
-        })
+        res.status(200).send({succes: false});
     }
 }
