@@ -1,4 +1,4 @@
-module.exports = async (pool, params) => {
+ module.exports = async (pool, params) => {
     return new Promise(async (res, rej) => {
         if (!params || !params.userId || !params.offerId)
             rej(`params undefined`);
@@ -26,7 +26,7 @@ module.exports = async (pool, params) => {
             (error, result) => {
                 // console.log("client ready:", client.readyForQuery);
                 if (result) {
-                    // console.log(`INSERT INTO proposals '${params}' result:`, result.rows);
+                    console.log(`INSERT INTO proposals '${params}' result:`, result.rows);
                     client.release();
                     res(result.rows);
                 }

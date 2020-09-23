@@ -156,3 +156,231 @@ describe(`Market offers`, () => {
         expect(result.succes && result.body[0].offer_type === 'BUY').toBe(true);
     });
 });
+
+describe(`Market proposals`, () => {
+    test('Успешный отклик на оффер', async () => {
+        page = await browser.newPage();
+        await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
+        
+        let result = await page.evaluate(async () => {
+            // Выход
+            await fetch(`/api/v1/auth/signout`, {
+                method: 'POST'
+            });
+            // Регистрация пользователя 1
+            await fetch(`/api/v1/auth/signup`, {
+                method: 'POST',
+                headers: {
+                    'email': 'user_xxx@gmail.com',
+                    'password': '12345'
+                }
+            });
+            // Регистрация пользователя 2
+            await fetch(`/api/v1/auth/signup`, {
+                method: 'POST',
+                headers: {
+                    'email': 'user_yyy@gmail.com',
+                    'password': '12345'
+                }
+            });
+            // Авторизация пользователя 1
+            await fetch(`/api/v1/auth/signin`, {
+                method: 'POST',
+                headers: {
+                    'username': 'user_xxx@gmail.com',
+                    'password': '12345'
+                }
+            });
+            // Создание оффера пользователем 1
+            let response = await fetch(`/api/v1/market/offers`, {
+                method: 'POST',
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: "Сгущенка",
+                    description: "Оригинальная сгущенка Рогачевъ.",
+                    price: 1000000,
+                    amount: 249,
+                    currency_code: "RUB",
+                    offer_type: "SELL",
+                    measure_unit_code: "TN",
+                    date_expires: new Date().toISOString(),
+                    country: "Российская Федерация",
+                    city: "Москва"
+                })
+            });
+            let response_json = await response.json();
+            let offer = response_json.body[0];
+            // Выход пользователя 1
+            await fetch(`/api/v1/auth/signout`, {
+                method: 'POST'
+            });
+            // Авторизация пользователя 2
+            await fetch(`/api/v1/auth/signin`, {
+                method: 'POST',
+                headers: {
+                    'username': 'user_yyy@gmail.com',
+                    'password': '12345'
+                }
+            });
+            // Отклик пользователем 2 на оффер пользователя 1
+            let result = await fetch(`/api/v1/market/proposals`, {
+                method: 'POST',
+                headers: {"content-type": "application/json"},
+                body: JSON.stringify({offerId: offer.id})
+            });
+            return await result.json();
+        });
+        expect(result.succes).toBe(true);
+    })
+
+    test('Неудачный повторный отклик на оффер', async () => {
+        page = await browser.newPage();
+        await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
+        
+        let result = await page.evaluate(async () => {
+            // Выход
+            await fetch(`/api/v1/auth/signout`, {
+                method: 'POST'
+            });
+            // Авторизация пользователя 1
+            await fetch(`/api/v1/auth/signin`, {
+                method: 'POST',
+                headers: {
+                    'username': 'user_xxx@gmail.com',
+                    'password': '12345'
+                }
+            });
+            // Создание оффера пользователем 1
+            let response = await fetch(`/api/v1/market/offers`, {
+                method: 'POST',
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: "Сгущенка",
+                    description: "Оригинальная сгущенка Рогачевъ.",
+                    price: 1000000,
+                    amount: 249,
+                    currency_code: "RUB",
+                    offer_type: "SELL",
+                    measure_unit_code: "TN",
+                    date_expires: new Date().toISOString(),
+                    country: "Российская Федерация",
+                    city: "Москва"
+                })
+            });
+            let response_json = await response.json();
+            let offer = response_json.body[0];
+            // Выход пользователя 1
+            await fetch(`/api/v1/auth/signout`, {
+                method: 'POST'
+            });
+            // Авторизация пользователя 2
+            await fetch(`/api/v1/auth/signin`, {
+                method: 'POST',
+                headers: {
+                    'username': 'user_yyy@gmail.com',
+                    'password': '12345'
+                }
+            });
+            // Отклик пользователем 2 на оффер пользователя 1
+            await fetch(`/api/v1/market/proposals`, {
+                method: 'POST',
+                headers: {"content-type": "application/json"},
+                body: JSON.stringify({offerId: offer.id})
+            });
+            // Повторный отклик пользователем 2 на оффер пользователя 1
+            let result = await fetch(`/api/v1/market/proposals`, {
+                method: 'POST',
+                headers: {"content-type": "application/json"},
+                body: JSON.stringify({offerId: offer.id})
+            });
+
+            return await result.json();
+        });
+        expect(result.succes).toBe(false);
+    })
+
+    test('Неудачный отклик на свой оффер', async () => {
+        page = await browser.newPage();
+        await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
+
+        let result = await page.evaluate(async () => {
+            // Выход пользователя
+            await fetch(`/api/v1/auth/signout`, {
+                method: 'POST'
+            });
+            // Авторизация пользователя
+            await fetch(`/api/v1/auth/signin`, {
+                method: 'POST',
+                headers: {
+                    'username': 'user_xxx@gmail.com',
+                    'password': '12345'
+                }
+            });
+            // Создание оффера пользователем
+            let response = await fetch(`/api/v1/market/offers`, {
+                method: 'POST',
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: "Сгущенка",
+                    description: "Оригинальная сгущенка Рогачевъ.",
+                    price: 1000000,
+                    amount: 249,
+                    currency_code: "RUB",
+                    offer_type: "SELL",
+                    measure_unit_code: "TN",
+                    date_expires: new Date().toISOString(),
+                    country: "Российская Федерация",
+                    city: "Москва"
+                })
+            });
+            let response_json = await response.json();
+            let offer = response_json.body[0];
+            // Отклик пользователем на свой же оффер
+            let result = await fetch(`/api/v1/market/proposals`, {
+                method: 'POST',
+                headers: {"content-type": "application/json"},
+                body: JSON.stringify({offerId: offer.id})
+            });
+
+            return await result.json();
+        });
+        expect(result.succes).toBe(false);
+    })
+    test('Получение списка откликов на оффер', async () => {
+        page = await browser.newPage();
+        await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
+        
+        let result = await page.evaluate(async () => {
+            // Выход пользователя
+            await fetch(`/api/v1/auth/signout`, {
+                method: 'POST'
+            });
+            // Авторизация пользователя
+            await fetch(`/api/v1/auth/signin`, {
+                method: 'POST',
+                headers: {
+                    'username': 'user_xxx@gmail.com',
+                    'password': '12345'
+                }
+            });
+            let result = await fetch(`/api/v1/market/proposals?offer_id=7`, {
+                method: 'GET',
+                headers: {"content-type": "application/json"},
+            });
+            return await result.json();
+        });
+        expect(result.succes).toBe(true);
+    })
+})
+
+// describe(`Market proposals companies details`, () => {
+//     test('', async () => {
+//         expect(true).toBe(true);
+//     })
+// })

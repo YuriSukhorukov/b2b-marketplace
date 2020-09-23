@@ -8,6 +8,6 @@ router.get(`/offers`, require('./get'));
 router.post(`/offers`, require('./post'));
 
 router.get(`/proposals`, require('./get'));
-router.post(`/proposals`, require('./get'));
+router.post(`/proposals`, require('./post'));
 
 module.exports = router;
