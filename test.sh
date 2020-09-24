@@ -8,4 +8,5 @@ bash ./market-service/init.sh
 cd end-to-end
 npm run test src/test/auth
 npm run test src/test/market
+npm run test src/test/company
 cd ..
