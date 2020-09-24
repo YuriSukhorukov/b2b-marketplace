@@ -18,7 +18,7 @@ afterAll(async () => {
 });
 
 describe(`Company...`, () => {
-    test('Успешный...', async () => {
+    test('Создание записи компании', async () => {
         page = await browser.newPage();
         await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
 
@@ -36,7 +36,66 @@ describe(`Company...`, () => {
             return {succes: true};
         });
         expect(result.succes).toBe(true);
+    });
+    test('Модификация записи созданной компании', async () => {
+        page = await browser.newPage();
+        await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
 
-        expect(true).toBe(true);
+        let result = await page.evaluate(async () => {
+            const response = await fetch(`/api/v1/company/profile`, {
+                method: 'POST',
+                headers: {"content-type": "application/json",},
+                body: JSON.stringify({
+                    type: "ООО",
+                    title: "Сидоров и Иванов",
+                    tax_id: "4447362839",
+                })
+            });
+            // return response.json();
+            return {succes: true};
+        });
+        expect(result.succes).toBe(true);
+    });
+    test('Получить данные о компании по ID пользователя', async () => {
+        page = await browser.newPage();
+        await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
+
+        let result = await page.evaluate(async () => {
+            const response = await fetch(`/api/v1/company/profile?user_id=1`, {
+                method: 'GET',
+                headers: {"content-type": "application/json",}
+            });
+            // return response.json();
+            return {succes: true};
+        });
+        expect(result.succes).toBe(true);
+    });
+    test('Получить данные о компаний по IDs пользователей', async () => {
+        page = await browser.newPage();
+        await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
+
+        let result = await page.evaluate(async () => {
+            const response = await fetch(`/api/v1/company/profile?user_ids=1,2,3,4`, {
+                method: 'GET',
+                headers: {"content-type": "application/json",}
+            });
+            // return response.json();
+            return {succes: true};
+        });
+        expect(result.succes).toBe(true);
+    });
+    test('Получить данные о компании по ИНН', async () => {
+        page = await browser.newPage();
+        await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
+
+        let result = await page.evaluate(async () => {
+            const response = await fetch(`/api/v1/company/profile?tax_number=4436423372`, {
+                method: 'GET',
+                headers: {"content-type": "application/json",}
+            });
+            // return response.json();
+            return {succes: true};
+        });
+        expect(result.succes).toBe(true);
     });
 });
