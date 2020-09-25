@@ -32,8 +32,7 @@ describe(`Company...`, () => {
                     tax_id: "4447362839",
                 })
             });
-            // return response.json();
-            return {succes: true};
+            return response.json();
         });
         expect(result.succes).toBe(true);
     });
@@ -51,8 +50,7 @@ describe(`Company...`, () => {
                     tax_id: "4447362839",
                 })
             });
-            // return response.json();
-            return {succes: true};
+            return response.json();
         });
         expect(result.succes).toBe(true);
     });
@@ -65,8 +63,7 @@ describe(`Company...`, () => {
                 method: 'GET',
                 headers: {"content-type": "application/json",}
             });
-            // return response.json();
-            return {succes: true};
+            return response.json();
         });
         expect(result.succes).toBe(true);
     });
@@ -79,8 +76,7 @@ describe(`Company...`, () => {
                 method: 'GET',
                 headers: {"content-type": "application/json",}
             });
-            // return response.json();
-            return {succes: true};
+            return response.json();
         });
         expect(result.succes).toBe(true);
     });
@@ -93,8 +89,7 @@ describe(`Company...`, () => {
                 method: 'GET',
                 headers: {"content-type": "application/json",}
             });
-            // return response.json();
-            return {succes: true};
+            return response.json();
         });
         expect(result.succes).toBe(true);
     });
