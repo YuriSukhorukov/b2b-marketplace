@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
     }
 
     try {
-        const result = await editProfile({...req.body});
+        const result = await editProfile({userId, ...req.body});
         console.log('result: ', result);
         res.status(200).send({succes: true, body: 'result'});
     } catch (e) {
