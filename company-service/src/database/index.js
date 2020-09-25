@@ -26,14 +26,14 @@ const editProfile               = require('./actions/profile/edit.profile');
     async createTableProfiles() {
         return await createTableProfiles(this.pool);
     }
-    async getProfile() {
-        return await getProfile(this.pool);
+    async getProfile(params) {
+        return await getProfile(this.pool, params);
     }
-    async getProfiles() {
-        return await getProfiles(this.pool);
+    async getProfiles(params) {
+        return await getProfiles(this.pool, params);
     }
-    async editProfile() {
-        return await editProfile(this.pool);
+    async editProfile(params) {
+        return await editProfile(this.pool, params);
     }
   }
     

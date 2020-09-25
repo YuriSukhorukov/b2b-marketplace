@@ -19,7 +19,6 @@ app.use(cookieParser());
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/home', home);
 app.use('/api/v1/market', market);
-// app.use('/api/v1/company', (req, res)=>{res.status(200).end(); console.log('!!!');});
 app.use('/api/v1/company', company);
 
 app.disable('etag');

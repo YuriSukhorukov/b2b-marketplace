@@ -23,12 +23,21 @@ describe(`Company...`, () => {
         await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
 
         let result = await page.evaluate(async () => {
+            // Авторизация
+            await fetch(`/api/v1/auth/signin`, {
+                method: 'POST',
+                headers: {
+                    'username': 'yuri@gmail.com',
+                    'password': 'sdWE343sx!'
+                }
+            });
+
             const response = await fetch(`/api/v1/company/profile`, {
                 method: 'POST',
-                headers: {"content-type": "application/json",},
+                headers: {"content-type": "application/json"},
                 body: JSON.stringify({
-                    type: "ООО",
-                    title: "Иванов и Сидоров",
+                    legal_type: "ООО",
+                    company_name: "Иванов и Сидоров",
                     tax_id: "4447362839",
                 })
             });

@@ -15,7 +15,8 @@ module.exports = async (req, res) => {
         redirect,
         referrerPolicy,
         cookies,
-        withCredentials
+        withCredentials,
+        body,
     } = req;
 
     axios(uri, {
@@ -29,7 +30,8 @@ module.exports = async (req, res) => {
         redirect,
         referrerPolicy,
         cookies,
-        withCredentials
+        withCredentials,
+        data: body,
     }).then((response) => {
         res.status(response.status).send(response.data);
     }).catch((error) => {
