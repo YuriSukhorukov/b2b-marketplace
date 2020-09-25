@@ -4,9 +4,13 @@ module.exports = async (pool, params) => {
             console.log('pool .connect ->', err);
             rej(err);
         });
-        const {} = params;
+        const {
+            legal_type, 
+            company_name, 
+            tax_id
+        } = params;
 
-        console.log('params: ', params);
+        console.log('params db: ', params);
         
         // await client.query(
         //     `
