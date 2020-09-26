@@ -1,6 +1,6 @@
 # Создание необходимых таблиц в auth-service
 node -e "
-let db = require('./market-service/src/database/index.js');
+let db = require('./company-service/src/database/index.js');
 (async()=>{
     try {
         await db.dropTable({table: 'profiles'});

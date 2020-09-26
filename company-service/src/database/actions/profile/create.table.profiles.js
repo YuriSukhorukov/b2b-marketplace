@@ -1,5 +1,5 @@
 module.exports = async (pool, params) => {
-    return new Promise(async (res, rej) => {
+    return new Promise(async (res, rej) => {        
         let client = await pool.connect().catch(err => {
             console.log('pool .connect ->', err);
             rej(err);
@@ -11,8 +11,9 @@ module.exports = async (pool, params) => {
                     user_id SERIAL NOT NULL,
                     legal_type VARCHAR(8) NOT NULL,
                     company_name VARCHAR(128) NOT NULL,
-                    tax_id NUMERIC(19,0)
-                    created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                    tax_id NUMERIC(19,0),
+                    created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    updated_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
                 );
             `, 
             (error, result) => {
@@ -23,7 +24,7 @@ module.exports = async (pool, params) => {
                     res(result);
                 }
                 if (error) {
-                    console.log(`CREATE TABLE 'users' result:`, error.stack);
+                    console.log(`CREATE TABLE 'profiles' result:`, error.stack);
                     client.release();
                     rej(error);
                 }
