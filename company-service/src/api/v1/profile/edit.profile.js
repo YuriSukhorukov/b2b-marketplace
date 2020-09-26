@@ -4,18 +4,18 @@ const decodeJwt = require(`${global.appRoot}/controllers/decode.jwt`);
 module.exports = async (req, res) => {
     const {cookies} = req;
     
-    let userId = null;
+    let user_id = null;
     let decodedToken = null;
 
     try {
         decodedToken = await decodeJwt(cookies.jwt);
-        userId = decodedToken.user_id;
+        user_id = decodedToken.user_id;
     } catch (e) {
         res.status(401).json({error: error.message});
     }
 
     try {
-        const result = await editProfile({...req.body});
+        const result = await editProfile({user_id, ...req.body});
         console.log('result: ', result);
         res.status(200).send({succes: true, body: 'result'});
     } catch (e) {

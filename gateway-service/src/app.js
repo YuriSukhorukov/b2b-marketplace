@@ -24,10 +24,3 @@ app.use('/api/v1/company', company);
 app.disable('etag');
 
 module.exports = app;
-
-// app.post(`/api/v1/jwt`, require(`./middlewares/check.token.middle`));
-// app.post('/api/v1/jwt', async (req, res)=>{
-//     const token = req.cookies.jwt;
-//     console.log(`token in /api/v1/jwt: ${token}`);
-//     res.status(200).end();
-// });
