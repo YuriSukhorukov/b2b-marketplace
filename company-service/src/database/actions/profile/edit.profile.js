@@ -15,11 +15,20 @@ module.exports = async (pool, params) => {
         
         await client.query(
             `
-                INSERT INTO profiles (user_id, legal_type, company_name, tax_id) 
-                VALUES ('${user_id}', '${legal_type}', '${company_name}', '${tax_id}')
-                ON CONFLICT (user_id) DO UPDATE 
-                SET legal_type = excluded.legal_type, company_name = excluded.company_name, tax_id = excluded.tax_id
-                RETURNING legal_type, company_name, tax_id, created_on;
+                INSERT INTO profiles 
+                    (user_id, legal_type, company_name, tax_id) 
+                VALUES 
+                    ('${user_id}', '${legal_type}', '${company_name}', '${tax_id}')
+                ON CONFLICT (user_id) 
+                    DO UPDATE 
+                        SET legal_type = excluded.legal_type, 
+                            company_name = excluded.company_name, 
+                            tax_id = excluded.tax_id
+                RETURNING 
+                    legal_type, 
+                    company_name, 
+                    tax_id, 
+                    created_on;
             `,
             (error, result) => {
                 if (result) {

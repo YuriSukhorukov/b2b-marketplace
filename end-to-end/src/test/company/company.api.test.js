@@ -48,7 +48,6 @@ describe(`Company...`, () => {
             });
             return response.json();
         });
-        console.log(result);
         expect(result.succes).toBe(true);
     });
     test('Модификация записи созданной компании', async () => {
@@ -73,7 +72,6 @@ describe(`Company...`, () => {
             });
             return response.json();
         });
-        console.log(result);
         // Сравнить отредактированную информацию о компании
         expect(
             result.succes 
