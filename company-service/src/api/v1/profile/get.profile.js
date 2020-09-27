@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
     try {
         const result = await getProfile({...query});
         console.log('result: ', result);
-        res.status(200).send({succes: true, body: result});
+        res.status(200).send({succes: result.length > 0, body: result});
     } catch (e) {
         res.status(200).send({succes: false, body: e});
     }

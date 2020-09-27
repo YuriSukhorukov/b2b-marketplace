@@ -31,8 +31,8 @@ describe(`Company...`, () => {
                     'password': 'sdWE343sx!'
                 }
             });
-
-            const response = await fetch(`/api/v1/company/profile`, {
+            // Создание профиля компании
+            await fetch(`/api/v1/company/profile`, {
                 method: 'POST',
                 headers: {"content-type": "application/json"},
                 body: JSON.stringify({
@@ -41,8 +41,14 @@ describe(`Company...`, () => {
                     tax_id: "4447362839",
                 })
             });
+            // Получить информацию о компании
+            const response = await fetch(`/api/v1/company/profile?tax_id=4447362839`, {
+                method: 'GET',
+                headers: {"content-type": "application/json"},
+            });
             return response.json();
         });
+        console.log(result);
         expect(result.succes).toBe(true);
     });
     test('Модификация записи созданной компании', async () => {
