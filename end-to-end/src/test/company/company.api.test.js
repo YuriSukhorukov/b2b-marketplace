@@ -67,8 +67,12 @@ describe(`Company...`, () => {
             });
             return response.json();
         });
+        console.log(result);
         // Сравнить отредактированную информацию о компании
-        expect(result.succes && result.body[0].tax_id === '4447362839').toBe(true);
+        expect(
+            result.succes 
+         && result.body[0].tax_id === '4447362839' 
+         && result.body[0].title === 'Сидоров и Иванов').toBe(true);
     });
     // test('Получить названия и типы компаний по массиву [...user_id]', async () => {
     //     page = await browser.newPage();
