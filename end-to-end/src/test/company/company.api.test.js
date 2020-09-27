@@ -61,8 +61,8 @@ describe(`Company...`, () => {
                 method: 'POST',
                 headers: {"content-type": "application/json",},
                 body: JSON.stringify({
-                    type: "ООО",
-                    title: "Сидоров и Иванов",
+                    legal_type: "ООО",
+                    company_name: "Сидоров и Иванов",
                     tax_id: "4447362839",
                 })
             });
@@ -78,7 +78,7 @@ describe(`Company...`, () => {
         expect(
             result.succes 
          && result.body[0].tax_id === '4447362839' 
-         && result.body[0].title === 'Сидоров и Иванов').toBe(true);
+         && result.body[0].company_name === 'Сидоров и Иванов').toBe(true);
     });
     // test('Получить названия и типы компаний по массиву [...user_id]', async () => {
     //     page = await browser.newPage();
