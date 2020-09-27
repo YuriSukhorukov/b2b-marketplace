@@ -17,7 +17,7 @@ afterAll(async () => {
     await browser.close();
 });
 
-describe(`Company...`, () => {
+describe(`Company`, () => {
     test('Создание записи компании', async () => {
         page = await browser.newPage();
         await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
@@ -78,56 +78,43 @@ describe(`Company...`, () => {
          && result.body[0].tax_id === '4447362839' 
          && result.body[0].company_name === 'Сидоров и Иванов').toBe(true);
     });
-    // test('Получить названия и типы компаний по массиву [...user_id]', async () => {
-    //     page = await browser.newPage();
-    //     await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
+    test('Получить названия и типы компаний по массиву IDs пользователей [...user_id]', async () => {
+        page = await browser.newPage();
+        await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
 
-    //     let result = await page.evaluate(async () => {
-    //         const response = await fetch(`/api/v1/company/profile/names?user_ids=1,2,3,4`, {
-    //             method: 'GET',
-    //             headers: {"content-type": "application/json",}
-    //         });
-    //         return response.json();
-    //     });
-    //     expect(result.succes).toBe(true);
-    // });
-    // test('Получить данные о компании по ID пользователя', async () => {
-    //     page = await browser.newPage();
-    //     await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
+        let result = await page.evaluate(async () => {
+            const response = await fetch(`/api/v1/company/profile?user_ids=1,2,3,4`, {
+                method: 'GET',
+                headers: {"content-type": "application/json"},
+            });
+            return response.json();
+        });
+        expect(result.succes).toBe(true);
+    });
+    test('Получить данные о компании по ID пользователя', async () => {
+        page = await browser.newPage();
+        await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
 
-    //     let result = await page.evaluate(async () => {
-    //         const response = await fetch(`/api/v1/company/profile?user_id=1`, {
-    //             method: 'GET',
-    //             headers: {"content-type": "application/json",}
-    //         });
-    //         return response.json();
-    //     });
-    //     expect(result.succes).toBe(true);
-    // });
-    // test('Получить данные о компаний по IDs пользователей', async () => {
-    //     page = await browser.newPage();
-    //     await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
+        let result = await page.evaluate(async () => {
+            const response = await fetch(`/api/v1/company/profile?user_id=1`, {
+                method: 'GET',
+                headers: {"content-type": "application/json",}
+            });
+            return response.json();
+        });
+        expect(result.succes).toBe(true);
+    });
+    test('Получить данные о компании по ИНН', async () => {
+        page = await browser.newPage();
+        await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
 
-    //     let result = await page.evaluate(async () => {
-    //         const response = await fetch(`/api/v1/company/profile?user_ids=1,2,3,4`, {
-    //             method: 'GET',
-    //             headers: {"content-type": "application/json",}
-    //         });
-    //         return response.json();
-    //     });
-    //     expect(result.succes).toBe(true);
-    // });
-    // test('Получить данные о компании по ИНН', async () => {
-    //     page = await browser.newPage();
-    //     await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
-
-    //     let result = await page.evaluate(async () => {
-    //         const response = await fetch(`/api/v1/company/profile?tax_number=4436423372`, {
-    //             method: 'GET',
-    //             headers: {"content-type": "application/json",}
-    //         });
-    //         return response.json();
-    //     });
-    //     expect(result.succes).toBe(true);
-    // });
+        let result = await page.evaluate(async () => {
+            const response = await fetch(`/api/v1/company/profile?tax_id=4447362839`, {
+                method: 'GET',
+                headers: {"content-type": "application/json",}
+            });
+            return response.json();
+        });
+        expect(parseInt(result.body[0].tax_id)).toBe(4447362839);
+    });
 });
