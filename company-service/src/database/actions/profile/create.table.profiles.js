@@ -17,9 +17,9 @@ module.exports = async (pool, params) => {
                 );
             `, 
             (error, result) => {
-                // console.log("client ready:", client.readyForQuery)
+                console.log("client ready:", client.readyForQuery)
                 if (result) {
-                    // console.log(`CREATE TABLE 'users' result:`, result.rows);
+                    console.log(`CREATE TABLE 'profiles' result:`, result.rows);
                     client.release();
                     res(result);
                 }
