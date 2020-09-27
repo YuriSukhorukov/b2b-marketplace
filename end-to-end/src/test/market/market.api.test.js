@@ -379,6 +379,12 @@ describe(`Market proposals`, () => {
     })
 })
 
+
+// TODO
+// Из оффера получить идентификаторы откликов
+// Из откликов получить идентификаторы пользователей
+// Из идентификаторов пользователей получить информацию о компаниях
+
 // describe(`Market proposals companies details`, () => {
 //     test('', async () => {
 //         expect(true).toBe(true);

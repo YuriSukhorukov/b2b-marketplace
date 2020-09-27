@@ -8,10 +8,10 @@ module.exports = async (pool, params) => {
             `
                 CREATE TABLE profiles (
                     id SERIAL NOT NULL PRIMARY KEY,
-                    user_id SERIAL NOT NULL,
+                    user_id SERIAL NOT NULL UNIQUE,
                     legal_type VARCHAR(8) NOT NULL,
                     company_name VARCHAR(128) NOT NULL,
-                    tax_id NUMERIC(19,0),
+                    tax_id NUMERIC(19,0) UNIQUE,
                     created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                     updated_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
                 );
