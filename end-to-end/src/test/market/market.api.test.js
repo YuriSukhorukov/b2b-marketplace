@@ -385,6 +385,30 @@ describe(`Market proposals`, () => {
 // Из откликов получить идентификаторы пользователей
 // Из идентификаторов пользователей получить информацию о компаниях
 
+// 1
+// Зарегистрироваться
+// Авторизоваться
+// Создать профиль компании
+// Создать предложение
+// Выйти
+
+// 2
+// Зарегистрироваться
+// Авторизоваться
+// Создать профиль компании
+// Получить список предложений
+// Создать отклик на предложение
+// Выйти
+
+// 3
+// Зарегистрироваться
+// Авторизоваться
+// Создать профиль компании
+// Получить предложения
+// Выбрать одно из предложений и запомнить его идентификатор
+// Получить отклики по идентификатору предложения
+// Получить идентификаторы пользователей из откликов
+// Получить информацию о компаниях по идентификаторам пользователей
 describe(`Market proposals companies details`, () => {
     test('', async () => {
         page = await browser.newPage();
@@ -439,6 +463,12 @@ describe(`Market proposals companies details`, () => {
             };
             const getProposals = async (params) => {
                 return await fetch(`/api/v1/market/proposals?offer_id=${params.offer_id}`, {
+                    method: 'GET',
+                    headers: {"content-type": "application/json"},
+                });
+            }
+            const getCompanies = async (params) => {
+                return await fetch(`/api/v1/company/profile?user_ids=${params.user_ids}`, {
                     method: 'GET',
                     headers: {"content-type": "application/json"},
                 });
@@ -506,52 +536,21 @@ describe(`Market proposals companies details`, () => {
                 company_name: "Дмитрий",
                 tax_id: "4447362820",
             });
-            offers_resp = await getOffers();
-            offers_resp_json = await offers_resp.json();
-            offers = offers_resp_json.body;
+            let response = null;
+
+            response = await getOffers();
+            offers = await response.json();
+            offers = offers.body;
             offer_id = offers[0].id;
-            const response = await getProposals({offer_id});
-            // Получить идентификаторы пользователей из откликов
-            // Получить информацию о компаниях по идентификаторам пользователей
 
-            return response.json();
+            response = await getProposals({offer_id});
+            let proposals = await response.json();
+            let user_ids = proposals.body.map(p => p.user_id).join();
+
+            response = await getCompanies({user_ids});
+            let companies = await response.json();
+            return companies;
         });
-        console.log(result);
-        // 1
-        // Зарегистрироваться
-        // Авторизоваться
-        // Создать профиль компании
-        // Создать предложение
-        // Выйти
-
-        // 2
-        // Зарегистрироваться
-        // Авторизоваться
-        // Создать профиль компании
-        // Получить список предложений
-        // Создать отклик на предложение
-        // Выйти
-
-        // 3
-        // Зарегистрироваться
-        // Авторизоваться
-        // Создать профиль компании
-        // Получить предложения
-        // Выбрать одно из предложений и запомнить его идентификатор
-        // Получить отклики по идентификатору предложения
-        // Получить идентификаторы пользователей из откликов
-        // Получить информацию о компаниях по идентификаторам пользователей
-
-        expect(result.succes).toBe(true);
+        expect(result.succes && result.body[0].company_name === 'Герман').toBe(true);
     })
 });
-
-const sinup = async () => {
-    return await fetch(`/api/v1/auth/signup`, {
-        method: 'POST',
-        headers: {
-            'email': 'yuri@gmail.com',
-            'password': 'sdWE343sx!'
-        }
-    });
-};
