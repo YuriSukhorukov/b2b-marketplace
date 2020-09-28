@@ -427,9 +427,7 @@ describe(`Market proposals companies details`, () => {
             const getOffers = async () => {            
                 return await fetch(`/api/v1/market/offers`, {
                     method: 'GET', 
-                    headers: {
-                        "content-type": "application/json"
-                    }
+                    headers: {"content-type": "application/json"}
                 });
             };
             const createProposal = async (params) => {
@@ -439,6 +437,12 @@ describe(`Market proposals companies details`, () => {
                     body: JSON.stringify(params) // {offerId: offer.id}
                 });
             };
+            const getProposals = async (params) => {
+                return await fetch(`/api/v1/market/proposals?offer_id=${params.offer_id}`, {
+                    method: 'GET',
+                    headers: {"content-type": "application/json"},
+                });
+            }
             
             // 1
             await signup({
@@ -446,17 +450,17 @@ describe(`Market proposals companies details`, () => {
                 password: 'password12345'
             });
             await signin({
-                email: 'alexander@gmail.com',
+                username: 'alexander@gmail.com',
                 password: 'password12345'
             });
             await editCompanyProfile({
                 legal_type: "ООО",
-                company_name: "Иванов и Сидоров",
+                company_name: "Александр",
                 tax_id: "4447362830",
             });
             await createOffer({
-                title: "Сгущенка",
-                description: "Оригинальная сгущенка Рогачевъ.",
+                title: "Трубы стальные",
+                description: "Продукция трубопрокатного завода.",
                 price: 1000000,
                 amount: 249,
                 currency_code: "RUB",
@@ -464,19 +468,55 @@ describe(`Market proposals companies details`, () => {
                 measure_unit_code: "TN",
                 date_expires: new Date().toISOString(),
                 country: "Российская Федерация",
-                city: "Москва"
+                city: "Челябинск"
             });
             await signout();
 
             // 2
-            const response = await signup({
+            await signup({
                 email: 'german@gmail.com',
                 password: 'password12345'
             });
+            await signin({
+                username: 'german@gmail.com',
+                password: 'password12345'
+            });
+            await editCompanyProfile({
+                legal_type: "ООО",
+                company_name: "Герман",
+                tax_id: "4447362831",
+            });
+            let offers_resp = await getOffers();
+            let offers_resp_json = await offers_resp.json();
+            let offers = offers_resp_json.body;
+            await createProposal({offerId: offers[0].id});
+            await signout();
+
+            // 3
+            await signup({
+                email: 'dmitry@gmail.com',
+                password: 'password12345'
+            });
+            await signin({
+                username: 'dmitry@gmail.com',
+                password: 'password12345'
+            });
+            await editCompanyProfile({
+                legal_type: "ООО",
+                company_name: "Дмитрий",
+                tax_id: "4447362820",
+            });
+            offers_resp = await getOffers();
+            offers_resp_json = await offers_resp.json();
+            offers = offers_resp_json.body;
+            offer_id = offers[0].id;
+            const response = await getProposals({offer_id});
+            // Получить идентификаторы пользователей из откликов
+            // Получить информацию о компаниях по идентификаторам пользователей
 
             return response.json();
         });
-
+        console.log(result);
         // 1
         // Зарегистрироваться
         // Авторизоваться
@@ -496,7 +536,8 @@ describe(`Market proposals companies details`, () => {
         // Зарегистрироваться
         // Авторизоваться
         // Создать профиль компании
-        // Получить предложение по идентификатору предложения
+        // Получить предложения
+        // Выбрать одно из предложений и запомнить его идентификатор
         // Получить отклики по идентификатору предложения
         // Получить идентификаторы пользователей из откликов
         // Получить информацию о компаниях по идентификаторам пользователей
