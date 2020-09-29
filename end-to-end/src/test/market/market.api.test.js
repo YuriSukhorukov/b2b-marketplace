@@ -410,7 +410,7 @@ describe(`Market proposals`, () => {
 // Получить идентификаторы пользователей из откликов
 // Получить информацию о компаниях по идентификаторам пользователей
 describe(`Market proposals companies details`, () => {
-    test('', async () => {
+    test('Получить данные компаний откликнувшихся на предложение', async () => {
         page = await browser.newPage();
         await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
 
