@@ -1,5 +1,5 @@
-cd ./master-service   && npm i && cd ..
-cd ./gateway-service  && npm i && cd ..
 cd ./auth-service     && npm i && cd ..
-cd ./offer-service    && npm i && cd ..
-cd ./end-to-end       && npm i && cd ..
+cd ./company-service  && npm i && cd ..
+cd ./gateway-service  && npm i && cd ..
+cd ./market-service   && npm i && cd ..
+cd ./master-service   && npm i && cd ..

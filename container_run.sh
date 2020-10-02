@@ -1,0 +1,1 @@
+docker run -it --rm --name b2b_c -p 8080:8080 b2b
