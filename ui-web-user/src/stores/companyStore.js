@@ -7,7 +7,7 @@ import api from '../api/index';
 
 const getCompany                = action(async ({user_id})=>{
     let result = await api.company.profile.get({user_id});
-    companyStore.profile = result.data.body[0];
+    companyStore.profile = result.data.body.length > 0 ? result.data.body[0] : {};
 });
 const resetCompany              = action(async ()=>{
     companyStore.profile = {};

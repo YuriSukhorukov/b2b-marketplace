@@ -66,7 +66,8 @@ const Page = observer(class Page extends React.Component {
                         ИНН: {companyStore.profile.tax_id}
                     </span>
                 </h1>
-                <h1>id страницы: {this.props.match.params.tax_id}</h1>
+                {/* <h1>id страницы: {this.props.match.params.tax_id}</h1> */}
+                <h1>id страницы: {companyStore.profile.tax_id}</h1>
                 <Link to={`/company/edit`} >
                     <Button type="primary">
                         <span>
