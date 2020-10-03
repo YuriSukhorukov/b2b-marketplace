@@ -13,6 +13,7 @@ import {
     Redirect, 
     useHistory 
 } from 'react-router-dom';
+
 import { 
     observer 
 } from 'mobx-react';
@@ -24,8 +25,6 @@ import {
     COMPANY_LEGAL_TYPE_OOO,
     COMPANY_LEGAL_TYPE_IP,
 } from '../../constants/company.legal.types.constants';
-
-const TAX_NUMBER = 443531283;
 
 const { Option } = Select;
 
@@ -50,6 +49,7 @@ const Page = observer(class Page extends React.Component {
     }
     async componentDidMount() {
         await companyStore.getCompany({user_id: authStore.user_id});
+        this.props.history.push(`/company/${companyStore.profile.tax_id}`);
     }
     async componentWillUnmount() {
         await companyStore.resetCompany();
@@ -63,14 +63,14 @@ const Page = observer(class Page extends React.Component {
                     </span>
                     <br />
                     <span className="description">
-                        {companyStore.profile.tax_id}
+                        ИНН: {companyStore.profile.tax_id}
                     </span>
                 </h1>
-                <h1>Id страницы: {this.props.match.params.tax_number}</h1>
+                <h1>id страницы: {this.props.match.params.tax_id}</h1>
                 <Link to={`/company/edit`} >
                     <Button type="primary">
                         <span>
-                            Edit
+                            Редактировать
                         </span>
                     </Button>
                 </Link>
@@ -81,6 +81,7 @@ const Page = observer(class Page extends React.Component {
 const Edit = observer(class Edit extends React.Component {
     constructor(props) {
         super(props);
+        this.props = props;
     }
     state = {
         legal_type: companyStore.profile.legal_type || null,
@@ -127,10 +128,10 @@ const Edit = observer(class Edit extends React.Component {
                 </Select>
                 <Input placeholder="Название компании" name="company_name" value={this.state.company_name} onChange={this.onChangeCompanyName} />
                 <Input placeholder="ИНН" name="tax_id" value={this.state.tax_id} onChange={this.onChangeTaxNumber} />
-                <Link to={`/company/${TAX_NUMBER}`}>
+                <Link to={`/company/${companyStore.profile.tax_id}`}>
                     <Button onClick={this.editProfile} type="primary">
                         <span>
-                            Save
+                            Сохранить
                         </span>
                     </Button>
                 </Link>
@@ -138,31 +139,11 @@ const Edit = observer(class Edit extends React.Component {
         )
     };
 });
-// const Edit = (props) => {
-//     editProfile() {
-//         console.log('!!!');
-//     }
-//     return(
-//         <>
-//             <h1>Edit!</h1>
-//             <Link to={`/company/${TAX_NUMBER}`}>
-//                 <Button onClick={editProfile} type="primary">
-//                     <span>
-//                         Save
-//                     </span>
-//                 </Button>
-//             </Link>
-//         </>
-//     )
-// }
 
 export default class Company extends React.Component {
     constructor(props) {
         super(props);
         this.props = props;
-    }
-    componentDidUpdate() {
-        console.log(this.props);
     }
     render() {
         return(
@@ -170,7 +151,7 @@ export default class Company extends React.Component {
                 <Route exact path="/company/search" component={Search} />
                 <Route exact path="/company/saved" component={Saved} />
                 <Route exact path={`/company/edit`}  component={Edit} />
-                <Route exact path={`/company/:${TAX_NUMBER}`} component={Page} />
+                <Route exact path={`/company/:tax_id`} component={Page} />
             </Switch>
         )
     }
