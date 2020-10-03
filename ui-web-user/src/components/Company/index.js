@@ -1,4 +1,9 @@
-import React from 'react';
+import React            from 'react';
+
+import { 
+    Button, 
+    Input 
+} from 'antd';
 
 import { 
     Switch, 
@@ -8,10 +13,7 @@ import {
     useHistory 
 } from 'react-router-dom';
 
-import { 
-    Button, 
-    Input }
-from 'antd';
+import companyStore     from '../../stores/companyStore';
 
 const TAX_NUMBER = 443531283;
 
@@ -43,20 +45,49 @@ const Page = (props) => {
         </>
     )
 }
-const Edit = (props) => {
-    return(
-        <>
-            <h1>Edit!</h1>
-            <Link to={`/company/${TAX_NUMBER}`}>
-                <Button type="primary">
-                    <span>
-                        Save
-                    </span>
-                </Button>
-            </Link>
-        </>
-    )
+
+class Edit extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    editProfile() {
+        companyStore.setProfileLegalType('ООО');
+        companyStore.setProfileName('Трубы плюс +');
+        companyStore.setProfileTaxNumber(4322333112);
+        companyStore.editProfile();
+    }
+    render() {
+        return(
+            <>
+                <h1>Edit!</h1>
+                <Link to={`/company/${TAX_NUMBER}`}>
+                    <Button onClick={this.editProfile} type="primary">
+                        <span>
+                            Save
+                        </span>
+                    </Button>
+                </Link>
+            </>
+        )
+    };
 }
+// const Edit = (props) => {
+//     editProfile() {
+//         console.log('!!!');
+//     }
+//     return(
+//         <>
+//             <h1>Edit!</h1>
+//             <Link to={`/company/${TAX_NUMBER}`}>
+//                 <Button onClick={editProfile} type="primary">
+//                     <span>
+//                         Save
+//                     </span>
+//                 </Button>
+//             </Link>
+//         </>
+//     )
+// }
 
 export default class Company extends React.Component {
     constructor(props) {
