@@ -5,6 +5,15 @@ import {
 
 import api from '../api/index';
 
+const getCompany = action(async ({user_id})=>{
+    let result = await api.company.profile.get({user_id});
+    companyStore.profile = result.data.body[0];
+    console.log('get company: ', result);
+});
+const resetCompany = action(async ()=>{
+    companyStore.profile = {};
+});
+
 const setProfileLegalType       = action(async (legal_type)=>{
     companyStore.editedProfile.legal_type = legal_type;
 });
@@ -26,10 +35,13 @@ const companyStore = observable({
         company_name: null,
         tax_id: null,
     },
+    profile: {},
     setProfileLegalType,
     setProfileName,
     setProfileTaxNumber,
-    editProfile
+    editProfile,
+    getCompany,
+    resetCompany
 });
 
 export default companyStore;
