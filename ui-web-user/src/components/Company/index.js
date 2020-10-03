@@ -33,7 +33,7 @@ const Page = (props) => {
     return(
         <>
             <h1>Page {props.match.params.tax_number}!</h1>
-            <Link to={`/company/${TAX_NUMBER}/edit`} >
+            <Link to={`/company/edit`} >
                 <Button type="primary">
                     <span>
                         Edit
@@ -71,7 +71,7 @@ export default class Company extends React.Component {
             <Switch>
                 <Route exact path="/company/search" component={Search} />
                 <Route exact path="/company/saved" component={Saved} />
-                <Route exact path={`/company/:${TAX_NUMBER}/edit`}  component={Edit} />
+                <Route exact path={`/company/edit`}  component={Edit} />
                 <Route exact path={`/company/:${TAX_NUMBER}`} component={Page} />
             </Switch>
         )

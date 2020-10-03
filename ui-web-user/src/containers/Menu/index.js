@@ -69,7 +69,7 @@ export default class Navigation extends React.Component {
         </SubMenu>
         <SubMenu key="sub4" title="Моя компания">
           <Menu.Item key={`/company/${TAX_NUMBER}`}>Страница компании<Link to={`/company/${TAX_NUMBER}`} /></Menu.Item>
-          <Menu.Item key={`/company/${TAX_NUMBER}/edit`}>Редактировать<Link to={`/company/${TAX_NUMBER}/edit`} /></Menu.Item>
+          <Menu.Item key={`/company/edit`}>Редактировать<Link to={`/company/edit`} /></Menu.Item>
           {/* <Menu.Item key="/company/work-history">История работы<Link to="/company/work-history" /></Menu.Item> */}
         </SubMenu>
         <SubMenu key="sub5" title="Настройки">
