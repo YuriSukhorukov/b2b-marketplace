@@ -49,34 +49,43 @@ const Page = observer(class Page extends React.Component {
     }
     async componentDidMount() {
         await companyStore.getCompany({user_id: authStore.user_id});
-        this.props.history.push(`/company/${companyStore.profile.tax_id}`);
     }
     async componentWillUnmount() {
         await companyStore.resetCompany();
     }
+    state = {
+        prev_tax_id: null
+    }
     render() {
-        return(
-            <>
-                <h1>
-                    <span className="description">
-                        {companyStore.profile.legal_type} "{companyStore.profile.company_name}"
-                    </span>
-                    <br />
-                    <span className="description">
-                        ИНН: {companyStore.profile.tax_id}
-                    </span>
-                </h1>
-                {/* <h1>id страницы: {this.props.match.params.tax_id}</h1> */}
-                <h1>id страницы: {companyStore.profile.tax_id}</h1>
-                <Link to={`/company/edit`} >
-                    <Button type="primary">
-                        <span>
-                            Редактировать
+        if (this.state.prev_tax_id != companyStore.profile.tax_id ) {
+            this.setState({prev_tax_id: companyStore.profile.tax_id})
+            return (
+                <Redirect to={`/company/${companyStore.profile.tax_id}`} />
+            )
+        } else {
+            return(
+                <>
+                    <h1>
+                        <span className="description">
+                            {companyStore.profile.legal_type} "{companyStore.profile.company_name}"
                         </span>
-                    </Button>
-                </Link>
-            </>
-        )
+                        <br />
+                        <span className="description">
+                            ИНН: {companyStore.profile.tax_id}
+                        </span>
+                    </h1>
+                    {/* <h1>id страницы: {this.props.match.params.tax_id}</h1> */}
+                    <h1>id страницы: {companyStore.profile.tax_id}</h1>
+                    <Link to={`/company/edit`} >
+                        <Button type="primary">
+                            <span>
+                                Редактировать
+                            </span>
+                        </Button>
+                    </Link>
+                </>
+            )
+        }
     }
 })
 const Edit = observer(class Edit extends React.Component {
@@ -91,8 +100,11 @@ const Edit = observer(class Edit extends React.Component {
     }
     async componentDidMount() {
         await companyStore.getCompany({user_id: authStore.user_id});
+
         this.setState({
-            ...companyStore.profile
+            legal_type: companyStore.profile.legal_type,
+            company_name: companyStore.profile.company_name,
+            tax_id: companyStore.profile.tax_id,
         });
     }
     async componentWillUnmount() {
