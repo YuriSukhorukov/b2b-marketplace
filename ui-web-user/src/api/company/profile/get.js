@@ -5,8 +5,6 @@ export default (params) => {
         const url       = `/api/v1/company/profile`;
         const method    = 'GET';
         const headers   = {"content-type": "application/json"};
-
-        console.log('get company: ', params);
         
         axios({
             url,

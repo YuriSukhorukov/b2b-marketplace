@@ -6,8 +6,6 @@ export default (params) => {
         const method    = 'POST';
         const headers   = {"content-type": "application/json"};
         const data      = JSON.stringify(params);
-
-        console.log(data);
         
         axios({
             url,

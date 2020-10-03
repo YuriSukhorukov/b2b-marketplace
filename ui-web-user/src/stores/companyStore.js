@@ -5,12 +5,11 @@ import {
 
 import api from '../api/index';
 
-const getCompany = action(async ({user_id})=>{
+const getCompany                = action(async ({user_id})=>{
     let result = await api.company.profile.get({user_id});
     companyStore.profile = result.data.body[0];
-    console.log('get company: ', result);
 });
-const resetCompany = action(async ()=>{
+const resetCompany              = action(async ()=>{
     companyStore.profile = {};
 });
 
@@ -24,7 +23,7 @@ const setProfileTaxNumber       = action(async (tax_id)=>{
     companyStore.editedProfile.tax_id = tax_id;
 });
 
-const editProfile = action(async ()=>{
+const editProfile               = action(async ()=>{
     let result = await api.company.profile.edit(companyStore.editedProfile);
     console.log('edit company: ', result);
 });
