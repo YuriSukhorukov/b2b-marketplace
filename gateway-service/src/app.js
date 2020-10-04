@@ -12,6 +12,14 @@ const home              = require('./api/v1/home/router');
 const market            = require('./api/v1/market/router');
 const company           = require('./api/v1/company/router');
 
+const STATIC = path.resolve(__dirname, 'public');
+const INDEX = path.resolve(STATIC, 'index.html');
+
+app.use(express.static(STATIC));
+app.get('/', (req, res) => {
+  res.sendFile(INDEX);
+});
+
 app.use(cors());
 app.use(bodyParser());
 app.use(cookieParser());

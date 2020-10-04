@@ -98,7 +98,7 @@ describe(`Auth signin`, () => {
         await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
 
         let result = await page.evaluate(async () => {
-            const response = await fetch(`/api/v1/auth/signup`, {
+            const response = await fetch(`/api/v1/auth/signin`, {
                 method: 'POST',
                 headers: {
                     'username': 'yuri1@gmail.com',
@@ -114,7 +114,7 @@ describe(`Auth signin`, () => {
         await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
 
         let result = await page.evaluate(async () => {
-            const response = await fetch(`/api/v1/auth/signup`, {
+            const response = await fetch(`/api/v1/auth/signin`, {
                 method: 'POST',
                 headers: {
                     'username': 'yuri_bla-bla-bla@gmail.com',

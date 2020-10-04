@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default (params) => {
     return new Promise((res, rej) => {
-        const url       = `/api/v1/market/proposals`;
+        const url       = `/api/v1/company/profile`;
         const method    = 'POST';
         const headers   = {"content-type": "application/json"};
         const data      = JSON.stringify(params);

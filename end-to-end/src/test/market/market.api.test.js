@@ -385,8 +385,32 @@ describe(`Market proposals`, () => {
 // Из откликов получить идентификаторы пользователей
 // Из идентификаторов пользователей получить информацию о компаниях
 
+// 1
+// Зарегистрироваться
+// Авторизоваться
+// Создать профиль компании
+// Создать предложение
+// Выйти
+
+// 2
+// Зарегистрироваться
+// Авторизоваться
+// Создать профиль компании
+// Получить список предложений
+// Создать отклик на предложение
+// Выйти
+
+// 3
+// Зарегистрироваться
+// Авторизоваться
+// Создать профиль компании
+// Получить предложения
+// Выбрать одно из предложений и запомнить его идентификатор
+// Получить отклики по идентификатору предложения
+// Получить идентификаторы пользователей из откликов
+// Получить информацию о компаниях по идентификаторам пользователей
 describe(`Market proposals companies details`, () => {
-    test('', async () => {
+    test('Получить данные компаний откликнувшихся на предложение', async () => {
         page = await browser.newPage();
         await page.goto(`${config.uri}:${config.port}/api/v1/auth/signin`);
 
@@ -427,9 +451,7 @@ describe(`Market proposals companies details`, () => {
             const getOffers = async () => {            
                 return await fetch(`/api/v1/market/offers`, {
                     method: 'GET', 
-                    headers: {
-                        "content-type": "application/json"
-                    }
+                    headers: {"content-type": "application/json"}
                 });
             };
             const createProposal = async (params) => {
@@ -439,6 +461,18 @@ describe(`Market proposals companies details`, () => {
                     body: JSON.stringify(params) // {offerId: offer.id}
                 });
             };
+            const getProposals = async (params) => {
+                return await fetch(`/api/v1/market/proposals?offer_id=${params.offer_id}`, {
+                    method: 'GET',
+                    headers: {"content-type": "application/json"},
+                });
+            }
+            const getCompanies = async (params) => {
+                return await fetch(`/api/v1/company/profile?user_ids=${params.user_ids}`, {
+                    method: 'GET',
+                    headers: {"content-type": "application/json"},
+                });
+            }
             
             // 1
             await signup({
@@ -446,17 +480,17 @@ describe(`Market proposals companies details`, () => {
                 password: 'password12345'
             });
             await signin({
-                email: 'alexander@gmail.com',
+                username: 'alexander@gmail.com',
                 password: 'password12345'
             });
             await editCompanyProfile({
                 legal_type: "ООО",
-                company_name: "Иванов и Сидоров",
+                company_name: "Александр",
                 tax_id: "4447362830",
             });
             await createOffer({
-                title: "Сгущенка",
-                description: "Оригинальная сгущенка Рогачевъ.",
+                title: "Трубы стальные",
+                description: "Продукция трубопрокатного завода.",
                 price: 1000000,
                 amount: 249,
                 currency_code: "RUB",
@@ -464,53 +498,59 @@ describe(`Market proposals companies details`, () => {
                 measure_unit_code: "TN",
                 date_expires: new Date().toISOString(),
                 country: "Российская Федерация",
-                city: "Москва"
+                city: "Челябинск"
             });
             await signout();
 
             // 2
-            const response = await signup({
+            await signup({
                 email: 'german@gmail.com',
                 password: 'password12345'
             });
+            await signin({
+                username: 'german@gmail.com',
+                password: 'password12345'
+            });
+            await editCompanyProfile({
+                legal_type: "ООО",
+                company_name: "Герман",
+                tax_id: "4447362831",
+            });
+            let offers_resp = await getOffers();
+            let offers_resp_json = await offers_resp.json();
+            let offers = offers_resp_json.body;
+            await createProposal({offerId: offers[0].id});
+            await signout();
 
-            return response.json();
+            // 3
+            await signup({
+                email: 'dmitry@gmail.com',
+                password: 'password12345'
+            });
+            await signin({
+                username: 'dmitry@gmail.com',
+                password: 'password12345'
+            });
+            await editCompanyProfile({
+                legal_type: "ООО",
+                company_name: "Дмитрий",
+                tax_id: "4447362820",
+            });
+            let response = null;
+
+            response = await getOffers();
+            offers = await response.json();
+            offers = offers.body;
+            offer_id = offers[0].id;
+
+            response = await getProposals({offer_id});
+            let proposals = await response.json();
+            let user_ids = proposals.body.map(p => p.user_id).join();
+
+            response = await getCompanies({user_ids});
+            let companies = await response.json();
+            return companies;
         });
-
-        // 1
-        // Зарегистрироваться
-        // Авторизоваться
-        // Создать профиль компании
-        // Создать предложение
-        // Выйти
-
-        // 2
-        // Зарегистрироваться
-        // Авторизоваться
-        // Создать профиль компании
-        // Получить список предложений
-        // Создать отклик на предложение
-        // Выйти
-
-        // 3
-        // Зарегистрироваться
-        // Авторизоваться
-        // Создать профиль компании
-        // Получить предложение по идентификатору предложения
-        // Получить отклики по идентификатору предложения
-        // Получить идентификаторы пользователей из откликов
-        // Получить информацию о компаниях по идентификаторам пользователей
-
-        expect(result.succes).toBe(true);
+        expect(result.succes && result.body[0].company_name === 'Герман').toBe(true);
     })
 });
-
-const sinup = async () => {
-    return await fetch(`/api/v1/auth/signup`, {
-        method: 'POST',
-        headers: {
-            'email': 'yuri@gmail.com',
-            'password': 'sdWE343sx!'
-        }
-    });
-};

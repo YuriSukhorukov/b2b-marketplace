@@ -3,6 +3,7 @@ const getProfiles = require(`${global.appRoot}/controllers/profile/get.profiles`
 
 module.exports = async (req, res) => {
     const {query}       = req;
+    const {user_id}     = query;
     const {user_ids}    = query;
     
     console.log('query: ', query);
@@ -11,7 +12,7 @@ module.exports = async (req, res) => {
         let result = null;
         if (user_ids)
             result = await getProfiles({...query});
-        else
+        else if (user_id)
             result = await getProfile({...query});
         
         console.log('result: ', result);
