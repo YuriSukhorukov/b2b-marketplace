@@ -56,6 +56,11 @@ const setOfferMeasureUnit       = action(async (measure_unit_code)=>{
     offersStore.newOffer.measure_unit_code = measure_unit_code;
 });
 
+const getProposals = action(async (offer_id)=>{
+    let result = await api.market.offers.getProposals({offer_id});
+    offersStore.proposals = result.data.body;
+});
+
 const offersStore = observable({
     filter: {
         user_id: null,
@@ -77,9 +82,11 @@ const offersStore = observable({
         city: null,
     },
     offers: [],
+    proposals: [],
     createOffer,
     getOfferDetails,
     getOffers,
+    getProposals,
     resetOffers,
     setOfferFilter,
     resetOffersFilter,

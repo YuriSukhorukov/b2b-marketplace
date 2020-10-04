@@ -9,6 +9,10 @@ const getCompany                = action(async ({user_id})=>{
     let result = await api.company.profile.get({user_id});
     companyStore.profile = result.data.body.length > 0 ? result.data.body[0] : {};
 });
+const getCompanies              = action(async ({user_ids})=>{
+    let result = await api.company.profile.get({user_ids});
+    companyStore.profiles = result.data.body.length > 0 ? result.data.body : [];
+});
 const resetCompany              = action(async ()=>{
     companyStore.profile = {};
 });
@@ -35,11 +39,13 @@ const companyStore = observable({
         tax_id: null,
     },
     profile: {},
+    profiles: [],
     setProfileLegalType,
     setProfileName,
     setProfileTaxNumber,
     editProfile,
     getCompany,
+    getCompanies,
     resetCompany
 });
 

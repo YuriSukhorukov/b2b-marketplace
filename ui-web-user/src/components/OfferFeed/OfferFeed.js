@@ -6,40 +6,88 @@ import { Drawer, Button, PageHeader, Descriptions } from 'antd';
 
 import 'antd/dist/antd.css';
 import authStore from '../../stores/authStore';
+import companyStore from '../../stores/companyStore';
 
-const OfferDetails = (props) => {
-    const onClose = () => {
-        props.closeOfferDetails();
+const ProposalFeed = observer(class ProposalFeed extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return(
+            <>
+                <h3>Откликликнулись:</h3>
+                <div>
+                    {companyStore.profiles && companyStore.profiles.map((value, index) => {
+                        return(
+                            <div>
+                                {value.legal_type} "{value.company_name}" {value.tax_id}
+                            </div>
+                        )
+                    })}
+                </div>
+            </>
+        );
+    }
+})
+
+const OfferDetails = observer(class OfferDetails extends React.Component {
+    constructor(props) {
+        super(props);
+        this.props = props;
+    }
+    onClose = () => {
+        this.props.closeOfferDetails();
     };
-    return(
-        <>
-            <Drawer
-                width={820}
-                title=""
-                placement="right"
-                closable={false}
-                onClose={onClose}
-                visible={props.visible}
-            >
-                <PageHeader
-                    ghost={false}
-                    onBack={onClose}
-                    title="Title"
-                    subTitle="This is a subtitle"
-                    extra={[
-                        <Button key="1" type="primary">Откликнуться</Button>,
-                    ]} 
-                />
-            </Drawer>
-        </>
-    );
-}
+    async componentDidUpdate() {
+        // Получить идентификатор оффера
+        // Загрузить отклики на оффер
+        // Получить идентификаторы пользователей из отклика
+        // Загрузить компании по идентификаторам пользователей
+        
+        if (this.props.visible) {
+            console.log('PROPS: ', this.props);
+            await offersStore.getProposals(this.props.offer_id);
+
+            let user_ids = [];
+            offersStore.proposals.forEach(value => {
+                user_ids.push(value.user_id);
+            })
+            await companyStore.getCompanies({user_ids});
+        }
+    }
+    render() {
+        return(
+            <>
+                <Drawer
+                    width={820}
+                    title=""
+                    placement="right"
+                    closable={false}
+                    onClose={this.onClose}
+                    visible={this.props.visible}
+                >
+                    <PageHeader
+                        ghost={false}
+                        onBack={this.onClose}
+                        title="Title"
+                        subTitle="This is a subtitle"
+                        extra={[
+                            <Button key="1" type="primary">Откликнуться</Button>,
+                        ]} 
+                    />
+                    <ProposalFeed />
+                </Drawer>
+            </>
+        );
+    }
+})
 
 const OfferFeed = observer(class OfferFeed extends React.Component {
     constructor(props) {
         super(props);
     }
     state = {
+        proposals: null,
         offerDetailsVisible: false
     }
     async componentDidMount() {
@@ -56,11 +104,11 @@ const OfferFeed = observer(class OfferFeed extends React.Component {
     async componentWillUnmount() {
         await offersStore.resetOffers();
     }
-    openOfferDetails = async () => {
+    openOfferDetails = async (offer_id) => {
         this.setState({
+            offer_id,
             offerDetailsVisible: true
         })
-        console.log('openOfferDetails');
     }
     closeOfferDetails = async () => {
         this.setState({
@@ -71,11 +119,12 @@ const OfferFeed = observer(class OfferFeed extends React.Component {
     render() {
         return(
             <div>
-                <OfferDetails visible={this.state.offerDetailsVisible} closeOfferDetails={this.closeOfferDetails}/>
+                <OfferDetails visible={this.state.offerDetailsVisible} closeOfferDetails={this.closeOfferDetails} offer_id={this.state.offer_id}/>
                 <div>
                     {offersStore.offers && offersStore.offers.map((value, index) => {
                         return(
                             <Offer 
+                                id={value.id}
                                 key={index}
                                 title={value.title}
                                 description={value.description}
