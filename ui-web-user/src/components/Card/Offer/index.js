@@ -87,11 +87,9 @@ export default class OfferCard extends React.Component {
         super(props);
         this.props = props;
     }
-    componentDidUpdate() {
-        console.log(this.props);
-    }
     render() {
         const {
+            id,
             title,
             description,
             price,
@@ -116,7 +114,7 @@ export default class OfferCard extends React.Component {
         
         return(
             <span>
-                <Card size="medium" title={title} extra={<a href="#" onClick={(e)=>{e.preventDefault(); this.props.openOfferDetails && this.props.openOfferDetails()}}>Детали</a>} style={{ width: "100%", marginTop: "20px" }}>
+                <Card size="medium" title={title} extra={<a href="#" onClick={(e)=>{e.preventDefault(); this.props.openOfferDetails && this.props.openOfferDetails(this.props.id)}}>Детали</a>} style={{ width: "100%", marginTop: "20px" }}>
                     <div className="count">
                         <span style={{fontSize: 14}}>
                             <span>

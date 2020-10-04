@@ -5,6 +5,7 @@ import authStore from './stores/authStore';
 import AuthForm from './containers/Auth/index';
 import OfferFeed from './components/OfferFeed';
 import OfferCreate from './components/OfferCreate';
+import Company from './components/Company';
 // import Header from './components/Header/index';
 import { observer } from 'mobx-react';
 import './App.css';
@@ -107,7 +108,23 @@ const App = observer(class App extends React.Component {
                   (
                     <div>
                       <Sider style={{height: '100%', width: "256px", padding: "20px 0"}} width={256} className="site-layout-background">
-                        <Menu mode="inline" style={{ height: '100%' }}></Menu>
+                        {/* <Menu mode="inline" style={{ height: '100%' }}></Menu> */}
+
+
+
+                        
+
+                        <Route path="/*" render={(props) => {
+                          return (
+                            <Menu {...props} mode="inline" style={{ height: '100%' }}/>
+                          )
+                        }}></Route>
+
+
+
+
+
+
                       </Sider>
                     </div>
                   ) 
@@ -127,6 +144,7 @@ const App = observer(class App extends React.Component {
                 <Route path="/offers/search"><OfferFeed /></Route>
                 <Route path="/offers/published"><OfferFeed /></Route>
                 <Route path="/offers/new"><OfferCreate /></Route>
+                <Route path="/company" component={Company} />
               </Content>
             </Layout>
           </Content>

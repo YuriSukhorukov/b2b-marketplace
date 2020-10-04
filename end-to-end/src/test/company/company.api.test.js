@@ -17,6 +17,8 @@ afterAll(async () => {
     await browser.close();
 });
 
+// TODO добавить тест неудачной модификации компании
+
 describe(`Company`, () => {
     test('Создание записи компании', async () => {
         page = await browser.newPage();

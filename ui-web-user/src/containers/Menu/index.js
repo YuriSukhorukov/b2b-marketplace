@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu } from 'antd';
 import { Link } from "react-router-dom";
+import companyStore from '../../stores/companyStore';
 import { 
     HomeOutlined, 
     MailOutlined, 
@@ -9,35 +10,59 @@ import {
     MenuFoldOutlined,
 } from '@ant-design/icons';
 
+import { 
+  observer 
+} from 'mobx-react';
+
 const { SubMenu } = Menu;
 
-export default class Navigation extends React.Component {
+const TAX_NUMBER = 443531283;
+
+const Navigation = observer(class Navigation extends React.Component {
   constructor(props){
     super(props);
     this.props = props;
   }
   handleClick = e => {
-    // console.log('click ', e);
+    this.setState({
+      key: e.key,
+  });
   };
   state = {
     collapsed: false,
+    key: null,
   };
   toggleCollapsed = () => {
     this.setState({
       collapsed: !this.state.collapsed,
     });
   };
-
+  componentWillMount() {
+    this.setState(state => {
+        return {key: window.location.pathname}
+    })
+  };
+  // componentDidUpdate() {
+  //   console.log('componentDidUpdate: ', window.location.pathname);
+  // }
+  // componentWillUpdate() {
+  //   console.log('componentWillUpdate: ', window.location.pathname);
+  // }
   render() {
+    this.props.history.listen((location, action) => {
+      this.setState({
+          key: location.pathname
+      });
+    });
     return (
       <Menu {...this.props}
-          defaultSelectedKeys={[window.location.pathname]}
-          defaultOpenKeys={[window.location.pathname]}
+          defaultSelectedKeys={[this.state.key]}
+          defaultOpenKeys={[this.state.key]}
           mode="inline"
           inlineCollapsed={this.state.collapsed}
           onClick={this.handleClick}
+          selectedKeys={[this.state.key]}
       >
-
       
         <SubMenu key="sub1" title="Найти предложения">
           <Menu.Item key="/offers/search">Поиск<Link to="/offers/search" /></Menu.Item>
@@ -53,42 +78,18 @@ export default class Navigation extends React.Component {
           <Menu.Item key="/offers/new">Добавить<Link to="/offers/new" /></Menu.Item>
         </SubMenu>
         <SubMenu key="sub4" title="Моя компания">
-          <Menu.Item key="/company">Страница компании<Link to="/company" /></Menu.Item>
-          <Menu.Item key="/company/work-history">История работы<Link to="/company/work-history" /></Menu.Item>
+          <Menu.Item key={`/company/${companyStore.profile.tax_id}`}>Страница компании<Link to={`/company/${companyStore.profile.tax_id}`} /></Menu.Item>
+          <Menu.Item key={`/company/edit`}>Редактировать<Link to={`/company/edit`} /></Menu.Item>
+          {/* <Menu.Item key="/company/work-history">История работы<Link to="/company/work-history" /></Menu.Item> */}
         </SubMenu>
         <SubMenu key="sub5" title="Настройки">
           <Menu.Item key="/settings/contact-info">Контактная информация<Link to="/settings/contact-info" /></Menu.Item>
           <Menu.Item key="/settings/tax-info">Налоговая информация<Link to="/settings/tax-info" /></Menu.Item>
           <Menu.Item key="/settings/password-and-security">Пароль и безопасность<Link to="/settings/password-and-security" /></Menu.Item>
         </SubMenu>
-      
-        {/* tetra.ltd/company/idnr/445233024
-        tetra.ltd/company/445233024
-        tetra.ltd/445233024 */}
-
-        {/* <SubMenu key="sub1" icon={<HomeOutlined />} title="Предложения">
-          <Menu.Item key="1">Поиск</Menu.Item>
-          <Menu.Item key="2">Мои Предложения</Menu.Item>
-          <Menu.Item key="3">Добавить Предложение</Menu.Item>
-        </SubMenu> */}
-        {/* <SubMenu key="sub2" icon={<MenuFoldOutlined />} title="Отклики">
-          <Menu.Item key="3">Собственные</Menu.Item>
-          <Menu.Item key="4">Активность</Menu.Item>
-        </SubMenu>
-        <SubMenu key="sub3" icon={<AppstoreOutlined />} title="Контракты">
-          <Menu.Item key="5">Открытые</Menu.Item>
-          <Menu.Item key="6">Закрытые</Menu.Item>
-          <Menu.Item key="7">Спорные</Menu.Item>
-        </SubMenu>
-        <SubMenu key="sub4" icon={<MailOutlined />} title="Личные сообщения">
-          <Menu.Item key="3">Входящие</Menu.Item>
-          <Menu.Item key="4">Отправленные</Menu.Item>
-        </SubMenu>
-        <SubMenu key="sub5" icon={<SettingOutlined />} title="Настройки аккаунта">
-            <Menu.Item key="5">Основное</Menu.Item>
-            <Menu.Item key="6">Данные компании</Menu.Item>
-        </SubMenu> */}
       </Menu>
     );
   }
-}
+});
+
+export default Navigation;
