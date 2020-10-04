@@ -1,7 +1,9 @@
-import auth from './auth/index';
-import market from './market/index';
+import auth from './auth';
+import market from './market';
+import company from './company'
 
 export default {
     auth,
-    market
+    market,
+    company
 }

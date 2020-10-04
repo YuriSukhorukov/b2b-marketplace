@@ -26,7 +26,9 @@ module.exports = async (req, res) => {
     try {
         decodedToken = await decodeJwt(cookies.jwt);
         userId = decodedToken.user_id;
-    } catch (e) {}
+    } catch (e) {
+        res.status(401).json({error: error.message});
+    }
 
     try {
         const result = await createOffer({
@@ -43,8 +45,8 @@ module.exports = async (req, res) => {
             city
         });
         console.log('result: ', result);
-        res.status(200).json(result).end();
+        res.status(200).send({succes: true, body: result});
     } catch (e) {
-        res.status(424).end();
+        res.status(200).send({succes: false});
     }
 }

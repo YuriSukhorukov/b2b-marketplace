@@ -8,9 +8,8 @@ module.exports = async (req, res) => {
 
     if (!username || !password)
         res.json({
-            success: false,
-            code: 401, 
-            message: `Authentication failed!`
+            succes: false,
+            message: `Недостаточно параметров`
         });
 
     console.log(req.headers);
@@ -28,15 +27,14 @@ module.exports = async (req, res) => {
         res.status(200);
         res.cookie("jwt", token, {httpOnly: true}); //secure: false, 
         res.json({
-            success: true,
-            code: 200, 
+            succes: true,
             user_id: user_id,
-            message: `Authentication successful!`,
+            message: `Успешная авторизация`,
         });
     } else {
-        res.status(401).json({
-            success: false, 
-            error: 'Sorry, error'
+        res.status(200).json({
+            succes: false, 
+            error: 'Недалось авторизоваться'
         });
     }
 }

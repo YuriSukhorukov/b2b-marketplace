@@ -25,7 +25,6 @@ export default class Auth extends React.Component {
         // const { match, location, history } = this.props;
         // console.log(location);
         this.props.history.listen((location, action) => {
-            console.log("on route change");
             console.log(location.pathname);
             this.setState({
                 key: location.pathname

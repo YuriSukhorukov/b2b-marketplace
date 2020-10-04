@@ -24,7 +24,7 @@ module.exports = async (pool, params) => {
             `
                 INSERT INTO offers(user_id, title, description, price, amount, currency_code, offer_type, measure_unit_code, date_expires, country, city) 
                 VALUES ('${userId}', '${title}', '${description}', '${price}', '${amount}', '${currency_code}', '${offer_type}', '${measure_unit_code}', '${date_expires}', '${country}', '${city}')
-                RETURNING created_on;
+                RETURNING id, user_id, created_on;
             `, 
             (error, result) => {
                 // console.log("client ready:", client.readyForQuery);

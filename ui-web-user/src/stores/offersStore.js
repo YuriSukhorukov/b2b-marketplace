@@ -9,6 +9,10 @@ const createOffer = action(async ()=>{
     let result = await api.market.offers.createOffer(offersStore.newOffer);
     console.log('create offer: ', result);
 });
+const createProposal = action(async (offerId)=>{
+    let result = await api.market.offers.createProposal({offerId});
+    console.log(result);
+})
 const getOffers = action(async ()=>{
     let result = await api.market.offers.getOffers(offersStore.filter);
     offersStore.offers = result.data.body;
@@ -56,6 +60,11 @@ const setOfferMeasureUnit       = action(async (measure_unit_code)=>{
     offersStore.newOffer.measure_unit_code = measure_unit_code;
 });
 
+const getProposals = action(async (offer_id)=>{
+    let result = await api.market.offers.getProposals({offer_id});
+    offersStore.proposals = result.data.body;
+});
+
 const offersStore = observable({
     filter: {
         user_id: null,
@@ -77,9 +86,12 @@ const offersStore = observable({
         city: null,
     },
     offers: [],
+    proposals: [],
     createOffer,
+    createProposal,
     getOfferDetails,
     getOffers,
+    getProposals,
     resetOffers,
     setOfferFilter,
     resetOffersFilter,

@@ -9,5 +9,9 @@
     "offersServiceConfig": {
         "uri": "http://localhost",
         "port": 8082
+    },
+    "companyServiceConfig": {
+        "uri": "http://localhost",
+        "port": 8083
     }
 }

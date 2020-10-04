@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     console.log(`checkUsernameExist: ${result}`);
     console.log(result);
     if (result == true)
-        res.send({code: 302, message: `Username '${username}' существует`});
+        res.status(200).send({succes: true, message: `Username '${username}' существует`});
     else 
-        res.send({code: 204, message: `Username '${username}' не существует`});
+        res.status(200).send({succes: false, message: `Username '${username}' не существует`});
 }
