@@ -53,15 +53,9 @@ const Page = observer(class Page extends React.Component {
     async componentWillUnmount() {
         await companyStore.resetCompany();
     }
-    state = {
-        prev_tax_id: null
-    }
     render() {
-        if (this.state.prev_tax_id != companyStore.profile.tax_id ) {
-            this.setState({prev_tax_id: companyStore.profile.tax_id})
-            return (
-                <Redirect to={`/company/${companyStore.profile.tax_id}`} />
-            )
+        if (window.location.pathname != `/company/${companyStore.profile.tax_id}`) {
+            return <Redirect to={`/company/${companyStore.profile.tax_id}`} />;
         } else {
             return(
                 <>
