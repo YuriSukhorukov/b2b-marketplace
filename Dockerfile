@@ -15,14 +15,7 @@ RUN apk add --no-cache \
 
 USER root
 
-COPY auth-service ./
-COPY company-service ./
-COPY gateway-service ./
-COPY market-service ./
-COPY master-service ./
-
-COPY start.sh ./
-COPY install.sh ./
+COPY . .
 
 RUN bash ./install.sh
 EXPOSE 8080
