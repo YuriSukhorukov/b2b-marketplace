@@ -9,6 +9,10 @@ const createOffer = action(async ()=>{
     let result = await api.market.offers.createOffer(offersStore.newOffer);
     console.log('create offer: ', result);
 });
+const createProposal = action(async (offerId)=>{
+    let result = await api.market.offers.createProposal({offerId});
+    console.log(result);
+})
 const getOffers = action(async ()=>{
     let result = await api.market.offers.getOffers(offersStore.filter);
     offersStore.offers = result.data.body;
@@ -84,6 +88,7 @@ const offersStore = observable({
     offers: [],
     proposals: [],
     createOffer,
+    createProposal,
     getOfferDetails,
     getOffers,
     getProposals,

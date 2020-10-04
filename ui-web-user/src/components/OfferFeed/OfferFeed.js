@@ -45,15 +45,20 @@ const OfferDetails = observer(class OfferDetails extends React.Component {
         // Загрузить компании по идентификаторам пользователей
         
         if (this.props.visible) {
-            console.log('PROPS: ', this.props);
             await offersStore.getProposals(this.props.offer_id);
-
             let user_ids = [];
-            offersStore.proposals.forEach(value => {
-                user_ids.push(value.user_id);
-            })
+            offersStore.proposals.forEach(value => {user_ids.push(value.user_id);});
             await companyStore.getCompanies({user_ids});
         }
+    }
+    proposal = async () => {
+        console.log('create proposal: ', this.props.offer_id);
+        await offersStore.createProposal(this.props.offer_id);
+
+        await offersStore.getProposals(this.props.offer_id);
+        let user_ids = [];
+        offersStore.proposals.forEach(value => {user_ids.push(value.user_id);});
+        await companyStore.getCompanies({user_ids});
     }
     render() {
         return(
@@ -72,7 +77,7 @@ const OfferDetails = observer(class OfferDetails extends React.Component {
                         title="Title"
                         subTitle="This is a subtitle"
                         extra={[
-                            <Button key="1" type="primary">Откликнуться</Button>,
+                            <Button onClick={this.proposal} key="1" type="primary">Откликнуться</Button>,
                         ]} 
                     />
                     <ProposalFeed />
